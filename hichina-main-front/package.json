@@ -1,0 +1,62 @@
+{
+  "name": "",
+  "version": "3.5.0",
+  "description": "",
+  "author": "",
+  "license": "MIT",
+  "scripts": {
+    "dev": "vite --mode development",
+    "build:prod": "vite build",
+    "build:stage": "vite build --mode staging",
+    "preview": "vite preview"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https:/www.baidu.com"
+  },
+  "dependencies": {
+    "@element-plus/icons-vue": "^2.1.0",
+    "@fortawesome/fontawesome-free": "^6.4.0",
+    "@fortawesome/fontawesome-svg-core": "^6.4.0",
+    "@fortawesome/free-solid-svg-icons": "^6.4.0",
+    "@fortawesome/vue-fontawesome": "^3.0.3",
+    "@vuepic/vue-datepicker": "^5.0.1",
+    "@vueup/vue-quill": "^1.1.1",
+    "@vueuse/core": "9.6.0",
+    "axios": "0.26.1",
+    "element-plus": "^2.2.19",
+    "nprogress": "0.2.0",
+    "pinia": "2.0.14",
+    "pinia-plugin-persist": "^1.0.0",
+    "qrcode-vue3": "^1.4.17",
+    "qs": "^6.11.1",
+    "quill-image-uploader": "^1.2.4",
+    "swiper": "^9.2.4",
+    "v-lazy-image": "^2.1.1",
+    "vue": "^3.2.37",
+    "vue-awesome-swiper": "3",
+    "vue-image-crop-upload": "^3.0.3",
+    "vue-json-pretty": "^2.2.4",
+    "vue-router": "4.0.14",
+    "vue3-country-region-select": "^1.0.0",
+    "vuejs3-datepicker": "^1.0.16"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^3.1.0",
+    "@vue/compiler-sfc": "3.2.36",
+    "autoprefixer": "^10.4.13",
+    "postcss": "^8.4.21",
+    "postcss-flexbugs-fixes": "^5.0.2",
+    "postcss-modules": "^6.0.0",
+    "postcss-pxtorem": "^6.0.0",
+    "sass": "^1.49.8",
+    "unplugin-auto-import": "^0.8.5",
+    "unplugin-vue-components": "^0.21.1",
+    "vite": "^3.1.0",
+    "vite-plugin-compression": "0.5.1",
+    "vite-plugin-optimize-persist": "^0.1.2",
+    "vite-plugin-package-config": "^0.1.1",
+    "vite-plugin-svg-icons": "2.0.1",
+    "vite-plugin-vue-setup-extend": "0.4.0"
+  }
+}

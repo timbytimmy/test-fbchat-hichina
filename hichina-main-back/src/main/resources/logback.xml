@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <springProfile name="dev">
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+      <!-- Log message format -->
+      <encoder>
+        <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+      </encoder>
+    </appender>
+    <!-- Ned appender to write to file -->
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+      <!-- Name of the file where the log messages are written -->
+
+      <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+        <fileNamePattern>/tmp/logs/hichinamainback/hichinamainbacklog-%d{yyyy-MM-dd}-dev.log</fileNamePattern>
+        <maxHistory>30</maxHistory>
+      </rollingPolicy>
+      <encoder>
+        <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+      </encoder>
+    </appender>
+
+    <!-- Setting the root level of logging to INFO -->
+    <root level="info">
+      <appender-ref ref="STDOUT" />
+      <appender-ref ref="FILE" />
+    </root>
+  </springProfile>
+
+
+  <springProfile name="qa">
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+      <!-- Log message format -->
+      <encoder>
+        <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+      </encoder>
+    </appender>
+    <!-- Ned appender to write to file -->
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+      <!-- Name of the file where the log messages are written -->
+
+      <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+        <fileNamePattern>/root/Downloads/logs/hichinamainbackqa/hichinamainback-%d{yyyy-MM-dd}-qa.log</fileNamePattern>
+        <maxHistory>30</maxHistory>
+      </rollingPolicy>
+      <encoder>
+        <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+      </encoder>
+    </appender>
+
+    <!-- Setting the root level of logging to INFO -->
+    <root level="info">
+      <appender-ref ref="STDOUT" />
+      <appender-ref ref="FILE" />
+    </root>
+  </springProfile>
+
+  <springProfile name="prod">
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+      <!-- Log message format -->
+      <encoder>
+        <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+      </encoder>
+    </appender>
+    <!-- Ned appender to write to file -->
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+      <!-- Name of the file where the log messages are written -->
+
+      <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+        <fileNamePattern>/root/Downloads/logs/hichinamainbackprod/hichinamainback-%d{yyyy-MM-dd}-prod.log</fileNamePattern>
+        <maxHistory>30</maxHistory>
+      </rollingPolicy>
+      <encoder>
+        <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+      </encoder>
+    </appender>
+
+    <!-- Setting the root level of logging to INFO -->
+    <root level="info">
+      <appender-ref ref="STDOUT" />
+      <appender-ref ref="FILE" />
+    </root>
+  </springProfile>
+
+</configuration>

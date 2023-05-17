@@ -1,0 +1,188 @@
+<template>
+  <div class="main">
+    <p class="title">{{ title }}</p>
+    <div class="flex-start mt-36">
+      <v-lazy-image class="logo" src="@/assets/images/banner-1.jpg" alt="" />
+      <div class="name flex-item ml-24">
+        <p>{{ username }}</p>
+        <el-button class="follow mt-10">Follow</el-button>
+      </div>
+    </div>
+    <div class="info flex-between mt-30">
+      <p>{{createdTime}}</p>
+      <p class="flex-between">
+        <el-icon size="24">
+          <svg-icon icon-class="eye-open" color="#2a82e4"/>
+        </el-icon>
+        <span>110000</span>
+      </p>
+      <p class="flex-between">
+        <span>Collect this</span>
+        <el-icon size="30">
+          <svg-icon icon-class="book" color="#2a82e4"/>
+        </el-icon>
+      </p>
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="content-main">
+      <div class="rich-text" v-html="content"></div>
+    </div>
+  </div>
+
+  <div class="list" :class="{show: scrollY > 200}">
+    <div class="list-item">
+      <p>Relavant Destinations</p>
+      <div class="img mt-4">
+        <v-lazy-image src="@/assets/images/banner-1.jpg" alt="" />
+        <span class="tag">Dali</span>
+      </div>
+    </div>
+    <div class="list-item">
+      <p>Relavant Tours</p>
+      <div class="img mt-4">
+        <v-lazy-image src="@/assets/images/banner-1.jpg" alt="" />
+        <span class="tag">Dali</span>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup>
+  import VLazyImage from "v-lazy-image";
+  import { useRouter } from 'vue-router';
+  import { useWindowScroll } from '@vueuse/core'
+  import {AXIOS} from '@/common/http-commons'
+  const {y: scrollY } = useWindowScroll()
+  console.log(scrollY.value)
+
+  const title = ref('')
+  const username = ref('')
+  const content = ref('')
+  const createdTime = ref('')
+
+  onMounted(() => {
+    console.log("on mounted")
+    const route = useRoute()
+    AXIOS.get('/api/public/blog/'+route.params.blogId).then(response=>{
+       console.log("blog detail: ")
+       console.log(response.data.data);
+       title.value = response.data.data.title;
+       username.value = response.data.data.authorName;
+       content.value = response.data.data.content;
+       createdTime.value = response.data.data.createdTime;
+    }).catch(e=>{
+      console.log("get blog detail err")
+      console.log(e)
+    })
+  })
+</script>
+
+<style scoped lang="scss">
+  .content-main,
+  .main {
+    // min-width: 860px;
+    width: 80%;
+    padding-left: 100px;
+    margin: 0 auto;
+  }
+
+  .main {
+    padding-top: 105px;
+  }
+
+  .title {
+    color: rgba(80, 80, 80, 1);
+    font-size: 100px;
+  }
+
+  .logo {
+    width: 104px;
+    height: 104px;
+    border-radius: 50%;
+  }
+
+  .name {
+     color: rgba(80, 80, 80, 1);
+     font-size: 26px;
+   }
+
+  .follow {
+    width: 157px;
+    height: 30px;
+    color: rgba(255, 255, 255, 1);
+    background-color: rgba(42, 130, 228, 1);
+    border-radius: 5px;
+    font-size: 19px;
+    line-height: 30px;
+    text-align: center;
+  }
+
+  .info {
+    color: rgba(80, 80, 80, 1);
+    font-size: 27px;
+  }
+
+  .content {
+    margin: 40px 17px 0;
+    border-top: 1px solid #e5e5e5;
+  }
+
+  .rich-text {
+    color: rgba(80, 80, 80, 1);
+    font-size: 22px;
+  }
+
+
+  .content-main {
+    padding-top: 28px;
+
+    img {
+      width: 100%;
+    }
+  }
+
+  .list {
+    position: fixed;
+    left: -251px;
+    bottom: 300px;
+    transition: .3s;
+
+    &.show {
+      left: 20px;
+    }
+
+    &-item {
+      margin-bottom: 33px;
+      color: rgba(42, 130, 228, 1);
+      font-size: 17px;
+      text-align: center;
+    }
+
+    .img {
+      position: relative;
+      width: 201px;
+      height: 155px;
+
+      img {
+        width: 100%;
+        height: 100%;
+      }
+
+      .tag {
+        position: absolute;
+        left: 0;
+        top: 25px;
+        width: 56px;
+        height: 30px;
+        color: rgba(255, 255, 255, 1);
+        background-color: rgba(42, 130, 228, 1);
+        border-radius: 4px;
+        font-size: 12px;
+        line-height: 30px;
+        text-align: center;
+      }
+    }
+  }
+</style>
