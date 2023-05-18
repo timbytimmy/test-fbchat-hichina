@@ -4,7 +4,7 @@
       <v-lazy-image :src="destinationSummary.destinationProfileImage" alt="" />
       <div class="notice" :class="{ open: hoverFlag }">
         <slot>
-          <p>{{destinationSummary.destinationName}}</p>
+          <p><a :href="'/destination-detail/'+destinationSummary.destinationId">{{destinationSummary.destinationName}}</a></p>
           <span v-if="destinationSummary.parentDestinationName" class="info">{{ destinationSummary.parentDestinationName }}</span>
         </slot>
       </div>
