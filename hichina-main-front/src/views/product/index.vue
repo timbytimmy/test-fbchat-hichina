@@ -104,6 +104,8 @@
   },500)
 
   function setActiveTab(index){
+    globalProductList.value = []
+    currentPage.value = 1;
     console.log("activating..."+index)
     active.value = index
     if(active.value==0){
