@@ -100,6 +100,8 @@
 
   const search = debounce(value =>{
     console.log(value)
+    globalProductList.value=[]
+    currentPage.value = 1
     loadAllProducts()
   },500)
 
