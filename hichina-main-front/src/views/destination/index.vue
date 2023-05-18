@@ -1,6 +1,6 @@
 <template>
   <div class="head">
-    <v-lazy-image src="@/assets/images/chinamap.webp" alt="" />
+    <v-lazy-image src="https://photoprism.hichinatravel.com/api/v1/t/2bfc32550ae040956f7e861566d26c487c0143e7/32mcf2k4/fit_2048" alt="" />
 
     <!-- <div class="point-list">
       此处由于xiaopiu问题，补上一个空的div
