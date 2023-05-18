@@ -60,7 +60,10 @@
     </p>
 
     <div class="list flex-start mt-34">
-      <other-product-item class="list-item" :product-summary="item" v-for="(item,index) in productList" v-bind:key="index" :class="{'no-mar': (index+1) % 4 === 0}"/>
+      <other-product-item class="list-item" :product-summary="item" v-for="(item,index) in globalProductList" v-bind:key="index" :class="{'no-mar': (index+1) % 4 === 0}"/>
+    </div>
+    <div style="width: 100%;">
+      <el-button type="primary" plain class="get-more mt-100" @click="loadMore" style="cursor: pointer;">Click to load more</el-button>
     </div>
   </div>
 </template>
@@ -75,6 +78,7 @@
   const pageSize = ref(100)
   const currentPage = ref(1)
   const productList = ref([])
+  const globalProductList = ref([])
   const productTypeId = ref("")
   const TOURPACKAGETYPE= "3a53caed-b788-4290-896d-7922532ad769";
   const HOTELPACKAGETYPE="a9f5adbe-c09b-49bc-a614-8a1c5d5e5337";
@@ -118,6 +122,11 @@
     loadAllProducts()
   }
 
+  function loadMore(){
+    currentPage.value+=1;
+    loadAllProducts()
+  }
+
   function loadAllProducts(){
     var params = {}
     params.pageSize = pageSize.value;
@@ -128,6 +137,7 @@
       console.log("Got product list of all type : " )
       console.log(response.data.data)
       productList.value = response.data.data.data
+      globalProductList.value = globalProductList.value.concat(productList.value)
     })
     .catch(function (error) {
       console.log(error);
@@ -268,5 +278,12 @@
       margin-right: 47px;
       margin-bottom: 20px;
     }
+  }
+  .get-more {
+    margin: 0 auto;
+    color: rgba(80, 80, 80, 1);
+    font-size: 14px;
+    width: 100%;
+    text-align: center;
   }
 </style>
