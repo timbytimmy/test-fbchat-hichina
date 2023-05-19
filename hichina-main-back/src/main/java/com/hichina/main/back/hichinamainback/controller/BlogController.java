@@ -2,6 +2,7 @@ package com.hichina.main.back.hichinamainback.controller;
 
 import com.github.pagehelper.PageHelper;
 import com.google.common.base.Optional;
+import com.hichina.main.back.hichinamainback.config.EnableHichinaAutoLog;
 import com.hichina.main.back.hichinamainback.mapper.BlogMapper;
 import com.hichina.main.back.hichinamainback.mapper.UserMapper;
 import com.hichina.main.back.hichinamainback.model.Blog;
@@ -54,6 +55,7 @@ public class BlogController {
     }
 
     @GetMapping("/{blogId}")
+    @EnableHichinaAutoLog(description = "Get blog detail by id")
     public HichinaResponse getBlogDetailById(@PathVariable("blogId")String blogId){
         HichinaResponse ret = new HichinaResponse();
         List<Blog> blogs = blogMapper.findRawBlogById(blogId);
@@ -69,6 +71,7 @@ public class BlogController {
     }
 
     @GetMapping("/mybloglist")
+    @EnableHichinaAutoLog(description = "Get my blog list")
     public HichinaResponse getMyBlogs(@RequestParam(value = "page", required = true) Integer page,
                                       @RequestParam(value = "pageSize", required = true) Integer size,
                                       @RequestParam(value = "query") String query){
@@ -103,6 +106,7 @@ public class BlogController {
     }
 
     @PostMapping
+    @EnableHichinaAutoLog(description = "create blog")
     public HichinaResponse createBlog(@RequestBody BlogCreationDTO request){
         HichinaResponse ret = new HichinaResponse();
 
@@ -131,6 +135,7 @@ public class BlogController {
     }
 
     @DeleteMapping("/{blogId}")
+    @EnableHichinaAutoLog(description = "delete blog")
     public HichinaResponse deleteBlog(@PathVariable("blogId")String blogId){
         HichinaResponse ret = new HichinaResponse();
         blogMapper.delete(blogId);
@@ -141,6 +146,7 @@ public class BlogController {
     }
 
     @PutMapping("/edit-basic/{blogId}")
+    @EnableHichinaAutoLog(description = "edit blog basic")
     public HichinaResponse editBasic(@PathVariable("blogId")String blogId, @RequestBody BlogEditDTO request){
         HichinaResponse ret = new HichinaResponse();
         List<Blog> blogs = blogMapper.findRawBlogById(blogId);
@@ -164,6 +170,7 @@ public class BlogController {
     }
 
     @PutMapping("/publish/{blogId}")
+    @EnableHichinaAutoLog(description = "publish blog")
     public HichinaResponse publishBlog(@PathVariable("blogId")String blogId){
         HichinaResponse ret = new HichinaResponse();
         List<Blog> blogs = blogMapper.findRawBlogById(blogId);

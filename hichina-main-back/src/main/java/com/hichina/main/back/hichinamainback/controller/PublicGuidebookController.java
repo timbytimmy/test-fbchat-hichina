@@ -2,6 +2,7 @@ package com.hichina.main.back.hichinamainback.controller;
 
 import com.aliyuncs.utils.StringUtils;
 import com.github.pagehelper.PageHelper;
+import com.hichina.main.back.hichinamainback.config.EnableHichinaAutoLog;
 import com.hichina.main.back.hichinamainback.mapper.GuidebookMapper;
 import com.hichina.main.back.hichinamainback.model.DTO.GuidebookListDTO;
 import com.hichina.main.back.hichinamainback.model.DTO.HichinaResponse;
@@ -21,6 +22,7 @@ public class PublicGuidebookController {
     private GuidebookMapper guidebookMapper;
 
     @GetMapping
+    @EnableHichinaAutoLog(description = "Get guidebooks")
     public HichinaResponse getGuidebooks(@RequestParam(value = "page", required = true) Integer page,
                                          @RequestParam(value = "pageSize", required = true) Integer size,
                                          @RequestParam(value = "query") String query){

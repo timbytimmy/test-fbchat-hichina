@@ -1,6 +1,7 @@
 package com.hichina.main.back.hichinamainback.controller;
 
 import com.hichina.main.back.hichinamainback.config.CustomAuthenticationProvider;
+import com.hichina.main.back.hichinamainback.config.EnableHichinaAutoLog;
 import com.hichina.main.back.hichinamainback.mapper.UserMapper;
 import com.hichina.main.back.hichinamainback.model.DTO.GeneralSingleStringDTO;
 import com.hichina.main.back.hichinamainback.model.DTO.HichinaResponse;
@@ -24,6 +25,7 @@ public class UserController {
     private UserMapper userMapper;
 
     @PutMapping("/basicInfo")
+    @EnableHichinaAutoLog(description = "update my profile")
     public HichinaResponse updateBasicInfo(@RequestBody UserUpdateRequestDTO request){
         HichinaResponse ret = new HichinaResponse();
 
@@ -42,6 +44,7 @@ public class UserController {
         return ret;
     }
     @PutMapping("/updatePass")
+    @EnableHichinaAutoLog(description = "update user pass")
     public HichinaResponse updatePass(@RequestBody UpdatePasswordDTO request) throws NoSuchAlgorithmException, InvalidKeySpecException {
         HichinaResponse ret = new HichinaResponse();
         User user = UserUtil.getUserByCurrentPrincipal(userMapper, UserController.currentUser());
@@ -64,6 +67,7 @@ public class UserController {
     }
 
     @GetMapping(value="/whoami")
+    @EnableHichinaAutoLog(description = "find who am i")
     public String whoami(){
         return currentUser();
     }

@@ -1,6 +1,7 @@
 package com.hichina.main.back.hichinamainback.controller;
 
 
+import com.hichina.main.back.hichinamainback.config.EnableHichinaAutoLog;
 import com.hichina.main.back.hichinamainback.model.DTO.HichinaResponse;
 import com.hichina.main.back.hichinamainback.model.mongo.BlogSlideImage;
 import com.hichina.main.back.hichinamainback.model.mongo.GuidebookIntroSlideImage;
@@ -26,6 +27,7 @@ public class PageContentAdminController {
     private BlogSlideImageRepository blogSlideImageRepository;
 
     @GetMapping("/homesliders")
+    @EnableHichinaAutoLog(description = "Get home slider")
     public HichinaResponse getAllHomeSliders(){
         HichinaResponse ret = new HichinaResponse();
         List<HomeSlideImage> sliders = homeSlideImageRepository.findAll();
@@ -36,6 +38,7 @@ public class PageContentAdminController {
     }
 
     @GetMapping("/guidebookintrosliders")
+    @EnableHichinaAutoLog(description = "Get guidebook intro sliders")
     public HichinaResponse getAllGuidebookIntroSliders(){
         HichinaResponse ret = new HichinaResponse();
         List<GuidebookIntroSlideImage> sliders = guidebookIntroSlideImageRepository.findAll();
@@ -46,6 +49,7 @@ public class PageContentAdminController {
     }
 
     @GetMapping("/bloghomesliders")
+    @EnableHichinaAutoLog(description = "blog home sliders")
     public HichinaResponse getAllBloghomeSliders(){
         HichinaResponse ret = new HichinaResponse();
         List<BlogSlideImage> sliders = blogSlideImageRepository.findAll();

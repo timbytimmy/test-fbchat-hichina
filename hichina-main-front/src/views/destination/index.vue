@@ -244,6 +244,8 @@ function debounce(cb, delay) {
 }
 
 const search = debounce((value) => {
+  globalDestinationCards.value = []
+  currentPage.value = 1;
   loadDestinations();
 }, 500);
 

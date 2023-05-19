@@ -2,6 +2,7 @@ package com.hichina.main.back.hichinamainback.controller;
 
 import com.aliyuncs.utils.StringUtils;
 import com.github.pagehelper.PageHelper;
+import com.hichina.main.back.hichinamainback.config.EnableHichinaAutoLog;
 import com.hichina.main.back.hichinamainback.mapper.BlogMapper;
 import com.hichina.main.back.hichinamainback.mapper.UserMapper;
 import com.hichina.main.back.hichinamainback.model.DTO.BlogDetailDTO;
@@ -25,6 +26,7 @@ public class PublicBlogController {
     private UserMapper userMapper;
 
     @GetMapping("/{blogId}")
+    @EnableHichinaAutoLog(description = "Get blog detail by id")
     public HichinaResponse getBlogDetailById(@PathVariable("blogId") String blogId){
         List<BlogDetailDTO> blogs = blogMapper.findBlogById(blogId);
         HichinaResponse ret = new HichinaResponse();
@@ -41,6 +43,7 @@ public class PublicBlogController {
     }
 
     @GetMapping("/list")
+    @EnableHichinaAutoLog(description = "Get blog list by page")
     public HichinaResponse getBloglist(@RequestParam(value = "page", required = true) Integer page,
                                        @RequestParam(value = "pageSize", required = true) Integer size,
                                        @RequestParam(value = "query") String query){

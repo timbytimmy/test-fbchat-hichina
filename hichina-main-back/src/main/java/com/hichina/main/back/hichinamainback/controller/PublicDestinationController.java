@@ -2,6 +2,7 @@ package com.hichina.main.back.hichinamainback.controller;
 
 import com.aliyuncs.utils.StringUtils;
 import com.github.pagehelper.PageHelper;
+import com.hichina.main.back.hichinamainback.config.EnableHichinaAutoLog;
 import com.hichina.main.back.hichinamainback.mapper.DestinationMapper;
 import com.hichina.main.back.hichinamainback.model.DTO.DestinationProfileDTO;
 import com.hichina.main.back.hichinamainback.model.DTO.DestinationWithGuidebook;
@@ -22,6 +23,7 @@ public class PublicDestinationController {
     private DestinationMapper destinationMapper;
 
     @GetMapping("/{destinationId}")
+    @EnableHichinaAutoLog(description = "Get destination with guidebook by id")
     public HichinaResponse getByDestinationWithGuidebookById(@PathVariable("destinationId") String destinationId){
         HichinaResponse ret = new HichinaResponse();
 
@@ -34,6 +36,7 @@ public class PublicDestinationController {
             return ret;
         }
 
+        // do not support multiple guidebook for a destination, if there are multiple, pick the first
         ret.setData(destinations.get(0));
         ret.setOk(true);
         ret.setMessage(String.format("成功获取id为%s的destination with guidebook", destinationId));
@@ -42,6 +45,7 @@ public class PublicDestinationController {
     }
 
     @GetMapping("/children/{destinationId}")
+    @EnableHichinaAutoLog(description = "Get child destinations")
     public HichinaResponse getChildDestinations(@PathVariable("destinationId") String destinationId){
         HichinaResponse ret = new HichinaResponse();
         List<Destination> destinations = destinationMapper.findDirectChildById(destinationId);
@@ -52,6 +56,7 @@ public class PublicDestinationController {
     }
 
     @GetMapping("/list")
+    @EnableHichinaAutoLog(description = "Get destination list api")
     public HichinaResponse getDestinationList(@RequestParam(value = "page", required = true) Integer page,
                                               @RequestParam(value = "pageSize", required = true) Integer size,
                                               @RequestParam(value = "query") String query){

@@ -1,5 +1,6 @@
 package com.hichina.main.back.hichinamainback.controller;
 
+import com.hichina.main.back.hichinamainback.config.EnableHichinaAutoLog;
 import com.hichina.main.back.hichinamainback.mapper.DestinationMapper;
 import com.hichina.main.back.hichinamainback.model.DTO.DestinationProfileDTO;
 import com.hichina.main.back.hichinamainback.model.DTO.HichinaResponse;
@@ -17,6 +18,7 @@ public class DestinationController {
     private DestinationMapper destinationMapper;
 
     @GetMapping("/rand6")
+    @EnableHichinaAutoLog(description = "get random 6 blogs for home page")
     public HichinaResponse getRand6Destinations(){
         HichinaResponse ret = new HichinaResponse();
         List<DestinationProfileDTO> rand6Destinations =  destinationMapper.findRandomDestinationsByCount(6);

@@ -1,6 +1,16 @@
 <?xml version="1.1" encoding="UTF-8" standalone="no"?>
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
-    <changeSet author="xiefengchang (generated)" id="1682222028657-1">
+    <changeSet author="xiefengchang (generated)" id="1683210780495-1">
+        <createTable tableName="admin_user">
+            <column name="username" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="password" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="xiefengchang (generated)" id="1683210780495-2">
         <createTable tableName="blog">
             <column name="blog_id" type="VARCHAR(50)">
                 <constraints nullable="false"/>
@@ -15,11 +25,11 @@
             </column>
             <column name="head_image_url" type="VARCHAR(500)"/>
             <column name="language" type="VARCHAR(50)"/>
-            <column name="content" type="TEXT"/>
+            <column name="content" type="LONGTEXT"/>
             <column defaultValueBoolean="false" name="draft" type="BIT(1)"/>
         </createTable>
     </changeSet>
-    <changeSet author="xiefengchang (generated)" id="1682222028657-2">
+    <changeSet author="xiefengchang (generated)" id="1683210780495-3">
         <createTable tableName="comment">
             <column name="comment_id" type="VARCHAR(50)">
                 <constraints nullable="false"/>
@@ -35,7 +45,7 @@
             <column name="comment_content" type="TEXT"/>
         </createTable>
     </changeSet>
-    <changeSet author="xiefengchang (generated)" id="1682222028657-3">
+    <changeSet author="xiefengchang (generated)" id="1683210780495-4">
         <createTable tableName="destination">
             <column name="destination_id" type="VARCHAR(50)">
                 <constraints nullable="false"/>
@@ -50,7 +60,7 @@
             <column name="destination_profile_image" type="VARCHAR(500)"/>
         </createTable>
     </changeSet>
-    <changeSet author="xiefengchang (generated)" id="1682222028657-4">
+    <changeSet author="xiefengchang (generated)" id="1683210780495-5">
         <createTable tableName="guidebook">
             <column name="guide_id" type="VARCHAR(50)">
                 <constraints nullable="false"/>
@@ -64,7 +74,7 @@
             <column name="created_date" type="TIMESTAMP"/>
         </createTable>
     </changeSet>
-    <changeSet author="xiefengchang (generated)" id="1682222028657-5">
+    <changeSet author="xiefengchang (generated)" id="1683210780495-6">
         <createTable tableName="hichina_line">
             <column autoIncrement="true" name="id" type="BIGINT">
                 <constraints primaryKey="true"/>
@@ -82,7 +92,7 @@
             <column name="description" type="TEXT"/>
         </createTable>
     </changeSet>
-    <changeSet author="xiefengchang (generated)" id="1682222028657-6">
+    <changeSet author="xiefengchang (generated)" id="1683210780495-7">
         <createTable tableName="hichina_product">
             <column name="sku_id" type="VARCHAR(50)">
                 <constraints nullable="false"/>
@@ -100,7 +110,7 @@
             <column name="created_time" type="TIMESTAMP"/>
         </createTable>
     </changeSet>
-    <changeSet author="xiefengchang (generated)" id="1682222028657-7">
+    <changeSet author="xiefengchang (generated)" id="1683210780495-8">
         <createTable tableName="hichina_product_type">
             <column name="product_type_id" type="VARCHAR(50)">
                 <constraints nullable="false"/>
@@ -111,7 +121,7 @@
             <column name="product_type_description" type="VARCHAR(100)"/>
         </createTable>
     </changeSet>
-    <changeSet author="xiefengchang (generated)" id="1682222028657-8">
+    <changeSet author="xiefengchang (generated)" id="1683210780495-9">
         <createTable tableName="order">
             <column name="order_id" type="VARCHAR(50)">
                 <constraints nullable="false"/>
@@ -133,7 +143,7 @@
             <column name="remark" type="VARCHAR(500)"/>
         </createTable>
     </changeSet>
-    <changeSet author="xiefengchang (generated)" id="1682222028657-9">
+    <changeSet author="xiefengchang (generated)" id="1683210780495-10">
         <createTable tableName="product_attribute">
             <column name="attribute_id" type="VARCHAR(50)">
                 <constraints nullable="false"/>
@@ -146,7 +156,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="xiefengchang (generated)" id="1682222028657-10">
+    <changeSet author="xiefengchang (generated)" id="1683210780495-11">
         <createTable tableName="product_sku_group">
             <column name="sku_group_id" type="VARCHAR(50)">
                 <constraints nullable="false"/>
@@ -161,7 +171,7 @@
             <column defaultValueBoolean="false" name="enabled" type="BIT(1)"/>
         </createTable>
     </changeSet>
-    <changeSet author="xiefengchang (generated)" id="1682222028657-11">
+    <changeSet author="xiefengchang (generated)" id="1683210780495-12">
         <createTable tableName="product_sku_int_attribute_mapping">
             <column name="sku_id" type="VARCHAR(50)">
                 <constraints nullable="false"/>
@@ -173,7 +183,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="xiefengchang (generated)" id="1682222028657-12">
+    <changeSet author="xiefengchang (generated)" id="1683210780495-13">
         <createTable tableName="product_sku_timestamp_attribute_mapping">
             <column name="sku_id" type="VARCHAR(50)">
                 <constraints nullable="false"/>
@@ -185,19 +195,19 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="xiefengchang (generated)" id="1682222028657-13">
+    <changeSet author="xiefengchang (generated)" id="1683210780495-14">
         <createTable tableName="product_sku_varchar_attribute_mapping">
             <column name="sku_id" type="VARCHAR(50)">
                 <constraints nullable="false"/>
             </column>
             <column name="data_type" type="VARCHAR(20)"/>
-            <column name="attribute_value" type="VARCHAR(200)"/>
+            <column name="attribute_value" type="TEXT"/>
             <column name="attribute_id" type="VARCHAR(50)">
                 <constraints nullable="false"/>
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="xiefengchang (generated)" id="1682222028657-14">
+    <changeSet author="xiefengchang (generated)" id="1683210780495-15">
         <createTable tableName="product_type_attribute_mapping">
             <column name="product_type_id" type="VARCHAR(50)">
                 <constraints nullable="false"/>
@@ -210,7 +220,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="xiefengchang (generated)" id="1682222028657-15">
+    <changeSet author="xiefengchang (generated)" id="1683210780495-16">
         <createTable tableName="user">
             <column name="user_id" type="VARCHAR(50)">
                 <constraints nullable="false"/>
@@ -243,226 +253,204 @@
             <column name="pwd_code" type="INT"/>
         </createTable>
     </changeSet>
-    <changeSet author="xiefengchang (generated)" id="1682222028657-16">
+    <changeSet author="xiefengchang (generated)" id="1683210780495-17">
         <addPrimaryKey columnNames="blog_id" constraintName="PRIMARY" tableName="blog"/>
     </changeSet>
-    <changeSet author="xiefengchang (generated)" id="1682222028657-17">
+    <changeSet author="xiefengchang (generated)" id="1683210780495-18">
         <addPrimaryKey columnNames="comment_id" constraintName="PRIMARY" tableName="comment"/>
     </changeSet>
-    <changeSet author="xiefengchang (generated)" id="1682222028657-18">
+    <changeSet author="xiefengchang (generated)" id="1683210780495-19">
         <addPrimaryKey columnNames="destination_id" constraintName="PRIMARY" tableName="destination"/>
     </changeSet>
-    <changeSet author="xiefengchang (generated)" id="1682222028657-19">
+    <changeSet author="xiefengchang (generated)" id="1683210780495-20">
         <addPrimaryKey columnNames="guide_id" constraintName="PRIMARY" tableName="guidebook"/>
     </changeSet>
-    <changeSet author="xiefengchang (generated)" id="1682222028657-20">
+    <changeSet author="xiefengchang (generated)" id="1683210780495-21">
         <addPrimaryKey columnNames="sku_id" constraintName="PRIMARY" tableName="hichina_product"/>
     </changeSet>
-    <changeSet author="xiefengchang (generated)" id="1682222028657-21">
+    <changeSet author="xiefengchang (generated)" id="1683210780495-22">
         <addPrimaryKey columnNames="product_type_id" constraintName="PRIMARY" tableName="hichina_product_type"/>
     </changeSet>
-    <changeSet author="xiefengchang (generated)" id="1682222028657-22">
+    <changeSet author="xiefengchang (generated)" id="1683210780495-23">
         <addPrimaryKey columnNames="order_id" constraintName="PRIMARY" tableName="order"/>
     </changeSet>
-    <changeSet author="xiefengchang (generated)" id="1682222028657-23">
+    <changeSet author="xiefengchang (generated)" id="1683210780495-24">
         <addPrimaryKey columnNames="attribute_id" constraintName="PRIMARY" tableName="product_attribute"/>
     </changeSet>
-    <changeSet author="xiefengchang (generated)" id="1682222028657-24">
+    <changeSet author="xiefengchang (generated)" id="1683210780495-25">
         <addPrimaryKey columnNames="sku_group_id" constraintName="PRIMARY" tableName="product_sku_group"/>
     </changeSet>
-    <changeSet author="xiefengchang (generated)" id="1682222028657-25">
+    <changeSet author="xiefengchang (generated)" id="1683210780495-26">
         <addPrimaryKey columnNames="user_id" constraintName="PRIMARY" tableName="user"/>
     </changeSet>
-    <changeSet author="xiefengchang (generated)" id="1682222028657-26">
+    <changeSet author="xiefengchang (generated)" id="1683210780495-27">
         <addUniqueConstraint columnNames="guide_id, destination_id" constraintName="guidebookanddestinationoneonemapping" tableName="guidebook"/>
     </changeSet>
-    <changeSet author="xiefengchang (generated)" id="1682222028657-27">
+    <changeSet author="xiefengchang (generated)" id="1683210780495-28">
         <addUniqueConstraint columnNames="product_type_id, attribute_id" constraintName="product_type_attribute_binding_unique" tableName="product_type_attribute_mapping"/>
     </changeSet>
-    <changeSet author="xiefengchang (generated)" id="1682222028657-28">
+    <changeSet author="xiefengchang (generated)" id="1683210780495-29">
         <addUniqueConstraint columnNames="sku_id, attribute_id" constraintName="sku_id_single_attribute_int_value" tableName="product_sku_int_attribute_mapping"/>
     </changeSet>
-    <changeSet author="xiefengchang (generated)" id="1682222028657-29">
+    <changeSet author="xiefengchang (generated)" id="1683210780495-30">
         <addUniqueConstraint columnNames="sku_id, attribute_id" constraintName="sku_id_single_attribute_timestamp_value" tableName="product_sku_timestamp_attribute_mapping"/>
     </changeSet>
-    <changeSet author="xiefengchang (generated)" id="1682222028657-30">
+    <changeSet author="xiefengchang (generated)" id="1683210780495-31">
         <addUniqueConstraint columnNames="sku_id, attribute_id" constraintName="sku_id_single_attribute_varchar_value" tableName="product_sku_varchar_attribute_mapping"/>
     </changeSet>
-    <changeSet author="xiefengchang (generated)" id="1682222028657-31">
+    <changeSet author="xiefengchang (generated)" id="1683210780495-32">
         <addUniqueConstraint columnNames="attribute_name" constraintName="uniq_attribute_name" tableName="product_attribute"/>
     </changeSet>
-    <changeSet author="xiefengchang (generated)" id="1682222028657-32">
+    <changeSet author="xiefengchang (generated)" id="1683210780495-33">
         <addUniqueConstraint columnNames="product_type_name" constraintName="uniq_product_type_name" tableName="hichina_product_type"/>
     </changeSet>
-    <changeSet author="xiefengchang (generated)" id="1682222028657-33">
+    <changeSet author="xiefengchang (generated)" id="1683210780495-34">
         <addUniqueConstraint columnNames="sku_group_name, product_type_id" constraintName="unique_sku_group_name_within_same_product_type" tableName="product_sku_group"/>
     </changeSet>
-    <changeSet author="xiefengchang (generated)" id="1682222028657-34">
+    <changeSet author="xiefengchang (generated)" id="1683210780495-35">
         <addUniqueConstraint columnNames="email" constraintName="uniqueemailinusertable" tableName="user"/>
     </changeSet>
-    <changeSet author="xiefengchang (generated)" id="1682222028657-35">
+    <changeSet author="xiefengchang (generated)" id="1683210780495-36">
         <addUniqueConstraint columnNames="facebook_id" constraintName="uniquefacebookidinusertable" tableName="user"/>
     </changeSet>
-    <changeSet author="xiefengchang (generated)" id="1682222028657-36">
+    <changeSet author="xiefengchang (generated)" id="1683210780495-37">
         <addUniqueConstraint columnNames="google_id" constraintName="uniquegoogleidinusertable" tableName="user"/>
     </changeSet>
-    <changeSet author="xiefengchang (generated)" id="1682222028657-37">
+    <changeSet author="xiefengchang (generated)" id="1683210780495-38">
         <addUniqueConstraint columnNames="phone" constraintName="uniquephoneinusertable" tableName="user"/>
     </changeSet>
-    <changeSet author="xiefengchang (generated)" id="1682222028657-38">
+    <changeSet author="xiefengchang (generated)" id="1683210780495-39">
         <addUniqueConstraint columnNames="username" constraintName="uniqueusernameinusertable" tableName="user"/>
     </changeSet>
-    <changeSet author="xiefengchang (generated)" id="1682222028657-39">
+    <changeSet author="xiefengchang (generated)" id="1683210780495-40">
         <addUniqueConstraint columnNames="wx_id" constraintName="uniquewxidinusertable" tableName="user"/>
     </changeSet>
-    <changeSet author="xiefengchang (generated)" id="1682222028657-40">
+    <changeSet author="xiefengchang (generated)" id="1683210780495-41">
+        <addUniqueConstraint columnNames="username" constraintName="uniqusernameforadminuser" tableName="admin_user"/>
+    </changeSet>
+    <changeSet author="xiefengchang (generated)" id="1683210780495-42">
         <createIndex indexName="fk_blog_to_user_id" tableName="blog">
             <column name="user_id"/>
         </createIndex>
     </changeSet>
-    <changeSet author="xiefengchang (generated)" id="1682222028657-41">
+    <changeSet author="xiefengchang (generated)" id="1683210780495-43">
         <createIndex indexName="fk_comment_to_blog_id" tableName="comment">
             <column name="blog_id"/>
         </createIndex>
     </changeSet>
-    <changeSet author="xiefengchang (generated)" id="1682222028657-42">
+    <changeSet author="xiefengchang (generated)" id="1683210780495-44">
         <createIndex indexName="fk_comment_to_comment_id" tableName="comment">
             <column name="respond_to"/>
         </createIndex>
     </changeSet>
-    <changeSet author="xiefengchang (generated)" id="1682222028657-43">
+    <changeSet author="xiefengchang (generated)" id="1683210780495-45">
         <createIndex indexName="fk_comment_to_user_id" tableName="comment">
             <column name="user_id"/>
         </createIndex>
     </changeSet>
-    <changeSet author="xiefengchang (generated)" id="1682222028657-44">
+    <changeSet author="xiefengchang (generated)" id="1683210780495-46">
         <createIndex indexName="fk_destination_to_destination_id" tableName="destination">
             <column name="parent_id"/>
         </createIndex>
     </changeSet>
-    <changeSet author="xiefengchang (generated)" id="1682222028657-45">
+    <changeSet author="xiefengchang (generated)" id="1683210780495-47">
         <createIndex indexName="fk_guidebook_to_destination_id" tableName="guidebook">
             <column name="destination_id"/>
         </createIndex>
     </changeSet>
-    <changeSet author="xiefengchang (generated)" id="1682222028657-46">
+    <changeSet author="xiefengchang (generated)" id="1683210780495-48">
         <createIndex indexName="fk_order_to_product_sku_id" tableName="order">
             <column name="product_sku_id"/>
         </createIndex>
     </changeSet>
-    <changeSet author="xiefengchang (generated)" id="1682222028657-47">
+    <changeSet author="xiefengchang (generated)" id="1683210780495-49">
         <createIndex indexName="fk_order_to_user_id" tableName="order">
             <column name="user_id"/>
         </createIndex>
     </changeSet>
-    <changeSet author="xiefengchang (generated)" id="1682222028657-48">
+    <changeSet author="xiefengchang (generated)" id="1683210780495-50">
         <createIndex indexName="fk_prd_att_mapping_to_attr_id" tableName="product_type_attribute_mapping">
             <column name="attribute_id"/>
         </createIndex>
     </changeSet>
-    <changeSet author="xiefengchang (generated)" id="1682222028657-49">
+    <changeSet author="xiefengchang (generated)" id="1683210780495-51">
         <createIndex indexName="fk_prd_att_mapping_to_product_type_id" tableName="product_type_attribute_mapping">
             <column name="product_type_id"/>
         </createIndex>
     </changeSet>
-    <changeSet author="xiefengchang (generated)" id="1682222028657-50">
+    <changeSet author="xiefengchang (generated)" id="1683210780495-52">
         <createIndex indexName="fk_product_to_sku_group_group_id" tableName="hichina_product">
             <column name="sku_group_id"/>
         </createIndex>
     </changeSet>
-    <changeSet author="xiefengchang (generated)" id="1682222028657-51">
+    <changeSet author="xiefengchang (generated)" id="1683210780495-53">
         <createIndex indexName="fk_product_to_type_type_id" tableName="hichina_product">
             <column name="product_type_id"/>
         </createIndex>
     </changeSet>
-    <changeSet author="xiefengchang (generated)" id="1682222028657-52">
+    <changeSet author="xiefengchang (generated)" id="1683210780495-54">
         <createIndex indexName="fk_sku_group_to_product_type_id" tableName="product_sku_group">
             <column name="product_type_id"/>
         </createIndex>
     </changeSet>
-    <changeSet author="xiefengchang (generated)" id="1682222028657-53">
+    <changeSet author="xiefengchang (generated)" id="1683210780495-55">
         <createIndex indexName="index_publicid" tableName="hichina_line">
             <column name="public_id"/>
             <column name="name"/>
         </createIndex>
     </changeSet>
-    <changeSet author="xiefengchang (generated)" id="1682222028657-54">
-        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="blog" constraintName="fk_blog_to_user_id" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="user_id" referencedTableName="user"/>
-    </changeSet>
-    <changeSet author="xiefengchang (generated)" id="1682222028657-55">
-        <addForeignKeyConstraint baseColumnNames="blog_id" baseTableName="comment" constraintName="fk_comment_to_blog_id" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="blog_id" referencedTableName="blog"/>
-    </changeSet>
-    <changeSet author="xiefengchang (generated)" id="1682222028657-56">
-        <addForeignKeyConstraint baseColumnNames="respond_to" baseTableName="comment" constraintName="fk_comment_to_comment_id" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="comment_id" referencedTableName="comment"/>
-    </changeSet>
-    <changeSet author="xiefengchang (generated)" id="1682222028657-57">
-        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="comment" constraintName="fk_comment_to_user_id" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="user_id" referencedTableName="user"/>
-    </changeSet>
-    <changeSet author="xiefengchang (generated)" id="1682222028657-58">
-        <addForeignKeyConstraint baseColumnNames="parent_id" baseTableName="destination" constraintName="fk_destination_to_destination_id" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="destination_id" referencedTableName="destination"/>
-    </changeSet>
-    <changeSet author="xiefengchang (generated)" id="1682222028657-59">
-        <addForeignKeyConstraint baseColumnNames="destination_id" baseTableName="guidebook" constraintName="fk_guidebook_to_destination_id" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="destination_id" referencedTableName="destination"/>
-    </changeSet>
-    <changeSet author="xiefengchang (generated)" id="1682222028657-60">
-        <addForeignKeyConstraint baseColumnNames="product_sku_id" baseTableName="order" constraintName="fk_order_to_product_sku_id" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="sku_id" referencedTableName="hichina_product"/>
-    </changeSet>
-    <changeSet author="xiefengchang (generated)" id="1682222028657-61">
-        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="order" constraintName="fk_order_to_user_id" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="user_id" referencedTableName="user"/>
-    </changeSet>
-    <changeSet author="xiefengchang (generated)" id="1682222028657-62">
-        <addForeignKeyConstraint baseColumnNames="attribute_id" baseTableName="product_type_attribute_mapping" constraintName="fk_prd_att_mapping_to_attr_id" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="attribute_id" referencedTableName="product_attribute"/>
-    </changeSet>
-    <changeSet author="xiefengchang (generated)" id="1682222028657-63">
-        <addForeignKeyConstraint baseColumnNames="product_type_id" baseTableName="product_type_attribute_mapping" constraintName="fk_prd_att_mapping_to_product_type_id" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="product_type_id" referencedTableName="hichina_product_type"/>
-    </changeSet>
-    <changeSet author="xiefengchang (generated)" id="1682222028657-64">
-        <addForeignKeyConstraint baseColumnNames="sku_group_id" baseTableName="hichina_product" constraintName="fk_product_to_sku_group_group_id" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="sku_group_id" referencedTableName="product_sku_group"/>
-    </changeSet>
-    <changeSet author="xiefengchang (generated)" id="1682222028657-65">
-        <addForeignKeyConstraint baseColumnNames="product_type_id" baseTableName="hichina_product" constraintName="fk_product_to_type_type_id" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="product_type_id" referencedTableName="hichina_product_type"/>
-    </changeSet>
-    <changeSet author="xiefengchang (generated)" id="1682222028657-66">
-        <addForeignKeyConstraint baseColumnNames="product_type_id" baseTableName="product_sku_group" constraintName="fk_sku_group_to_product_type_id" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="product_type_id" referencedTableName="hichina_product_type"/>
-    </changeSet>
-    <changeSet author="xiefengchang (generated)" id="1682222028657-67">
-        <addForeignKeyConstraint baseColumnNames="sku_id" baseTableName="product_sku_int_attribute_mapping" constraintName="fk_skuintattrmapping_to_product_id" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="sku_id" referencedTableName="hichina_product"/>
-    </changeSet>
-    <changeSet author="xiefengchang (generated)" id="1682222028657-68">
-        <addForeignKeyConstraint baseColumnNames="sku_id" baseTableName="product_sku_timestamp_attribute_mapping" constraintName="fk_skutimestampattrmapping_to_product_id" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="sku_id" referencedTableName="hichina_product"/>
-    </changeSet>
-    <changeSet author="xiefengchang (generated)" id="1682222028657-69">
-        <addForeignKeyConstraint baseColumnNames="sku_id" baseTableName="product_sku_varchar_attribute_mapping" constraintName="fk_skuvarcharattrmapping_to_product_id" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="sku_id" referencedTableName="hichina_product"/>
-    </changeSet>
-    <changeSet author="xiefengchang (generated)" id="16s82x22x2xx028657-10">
-        <createTable tableName="admin_user">
-            <column name="username" type="VARCHAR(100)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="password" type="VARCHAR(100)">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-    </changeSet>
-    <changeSet author="xiefengchang (generated)" id="16x8x22x22x02x8657-26">
-        <addUniqueConstraint columnNames="username" constraintName="uniqusernameforadminuser" tableName="admin_user"/>
-    </changeSet>
-    <changeSet author="xiefengchang (generated)" id="16822sx2202g8657-40">
+    <changeSet author="xiefengchang (generated)" id="1683210780495-56">
         <createIndex indexName="indexblogcreatetime" tableName="blog">
             <column name="created_time"/>
         </createIndex>
     </changeSet>
-    <changeSet  author="liquibase-docs"  id="modifyDataType-blogcontenttolongtext">
-        <modifyDataType
-                         columnName="content"
-                         newDataType="LONGTEXT"
-                         tableName="blog"/>
+    <changeSet author="xiefengchang (generated)" id="1683210780495-57">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="blog" constraintName="fk_blog_to_user_id" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="user_id" referencedTableName="user"/>
     </changeSet>
-    <changeSet  author="liquibase-docs"  id="modifyDataType-varcharattributetotextinskuattrtable">
-        <modifyDataType
-                columnName="attribute_value"
-                newDataType="TEXT"
-                tableName="product_sku_varchar_attribute_mapping"/>
+    <changeSet author="xiefengchang (generated)" id="1683210780495-58">
+        <addForeignKeyConstraint baseColumnNames="blog_id" baseTableName="comment" constraintName="fk_comment_to_blog_id" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="blog_id" referencedTableName="blog"/>
+    </changeSet>
+    <changeSet author="xiefengchang (generated)" id="1683210780495-59">
+        <addForeignKeyConstraint baseColumnNames="respond_to" baseTableName="comment" constraintName="fk_comment_to_comment_id" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="comment_id" referencedTableName="comment"/>
+    </changeSet>
+    <changeSet author="xiefengchang (generated)" id="1683210780495-60">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="comment" constraintName="fk_comment_to_user_id" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="user_id" referencedTableName="user"/>
+    </changeSet>
+    <changeSet author="xiefengchang (generated)" id="1683210780495-61">
+        <addForeignKeyConstraint baseColumnNames="parent_id" baseTableName="destination" constraintName="fk_destination_to_destination_id" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="destination_id" referencedTableName="destination"/>
+    </changeSet>
+    <changeSet author="xiefengchang (generated)" id="1683210780495-62">
+        <addForeignKeyConstraint baseColumnNames="destination_id" baseTableName="guidebook" constraintName="fk_guidebook_to_destination_id" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="destination_id" referencedTableName="destination"/>
+    </changeSet>
+    <changeSet author="xiefengchang (generated)" id="1683210780495-63">
+        <addForeignKeyConstraint baseColumnNames="product_sku_id" baseTableName="order" constraintName="fk_order_to_product_sku_id" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="sku_id" referencedTableName="hichina_product"/>
+    </changeSet>
+    <changeSet author="xiefengchang (generated)" id="1683210780495-64">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="order" constraintName="fk_order_to_user_id" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="user_id" referencedTableName="user"/>
+    </changeSet>
+    <changeSet author="xiefengchang (generated)" id="1683210780495-65">
+        <addForeignKeyConstraint baseColumnNames="attribute_id" baseTableName="product_type_attribute_mapping" constraintName="fk_prd_att_mapping_to_attr_id" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="attribute_id" referencedTableName="product_attribute"/>
+    </changeSet>
+    <changeSet author="xiefengchang (generated)" id="1683210780495-66">
+        <addForeignKeyConstraint baseColumnNames="product_type_id" baseTableName="product_type_attribute_mapping" constraintName="fk_prd_att_mapping_to_product_type_id" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="product_type_id" referencedTableName="hichina_product_type"/>
+    </changeSet>
+    <changeSet author="xiefengchang (generated)" id="1683210780495-67">
+        <addForeignKeyConstraint baseColumnNames="sku_group_id" baseTableName="hichina_product" constraintName="fk_product_to_sku_group_group_id" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="sku_group_id" referencedTableName="product_sku_group"/>
+    </changeSet>
+    <changeSet author="xiefengchang (generated)" id="1683210780495-68">
+        <addForeignKeyConstraint baseColumnNames="product_type_id" baseTableName="hichina_product" constraintName="fk_product_to_type_type_id" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="product_type_id" referencedTableName="hichina_product_type"/>
+    </changeSet>
+    <changeSet author="xiefengchang (generated)" id="1683210780495-69">
+        <addForeignKeyConstraint baseColumnNames="product_type_id" baseTableName="product_sku_group" constraintName="fk_sku_group_to_product_type_id" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="product_type_id" referencedTableName="hichina_product_type"/>
+    </changeSet>
+    <changeSet author="xiefengchang (generated)" id="1683210780495-70">
+        <addForeignKeyConstraint baseColumnNames="sku_id" baseTableName="product_sku_int_attribute_mapping" constraintName="fk_skuintattrmapping_to_product_id" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="sku_id" referencedTableName="hichina_product"/>
+    </changeSet>
+    <changeSet author="xiefengchang (generated)" id="1683210780495-71">
+        <addForeignKeyConstraint baseColumnNames="sku_id" baseTableName="product_sku_timestamp_attribute_mapping" constraintName="fk_skutimestampattrmapping_to_product_id" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="sku_id" referencedTableName="hichina_product"/>
+    </changeSet>
+    <changeSet author="xiefengchang (generated)" id="1683210780495-72">
+        <addForeignKeyConstraint baseColumnNames="sku_id" baseTableName="product_sku_varchar_attribute_mapping" constraintName="fk_skuvarcharattrmapping_to_product_id" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="sku_id" referencedTableName="hichina_product"/>
     </changeSet>
     <changeSet author="liquibase-docs" id="add-createdtime-adminuser">
         <addColumn tableName="admin_user">

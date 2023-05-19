@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.google.gson.Gson;
+import com.hichina.main.back.hichinamainback.config.EnableHichinaAutoLog;
 import com.hichina.main.back.hichinamainback.mapper.OrderMapper;
 import com.hichina.main.back.hichinamainback.mapper.UserMapper;
 import com.hichina.main.back.hichinamainback.model.DTO.*;
@@ -161,6 +162,7 @@ public class OrderController {
     }
 
     @GetMapping("/myorders")
+    @EnableHichinaAutoLog(description = "my orders")
     public HichinaResponse getMyOrders(@RequestParam(value = "page", required = true) Integer page,
                                        @RequestParam(value = "pageSize", required = true) Integer size,
                                        @RequestParam(value = "query") String query){

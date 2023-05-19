@@ -1,5 +1,6 @@
 package com.hichina.main.back.hichinamainback.controller;
 
+import com.hichina.main.back.hichinamainback.config.EnableHichinaAutoLog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +18,7 @@ public class PublicServiceController {
     }
 
     @GetMapping("/backend-service")
+    @EnableHichinaAutoLog(description = "Get backend service url")
     public String getBackendUrl(){
         return env.getProperty("backend.servicebase.url");
     }

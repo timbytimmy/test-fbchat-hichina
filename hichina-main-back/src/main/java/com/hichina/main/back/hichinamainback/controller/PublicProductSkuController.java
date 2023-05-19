@@ -1,6 +1,7 @@
 package com.hichina.main.back.hichinamainback.controller;
 
 import com.github.pagehelper.PageHelper;
+import com.hichina.main.back.hichinamainback.config.EnableHichinaAutoLog;
 import com.hichina.main.back.hichinamainback.model.DTO.*;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -96,6 +97,7 @@ public class PublicProductSkuController {
     }
 
     @GetMapping("/productskugrouplist")
+    @EnableHichinaAutoLog(description = "Get product sku group list by page")
     public HichinaResponse getProductSkuGroupList(@RequestParam(value = "page", required = true) Integer page,
                                                   @RequestParam(value = "pageSize", required = true) Integer size,
                                                   @RequestParam(value = "query") String query,
@@ -141,6 +143,7 @@ public class PublicProductSkuController {
     }
 
     @GetMapping("/bygroupidwithpropertybag")
+    @EnableHichinaAutoLog(description = "Get product skus by group id")
     public HichinaResponse getProductSkusByGroupId(@RequestParam(value="skuGroupId",required = true) String skuGroupId){
         HichinaResponse ret = new HichinaResponse();
 

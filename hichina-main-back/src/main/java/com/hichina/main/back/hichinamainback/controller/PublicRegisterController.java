@@ -2,6 +2,7 @@ package com.hichina.main.back.hichinamainback.controller;
 
 
 import com.hichina.main.back.hichinamainback.config.CustomAuthenticationProvider;
+import com.hichina.main.back.hichinamainback.config.EnableHichinaAutoLog;
 import com.hichina.main.back.hichinamainback.mapper.UserMapper;
 import com.hichina.main.back.hichinamainback.model.DTO.HichinaResponse;
 import com.hichina.main.back.hichinamainback.model.DTO.RegisterDTO;
@@ -37,6 +38,7 @@ public class PublicRegisterController {
     private MailUtil mailUtil;
 
     @PostMapping
+    @EnableHichinaAutoLog(description = "register api")
     public HichinaResponse register(@RequestBody RegisterDTO request){
         HichinaResponse ret = new HichinaResponse();
 
@@ -67,6 +69,7 @@ public class PublicRegisterController {
     }
 
     @PostMapping("/pushintodb/{regKey}")
+    @EnableHichinaAutoLog(description = "push redis cacheIntodb")
     public HichinaResponse pushRedisCacheIntoDb(@PathVariable("regKey") String regKey){
         HichinaResponse ret = new HichinaResponse();
         Object toPushObj = redisUtil.get(regKey);

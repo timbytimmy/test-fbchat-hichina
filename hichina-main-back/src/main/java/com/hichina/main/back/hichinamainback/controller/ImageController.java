@@ -1,6 +1,7 @@
 package com.hichina.main.back.hichinamainback.controller;
 
 import com.aliyun.oss.OSSClient;
+import com.hichina.main.back.hichinamainback.config.EnableHichinaAutoLog;
 import com.hichina.main.back.hichinamainback.model.DTO.HichinaResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +25,7 @@ public class ImageController {
     private Environment env;
 
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
+    @EnableHichinaAutoLog(description = "upload image")
     public HichinaResponse uploadProfile(@RequestParam("imageFile") MultipartFile uploadFile, @RequestParam("expectedType") String expectedType) {
         HichinaResponse ret = new HichinaResponse();
         try {

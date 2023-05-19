@@ -2,6 +2,7 @@ package com.hichina.main.back.hichinamainback.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.hichina.main.back.hichinamainback.config.EnableHichinaAutoLog;
 import com.hichina.main.back.hichinamainback.mapper.OrderMapper;
 import com.hichina.main.back.hichinamainback.model.Order;
 import com.hichina.main.back.hichinamainback.service.AliPayService;
@@ -32,6 +33,7 @@ public class PublicPayController {
 
     private static final Logger LOG = LoggerFactory.getLogger(PublicPayController.class);
     @PostMapping("/wechatpaycallback")
+    @EnableHichinaAutoLog(description = "wechat pay callback")
     public String postProcessWechatpay(@RequestHeader Map<String, String> headers, @RequestBody JSONObject params) throws IOException {
 //        LOG.info("=====wechat callback notify");
 //        for(String k: headers.keySet()){
@@ -80,6 +82,7 @@ public class PublicPayController {
     }
 
     @PostMapping("/alipaycallback")
+    @EnableHichinaAutoLog(description = "alipay callback")
     public String postProcessAlipay(@RequestParam Map<String, String> params){
         String verifyResult = aliPayService.verifySign(params);
         if("success".equals(verifyResult)){
