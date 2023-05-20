@@ -1,4 +1,21 @@
 <template>
+  <!-- <div class="banner">
+    <div class="logo">
+      <img src="@/assets/images/logo.png" alt="Logo" />
+    </div>
+    <el-menu
+      class="menu"
+      mode="horizontal"
+      :router="true"
+      :default-active="activeMenuItem"
+      @select="handleMenuSelect"
+    >
+      <el-menu-item index="home">Home</el-menu-item>
+      <el-menu-item index="products">Products</el-menu-item>
+      <el-menu-item index="about">About</el-menu-item>
+      <el-menu-item index="contact">Contact</el-menu-item>
+    </el-menu>
+  </div> -->
   <div class="nav flex-between" @scroll="handleScroll">
     <img class="logo" src="@/assets/images/logo.png" @click="goPage('/home')" alt="" />
 
@@ -7,24 +24,6 @@
       <el-menu-item class="nav-title menuitem" index="2" @click="goPage('/blog')" >Blogs/Vlogs</el-menu-item>
       <el-menu-item class="nav-title menuitem" index="3" @click="goPage('/product')" >Travel Shop</el-menu-item>
       <el-menu-item class="nav-title menuitem" index="4" @click="goPage('/destination')" >Destinations</el-menu-item>
-      <!-- <el-sub-menu index="2">
-        <template #title>
-          <span class="nav-title">Blogs/Vlogs</span>
-        </template>
-        <el-menu-item @click="goPage('/blog')" index="2-1">View Blogs</el-menu-item>
-      </el-sub-menu> -->
-      <!-- <el-sub-menu index="3"> -->
-        <!-- <template #title>
-          <span class="nav-title">Travel Shop</span>
-        </template> -->
-        <!-- <el-menu-item @click="goPage('/product')" index="3-1">Travel Products</el-menu-item> -->
-      <!-- </el-sub-menu> -->
-      <!-- <el-sub-menu index="4">
-        <template #title>
-          <span class="nav-title">Destinations</span>
-        </template>
-        <el-menu-item @click="goPage('/destination')" index="4-1">All destinations</el-menu-item>
-      </el-sub-menu> -->
     </el-menu>
 
     <div class="flex-between">
@@ -54,7 +53,6 @@
           </el-dropdown-menu>
         </template>
       </el-dropdown>
-      
     </div>
   </div>
 </template>
@@ -67,6 +65,13 @@
   import {AXIOS} from '@/common/http-commons'
   import { ArrowDown } from '@element-plus/icons-vue'
   const activeIndex = ref(1)
+
+  const activeMenuItem =ref('home')
+
+  function handleMenuSelect(index) {
+    activeMenuItem.value = index;
+    // Handle menu selection logic here
+  }
 
   function handleScroll(el) {
     console.log("scoll me")
@@ -160,5 +165,20 @@
   .menuitem{
     margin-left: 20px;
   }
+  // .banner {
+  //   display: flex;
+  //   justify-content: space-between;
+  //   align-items: center;
+  //   padding: 10px;
+  //   background-color: #f5f5f5;
+  // }
 
+  // .logo img {
+  //   height: 40px;
+  //   width: auto;
+  // }
+
+  // .menu {
+  //   background-color: #f5f5f5;
+  // }
 </style>

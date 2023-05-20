@@ -118,17 +118,17 @@
               v-if="props.row.enabled == false"
               color="blue-grey-3"
               style="cursor: pointer"
-              @click="copyText(props.row.skuGroupId)"
+              @click="copyTextAndOpen(props.row.skuGroupId)"
               type="button"
-              >{{ props.row.skuGroupId }}</q-btn
+              ><a>复制id并前往</a></q-btn
             >
             <q-btn
               v-if="props.row.enabled == true"
               color="green"
               style="cursor: pointer"
-              @click="copyText(props.row.skuGroupId)"
+              @click="copyTextAndOpen(props.row.skuGroupId)"
               type="button"
-              >{{ props.row.skuGroupId }}</q-btn
+              ><a>复制id并前往</a></q-btn
             >
           </q-td>
         </template>
@@ -187,9 +187,23 @@ export default {
     };
   },
   mounted() {
+    this.loadMainsiteBaseUrl();
     this.$refs.skuGroupTableRef.requestServerInteraction();
   },
   methods: {
+    loadMainsiteBaseUrl() {
+      api
+        .get("/api/public/mainsitebaseurl")
+        .then((response) => {
+          console.log("main site base:");
+          this.mainsiteBaseUrl = response.data;
+          console.log(response.data);
+        })
+        .catch((e) => {
+          console.log(e);
+          this.showNotifyMessageFail(e.response);
+        });
+    },
     unBind() {
       if (!this.selected_right_destination?.trim()) {
         alert("Haven't selected anything");
@@ -296,6 +310,11 @@ export default {
       this.loadBindedDestinations(skuGroupId);
       this.popupBindDestinationWindow = true;
     },
+    copyTextAndOpen(text) {
+      this.copyText(text);
+      var goto = this.mainsiteBaseUrl + "/product-detail/" + text;
+      window.location.href = goto;
+    },
     copyText(text) {
       const unsecuredCopyToClipboard = (text) => {
         const textArea = document.createElement("textarea");
@@ -381,6 +400,7 @@ export default {
   },
   data() {
     return {
+      mainsiteBaseUrl: "",
       bindedDestinations: [],
       currentSkuGroupId: "",
       selected_left_destination: "",

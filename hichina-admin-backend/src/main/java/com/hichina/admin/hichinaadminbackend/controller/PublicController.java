@@ -16,4 +16,9 @@ public class PublicController {
     public String getPublicServiceUrl(){
         return env.getProperty("base.serving.url");
     }
+
+    @GetMapping("/mainsitebaseurl")
+    public String getMainsiteBaseUrl(){
+        return env.getProperty("mainsite.base");
+    }
 }
