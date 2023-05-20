@@ -476,4 +476,17 @@
                 newDataType="VARCHAR(500)"
                 tableName="product_sku_group"/>
     </changeSet>
+    <changeSet author="xiefengchang (generated)" id="168321xget0780d495-1">
+        <createTable tableName="product_sku_group_destination_mapping">
+            <column name="product_sku_group_id" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="destination_id" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="xiefengchang (generated)" id="16d83x2dgds107g80495-27">
+        <addUniqueConstraint columnNames="product_sku_group_id, destination_id" constraintName="uniquebindingofskugroupidanddestinationid" tableName="product_sku_group_destination_mapping"/>
+    </changeSet>
 </databaseChangeLog>

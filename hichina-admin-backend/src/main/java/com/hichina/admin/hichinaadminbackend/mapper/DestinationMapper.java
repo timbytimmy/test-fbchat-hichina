@@ -1,5 +1,6 @@
 package com.hichina.admin.hichinaadminbackend.mapper;
 
+import com.hichina.admin.hichinaadminbackend.model.DTO.DestinationShortDTO;
 import com.hichina.admin.hichinaadminbackend.model.Destination;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Component;
@@ -40,6 +41,9 @@ public interface DestinationMapper {
 
     @Select("select * from destination where destination_name like CONCAT('%',CONCAT(#{query},'%')) or description like CONCAT('%',CONCAT(#{query},'%')) order by created_date desc")
     List<Destination> findDestinationsByQuery(String query);
+
+    @Select("select destination_id, destination_name from destination where destination_name like CONCAT('%',CONCAT(#{query},'%')) order by created_date desc")
+    List<DestinationShortDTO> findDestinationShortByQuery(String query);
 
     @Select("select * from destination where destination_name like CONCAT('%',CONCAT(#{query},'%')) or description like CONCAT('%',CONCAT(#{query},'%')) and level=#{level} order by created_date desc")
     List<Destination> findDestinationsByQueryAndLevel(String query, Integer level);

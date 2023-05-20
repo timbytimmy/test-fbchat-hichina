@@ -2,8 +2,10 @@ package com.hichina.admin.hichinaadminbackend.controller;
 
 import com.github.pagehelper.PageHelper;
 import com.hichina.admin.hichinaadminbackend.mapper.DestinationMapper;
+import com.hichina.admin.hichinaadminbackend.mapper.ProductSkuGroupDestinationMappingMapper;
 import com.hichina.admin.hichinaadminbackend.model.DTO.*;
 import com.hichina.admin.hichinaadminbackend.model.Destination;
+import com.hichina.admin.hichinaadminbackend.model.ProductSkuGroupDestinationMapping;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +20,36 @@ public class DestinationController {
 
     @Autowired
     private DestinationMapper destinationMapper;
+
+    @Autowired
+    private ProductSkuGroupDestinationMappingMapper productSkuGroupDestinationMappingMapper;
+
+    @PostMapping("/bind-skugroup-destination")
+    public HichinaResponse bindSkuGroupAndDestination(@RequestBody SkuGroupDestinationBindRequest request){
+        HichinaResponse ret = new HichinaResponse();
+
+        ProductSkuGroupDestinationMapping newObj = new ProductSkuGroupDestinationMapping();
+        newObj.setSkuGroupId(request.getSkuGroupId());
+        newObj.setDestinationId(request.getDestinationId());
+        productSkuGroupDestinationMappingMapper.insert(newObj);
+
+        ret.setOk(true);
+        ret.setMessage("Succceed binding destination and product sku group");
+
+        return ret;
+    }
+
+    @DeleteMapping("/unbind-skugroup-destination")
+    public HichinaResponse unbindSkuGroupAndDestination(@RequestBody SkuGroupDestinationBindRequest request){
+        HichinaResponse ret = new HichinaResponse();
+
+        productSkuGroupDestinationMappingMapper.delete(request.getSkuGroupId(), request.getDestinationId());
+
+        ret.setOk(true);
+        ret.setMessage("Succceed unbinding destination and product sku group");
+
+        return ret;
+    }
 
     @PostMapping
     public HichinaResponse createDestination(@RequestBody DestinationCreateDTO request){
@@ -93,6 +125,17 @@ public class DestinationController {
         return destinations.get(0);
     }
 
+    @GetMapping("/sku-group-binded/{skuGroupId}")
+    public HichinaResponse getBindedDestinationsBySkuGroupId(@PathVariable("skuGroupId") String skuGroupId){
+        HichinaResponse ret = new HichinaResponse();
+        List<DestinationShortDTO> destinationShortDTOS = productSkuGroupDestinationMappingMapper.getShortDestinationsBySkuGroupId(skuGroupId);
+
+        ret.setMessage("Succeed get binded destinations");
+        ret.setOk(true);
+        ret.setData(destinationShortDTOS);
+        return ret;
+    }
+
     @GetMapping
     public HichinaResponse getDestinations(@RequestParam(value = "page", required = true) Integer page,
                                                            @RequestParam(value = "pageSize", required = true) Integer size,
@@ -134,6 +177,27 @@ public class DestinationController {
         ret.setData(paginationWrapper);
         ret.setOk(true);
 
+        return ret;
+    }
+
+    @GetMapping("/filter-short")
+    public HichinaResponse getDestinationsFilterShort(@RequestParam(value = "query") String query){
+        HichinaResponse ret = new HichinaResponse();
+
+        List<DestinationShortDTO> rawData;
+        if(!StringUtils.isEmpty(query)){
+            rawData = destinationMapper.findDestinationShortByQuery(query);
+        }else{
+            ret.setOk(false);
+            ret.setData(null);
+            ret.setMessage("Do not accept empty query");
+            return ret;
+        }
+
+        ret.setMessage("Successfully got all filtered destinations");
+
+        ret.setData(rawData);
+        ret.setOk(true);
         return ret;
     }
 }

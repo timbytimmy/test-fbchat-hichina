@@ -1,5 +1,90 @@
 <template>
   <q-page padding>
+    <q-dialog v-model="popupBindDestinationWindow">
+      <q-card>
+        <q-card-section>
+          <div class="text-h6">产品-目的地关联</div>
+        </q-card-section>
+        <q-card-section>
+          <div class="text-h6">
+            <q-input
+              outlined
+              @update:model-value="(val) => goFilterDestination(val)"
+              :debounce="500"
+              v-model="filterDestination"
+              label="Filter Destination"
+            />
+          </div>
+        </q-card-section>
+
+        <q-separator />
+
+        <div style="width: 50vw; height: 70vh; display: flex">
+          <div style="width: 38%; max-width: 38%; height: 100%">
+            <label style="color: red; font-weight: bold">候选目的地</label>
+            <q-list bordered separator>
+              <q-item
+                clickable
+                v-ripple
+                :active="item.destinationId === selected_left_destination"
+                @click="setActiveSelectLeft(item.destinationId)"
+                active-class="bg-teal-1 text-grey-8"
+                v-for="item in candidateDestinations"
+                v-bind:key="item.destinationId"
+              >
+                <q-item-section>
+                  <q-item-label
+                    >目的地: {{ item.destinationName }}</q-item-label
+                  >
+                </q-item-section>
+              </q-item>
+            </q-list>
+          </div>
+
+          <div style="min-width: 10px; height: 100%">
+            <div>
+              <q-btn
+                style="margin-top: 10px"
+                round
+                color="secondary"
+                icon="navigate_next"
+                @click="doBind"
+              />
+            </div>
+            <div>
+              <q-btn
+                style="margin-top: 10px"
+                round
+                color="secondary"
+                @click="unBind"
+                icon="navigate_before"
+              />
+            </div>
+          </div>
+          <div style="width: 38%; height: 100%">
+            <label style="color: red; font-weight: bold">已关联目的地</label>
+            <q-list bordered separator>
+              <q-item
+                clickable
+                v-ripple
+                :active="item.destinationId === selected_right_destination"
+                @click="setActiveSelectRight(item.destinationId)"
+                active-class="bg-teal-1 text-grey-8"
+                v-for="item in bindedDestinations"
+                v-bind:key="item.destinationId"
+                ou
+              >
+                <q-item-section>
+                  <q-item-label
+                    >目的地： {{ item.destinationName }}</q-item-label
+                  >
+                </q-item-section>
+              </q-item>
+            </q-list>
+          </div>
+        </div>
+      </q-card>
+    </q-dialog>
     <div class="row justify-center q-pa-md">
       <q-table
         ref="skuGroupTableRef"
@@ -63,6 +148,12 @@
               label="停用"
               @click="disableGroup(props.row.skuGroupId)"
             />
+            <q-btn
+              color="orange"
+              dense
+              label="绑定目的地"
+              @click="bindDestination(props.row.skuGroupId)"
+            />
           </q-td>
         </template>
       </q-table></div
@@ -99,6 +190,112 @@ export default {
     this.$refs.skuGroupTableRef.requestServerInteraction();
   },
   methods: {
+    unBind() {
+      if (!this.selected_right_destination?.trim()) {
+        alert("Haven't selected anything");
+        return;
+      }
+      console.log("unbind: " + this.selected_right_destination);
+      var params = {};
+      params.skuGroupId = this.currentSkuGroupId;
+      params.destinationId = this.selected_right_destination;
+      api
+        .delete("/api/v1/destination/unbind-skugroup-destination", {
+          data: params,
+        })
+        .then((response) => {
+          if (response.data.ok == true) {
+            this.showNotifyMessageSucceed(response.data.message);
+            this.loadBindedDestinations(this.currentSkuGroupId);
+          } else {
+            this.showNotifyMessageFail(response.data.message);
+          }
+          this.selected_right_destination = "";
+        })
+        .catch((e) => {
+          this.showNotifyMessageFail(e.toString());
+        });
+    },
+    doBind() {
+      if (!this.selected_left_destination?.trim()) {
+        alert("Haven't selected anything");
+        return;
+      }
+
+      var params = {};
+      params.skuGroupId = this.currentSkuGroupId;
+      params.destinationId = this.selected_left_destination;
+      api
+        .post("/api/v1/destination/bind-skugroup-destination", params)
+        .then((response) => {
+          if (response.data.ok == true) {
+            this.showNotifyMessageSucceed(response.data.message);
+            this.loadBindedDestinations(this.currentSkuGroupId);
+          } else {
+            this.showNotifyMessageFail(response.data.message);
+          }
+          this.selected_left_destination = "";
+        })
+        .catch((e) => {
+          this.showNotifyMessageFail(e.toString());
+        });
+    },
+    setActiveSelectRight(val) {
+      this.selected_right_destination = val;
+    },
+    setActiveSelectLeft(val) {
+      this.selected_left_destination = val;
+    },
+    goFilterDestination(val) {
+      console.log(val);
+      var params = {};
+      params.query = val;
+      api
+        .get("/api/v1/destination/filter-short", {
+          params: params,
+        })
+        .then((response) => {
+          if (response.data.ok == true) {
+            this.candidateDestinations = response.data.data;
+          } else {
+            this.candidateDestinations = [];
+          }
+        })
+        .catch((e) => {
+          console.log(e);
+          this.showNotifyMessageFail(e.response);
+        });
+    },
+    loadBindedDestinations(skuGroupId) {
+      console.log(
+        "loading already binded destination for product sku group:" + skuGroupId
+      );
+      // after this, should have bindedDestinations ready, once loaded
+      api
+        .get("/api/v1/destination/sku-group-binded/" + this.currentSkuGroupId)
+        .then((response) => {
+          console.log("get all binded:");
+          console.log(response.data.data);
+          if (response.data.ok === true) {
+            this.bindedDestinations = response.data.data;
+          } else {
+            this.bindedDestinations = [];
+          }
+        })
+        .catch((e) => {
+          console.log(e);
+          this.showNotifyMessageFail(e.response);
+        });
+    },
+    bindDestination(skuGroupId) {
+      this.currentSkuGroupId = skuGroupId;
+      this.selected_left_destination = "";
+      this.selected_right_destination = "";
+      this.filterDestination = "";
+      this.candidateDestinations = [];
+      this.loadBindedDestinations(skuGroupId);
+      this.popupBindDestinationWindow = true;
+    },
     copyText(text) {
       const unsecuredCopyToClipboard = (text) => {
         const textArea = document.createElement("textarea");
@@ -168,8 +365,8 @@ export default {
         })
         .then((response) => {
           this.skuGroups = response.data.data.data;
-          console.log("this is the group stats I got:");
-          console.log(this.skuGroups);
+          // console.log("this is the group stats I got:");
+          // console.log(this.skuGroups);
 
           this.serverPagination.page = response.data.data.currentPage;
           this.serverPagination.rowsNumber = response.data.data.total;
@@ -184,6 +381,13 @@ export default {
   },
   data() {
     return {
+      bindedDestinations: [],
+      currentSkuGroupId: "",
+      selected_left_destination: "",
+      selected_right_destination: "",
+      filterDestination: "",
+      popupBindDestinationWindow: false,
+      candidateDestinations: [],
       selected: [],
       filter: "",
       loading: false,
