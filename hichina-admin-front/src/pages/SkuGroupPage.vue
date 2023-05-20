@@ -336,6 +336,7 @@ export default {
         unsecuredCopyToClipboard(text);
         this.showNotifyMessageSucceed("成功复制" + text + "到剪贴板");
       }
+      alert("copied");
       if (goto?.trim()) {
         window.location.href = goto;
       }
