@@ -311,11 +311,10 @@ export default {
       this.popupBindDestinationWindow = true;
     },
     copyTextAndOpen(text) {
-      this.copyText(text);
       var goto = this.mainsiteBaseUrl + "/product-detail/" + text;
-      window.location.href = goto;
+      this.copyText(text, goto);
     },
-    copyText(text) {
+    copyText(text, goto) {
       const unsecuredCopyToClipboard = (text) => {
         const textArea = document.createElement("textarea");
         textArea.value = text;
@@ -336,6 +335,9 @@ export default {
       } else {
         unsecuredCopyToClipboard(text);
         this.showNotifyMessageSucceed("成功复制" + text + "到剪贴板");
+      }
+      if (goto?.trim()) {
+        window.location.href = goto;
       }
     },
     enableGroup(skuGroupId) {
