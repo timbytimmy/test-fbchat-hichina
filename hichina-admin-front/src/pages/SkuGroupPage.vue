@@ -118,17 +118,17 @@
               v-if="props.row.enabled == false"
               color="blue-grey-3"
               style="cursor: pointer"
-              @click="copyTextAndOpen(props.row.skuGroupId)"
+              @click="gotoProductDetail(props.row.skuGroupId)"
               type="button"
-              ><a>复制id并前往</a></q-btn
+              ><a>前往产品</a></q-btn
             >
             <q-btn
               v-if="props.row.enabled == true"
               color="green"
               style="cursor: pointer"
-              @click="copyTextAndOpen(props.row.skuGroupId)"
+              @click="gotoProductDetail(props.row.skuGroupId)"
               type="button"
-              ><a>复制id并前往</a></q-btn
+              ><a>前往产品</a></q-btn
             >
           </q-td>
         </template>
@@ -310,9 +310,11 @@ export default {
       this.loadBindedDestinations(skuGroupId);
       this.popupBindDestinationWindow = true;
     },
-    copyTextAndOpen(text) {
+    gotoProductDetail(text) {
       var goto = this.mainsiteBaseUrl + "/product-detail/" + text;
-      this.copyText(text, goto);
+      if (goto?.trim()) {
+        window.location.href = goto;
+      }
     },
     copyText(text, goto) {
       const unsecuredCopyToClipboard = (text) => {
@@ -335,10 +337,6 @@ export default {
       } else {
         unsecuredCopyToClipboard(text);
         this.showNotifyMessageSucceed("成功复制" + text + "到剪贴板");
-      }
-      alert("copied");
-      if (goto?.trim()) {
-        window.location.href = goto;
       }
     },
     enableGroup(skuGroupId) {
