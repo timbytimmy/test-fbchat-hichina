@@ -112,26 +112,6 @@
             </template>
           </q-input>
         </template>
-        <template v-slot:body-cell-skuGroupId="props">
-          <q-td :props="props">
-            <q-btn
-              v-if="props.row.enabled == false"
-              color="blue-grey-3"
-              style="cursor: pointer"
-              @click="gotoProductDetail(props.row.skuGroupId)"
-              type="button"
-              ><a>前往产品</a></q-btn
-            >
-            <q-btn
-              v-if="props.row.enabled == true"
-              color="green"
-              style="cursor: pointer"
-              @click="gotoProductDetail(props.row.skuGroupId)"
-              type="button"
-              ><a>前往产品</a></q-btn
-            >
-          </q-td>
-        </template>
         <template v-slot:body-cell-action="props">
           <q-td :props="props">
             <q-btn
@@ -154,10 +134,27 @@
               label="绑定目的地"
               @click="bindDestination(props.row.skuGroupId)"
             />
+            <q-btn
+              v-if="props.row.enabled == false"
+              color="blue-grey-3"
+              style="cursor: pointer"
+              @click="gotoProductDetail(props.row.skuGroupId)"
+              type="button"
+              ><a>前往产品</a></q-btn
+            >
+            <q-btn
+              v-if="props.row.enabled == true"
+              color="green"
+              style="cursor: pointer"
+              @click="gotoProductDetail(props.row.skuGroupId)"
+              type="button"
+              ><a>前往产品</a></q-btn
+            >
           </q-td>
         </template>
-      </q-table></div
-  ></q-page>
+      </q-table>
+    </div></q-page
+  >
 </template>
 
 <script>
@@ -419,16 +416,6 @@ export default {
       },
       skuGroups: [],
       columns: [
-        {
-          name: "skuGroupId",
-          required: true,
-          label: "SKU组ID",
-          align: "left",
-          field: "skuGroupId",
-          sortable: false,
-          style:
-            "max-width: 20vw;text-overflow: ellipsis !important;white-space: nowrap !important;overflow: hidden !important;",
-        },
         {
           name: "skuGroupName",
           required: true,
