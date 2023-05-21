@@ -2,7 +2,7 @@
   <div class="item" :class="{'float-item': float}" style="cursor: pointer;" @click="goPage('/product-detail/'+productSummary.skuGroupId)">
     <v-lazy-image class="logo" :src="productSummary.imageUrl" src-placeholder="https://photoprism.hichinatravel.com/api/v1/t/2bfc32550ae040956f7e861566d26c487c0143e7/32mcf2k4/tile_224" alt="" />
     <div class="item-content">
-      <p class="time">Start from ¥ {{ productSummary.price }}</p>
+      <p class="time">Start from ¥ {{ productSummary.minPrice }}</p>
       <p class="title mt-20"><a :href="'./product-detail/'+productSummary.skuGroupId">{{ productSummary.skuGroupName }}</a></p>
     </div>
   </div>
