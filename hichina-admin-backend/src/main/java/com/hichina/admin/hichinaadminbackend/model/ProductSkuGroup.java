@@ -19,4 +19,8 @@ public class ProductSkuGroup {
     private Date createdDate;
 
     private Boolean enabled;
+
+    private String imageUrl;
+
+    private Integer minPrice;
 }

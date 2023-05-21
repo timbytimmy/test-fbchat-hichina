@@ -136,98 +136,6 @@
                 toolbar="full"
                 :modules="combineModule"
               />
-              <!-- <q-editor
-                v-model="editSkuDialogDescription"
-                ref="editDialogEditor"
-                :definitions="definitions"
-                @paste="pasteCapture"
-                @drop="(evt) => dropCapture(evt)"
-                :toolbar="[
-                  ['insert_img', 'insert_video'],
-                  [
-                    {
-                      label: $q.lang.editor.align,
-                      icon: $q.iconSet.editor.align,
-                      fixedLabel: true,
-                      options: ['left', 'center', 'right', 'justify'],
-                    },
-                  ],
-                  [
-                    'bold',
-                    'italic',
-                    'strike',
-                    'underline',
-                    'subscript',
-                    'superscript',
-                  ],
-                  ['token', 'hr', 'link', 'custom_btn'],
-                  [
-                    {
-                      label: $q.lang.editor.formatting,
-                      icon: $q.iconSet.editor.formatting,
-                      list: 'no-icons',
-                      options: [
-                        'p',
-                        'h1',
-                        'h2',
-                        'h3',
-                        'h4',
-                        'h5',
-                        'h6',
-                        'code',
-                      ],
-                    },
-                    {
-                      label: $q.lang.editor.fontSize,
-                      icon: $q.iconSet.editor.fontSize,
-                      fixedLabel: true,
-                      fixedIcon: true,
-                      list: 'no-icons',
-                      options: [
-                        'size-1',
-                        'size-2',
-                        'size-3',
-                        'size-4',
-                        'size-5',
-                        'size-6',
-                        'size-7',
-                      ],
-                    },
-                    {
-                      label: $q.lang.editor.defaultFont,
-                      icon: $q.iconSet.editor.font,
-                      fixedIcon: true,
-                      list: 'no-icons',
-                      options: [
-                        'default_font',
-                        'arial',
-                        'arial_black',
-                        'comic_sans',
-                        'courier_new',
-                        'impact',
-                        'lucida_grande',
-                        'times_new_roman',
-                        'verdana',
-                      ],
-                    },
-                    'removeFormat',
-                  ],
-                  ['quote', 'unordered', 'ordered', 'outdent', 'indent'],
-
-                  ['undo', 'redo'],
-                  ['viewsource'],
-                ]"
-                :fonts="{
-                  arial: 'Arial',
-                  arial_black: 'Arial Black',
-                  comic_sans: 'Comic Sans MS',
-                  courier_new: 'Courier New',
-                  impact: 'Impact',
-                  lucida_grande: 'Lucida Grande',
-                  times_new_roman: 'Times New Roman',
-                  verdana: 'Verdana',
-                }"
-              /> -->
             </div>
           </div>
         </q-card-section>
@@ -275,11 +183,12 @@
               <hichina-date-picker
                 multi-dates
                 inline
+                :clearable="true"
                 multi-calendars
                 :min-date="new Date()"
                 :month-change-on-scroll="false"
                 @update:model-value="handleDate(item.attributeId)"
-                :format="format"
+                :format="formatAndSaveTempDateString"
                 v-model="item.attributeValue"
               />
             </div>
@@ -364,10 +273,11 @@
                 inline
                 multi-dates
                 multi-calendars
+                :clearable="true"
                 :min-date="new Date()"
                 :month-change-on-scroll="false"
                 @update:model-value="handleDate(item.attributeId)"
-                :format="format"
+                :format="formatAndSaveTempDateString"
                 v-model="
                   new_sku_dialog_customPropertyBag[
                     '[datestring]' + item.attributeId
@@ -566,7 +476,7 @@ export default {
     this.loadAllProductTypes();
   },
   methods: {
-    format(dateArray) {
+    formatAndSaveTempDateString(dateArray) {
       this.tempDateString = this.dateArray2String(dateArray);
       return this.tempDateString;
     },
@@ -594,6 +504,12 @@ export default {
       return null;
     },
     handleDate(val1) {
+      console.log(
+        "setting dataLabel with key: " +
+          val1 +
+          " with value " +
+          this.tempDateString
+      );
       this.dateLabel[val1] = this.tempDateString;
 
       // console.log(this.rawPropertyBags);
@@ -671,14 +587,45 @@ export default {
       }
       return rawPropertyBag;
     },
-    formatDateStringInCreate(propertyBag) {
-      for (var prop in propertyBag) {
+    deepClone(object) {
+      if (object === null || typeof object !== "object") {
+        return object;
+      }
+
+      console.log("object type");
+      console.log(typeof object);
+
+      if (object instanceof Date) {
+        return new Date(object);
+      }
+
+      const clonedObject = Array.isArray(object) ? [] : {};
+
+      for (let key in object) {
+        clonedObject[key] = this.deepClone(object[key]);
+      }
+
+      return clonedObject;
+    },
+    formatDateStringInCreateWithDeepClone(propertyBag) {
+      console.log("before deep clone property bag");
+      console.log(propertyBag);
+      var deepClonedPropertyBag = this.deepClone(propertyBag);
+
+      console.log("deep cloned: deepClonedPropertyBag");
+      console.log(deepClonedPropertyBag);
+
+      for (var prop in deepClonedPropertyBag) {
         if (prop.startsWith("[datestring]")) {
           // assume it's a date array input
-          var formatedString = this.format(propertyBag[prop]);
-          propertyBag[prop] = formatedString;
+          var formatedString = this.formatAndSaveTempDateString(
+            deepClonedPropertyBag[prop]
+          );
+          deepClonedPropertyBag[prop] = formatedString;
         }
       }
+
+      return deepClonedPropertyBag;
     },
     submitWithPropertyBag(isCopyCreate) {
       if (!isCopyCreate) {
@@ -705,8 +652,9 @@ export default {
       } else {
         params.productTypeId = this.editSkuDialogProductTypeId;
       }
-      this.formatDateStringInCreate(this.new_sku_dialog_customPropertyBag);
-      params.customPropertyBag = this.new_sku_dialog_customPropertyBag;
+      params.customPropertyBag = this.formatDateStringInCreateWithDeepClone(
+        this.new_sku_dialog_customPropertyBag
+      );
       api
         .post("/api/v1/productsku", params)
         .then((response) => {

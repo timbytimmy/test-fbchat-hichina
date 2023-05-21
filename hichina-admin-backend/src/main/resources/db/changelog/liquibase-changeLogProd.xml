@@ -489,4 +489,12 @@
     <changeSet author="xiefengchang (generated)" id="16d83x2dgds107g80495-27">
         <addUniqueConstraint columnNames="product_sku_group_id, destination_id" constraintName="uniquebindingofskugroupidanddestinationid" tableName="product_sku_group_destination_mapping"/>
     </changeSet>
+    <changeSet author="liquibase-docs" id="add-addminpriceandfirstimageurl-skugroup">
+        <addColumn tableName="product_sku_group">
+            <column name="image_url"
+                    type="varchar(500)"/>
+            <column name="min_price"
+                    type="INT"/>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>

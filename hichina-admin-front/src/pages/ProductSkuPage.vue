@@ -1,6 +1,6 @@
 <template>
   <q-page padding>
-    <my-upload
+    <!-- <my-upload
       field="imageFile"
       @crop-success="cropSuccess"
       @crop-upload-success="cropUploadSuccess"
@@ -14,7 +14,7 @@
       :withCredentials="true"
       img-format="jpg"
     >
-    </my-upload>
+    </my-upload> -->
     <q-dialog v-model="confirmDelete" persistent>
       <q-card>
         <q-card-section class="row items-center">
@@ -315,7 +315,7 @@
 
     <div class="row justify-center q-pa-md">
       <q-table
-        ref="tableRef"
+        ref="productSkuTableRef"
         style="max-width: 98%; min-width: 90%"
         title="产品细项（具体产品上架）"
         :rows="productskus"
@@ -394,17 +394,17 @@
 <script>
 import { api } from "boot/axios";
 import { useQuasar } from "quasar";
-import myUpload from "vue-image-crop-upload";
+// import myUpload from "vue-image-crop-upload";
 import ProductEditorDialog from "components/ProductEditorDialog.vue";
-import UploadImage from "v-upload-image";
+// import UploadImage from "v-upload-image";
 import { myMixin } from "boot/commonFunc";
 export default {
   name: "ProductSkuPages",
   mixins: [myMixin],
   components: {
     ProductEditorDialog,
-    "upload-image": UploadImage,
-    "my-upload": myUpload,
+    // "upload-image": UploadImage,
+    // "my-upload": myUpload,
   },
   setup() {
     const $q = useQuasar();
@@ -459,7 +459,9 @@ export default {
       }
     },
     refreshTable() {
-      this.$refs.tableRef.requestServerInteraction();
+      console.log("post create refresh...");
+      this.$refs.productSkuTableRef.requestServerInteraction();
+      console.log("ppppppp");
     },
     cropUploadFail(status, field) {
       console.log("-------- upload fail --------");
@@ -550,7 +552,7 @@ export default {
         .delete("/api/v1/productsku/batch", { data: params })
         .then((response) => {
           this.showNotifyMessageSucceed(response.data.message);
-          this.$refs.tableRef.requestServerInteraction();
+          this.$refs.productSkuTableRef.requestServerInteraction();
         })
         .catch((e) => {
           this.showNotifyMessageFail(e.toString());
@@ -564,7 +566,7 @@ export default {
       this.confirmDelete = true;
     },
     pageProductTypeChange() {
-      this.$refs.tableRef.requestServerInteraction();
+      this.$refs.productSkuTableRef.requestServerInteraction();
     },
     onRequest(props) {
       const { page, rowsPerPage } = props.pagination;
@@ -672,7 +674,7 @@ export default {
   },
   mounted() {
     this.getRestBase();
-    this.$refs.tableRef.requestServerInteraction();
+    this.$refs.productSkuTableRef.requestServerInteraction();
     this.loadAllProductTypes();
   },
   data() {

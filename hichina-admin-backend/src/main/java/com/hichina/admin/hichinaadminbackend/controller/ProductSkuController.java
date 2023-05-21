@@ -4,9 +4,9 @@ import com.github.pagehelper.PageHelper;
 import com.hichina.admin.hichinaadminbackend.mapper.*;
 import com.hichina.admin.hichinaadminbackend.model.*;
 import com.hichina.admin.hichinaadminbackend.model.DTO.*;
+import com.hichina.admin.hichinaadminbackend.service.ProductSkuService;
 import com.hichina.admin.hichinaadminbackend.util.UserUtil;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,6 +34,8 @@ public class ProductSkuController {
     @Autowired
     private ProductSkuVarcharAttributeMappingMapper productSkuVarcharAttributeMappingMapper;
 
+    @Autowired
+    private ProductSkuService productSkuService;
     @Autowired
     private ProductSkuIntAttributeMappingMapper productSkuIntAttributeMappingMapper;
 
@@ -180,24 +182,6 @@ public class ProductSkuController {
         return ret;
     }
 
-    /**
-     * whether exist or not, return the group id, if not exist, insert first
-     * @param productName
-     * @param productTypeId
-     * @return
-     */
-    private String checkProductGroupExistence(String productName, String productTypeId){
-        List<ProductSkuGroup> productSkuGroups = productSkuGroupMapper.findByNameAndProductTypeId(productName, productTypeId);
-        String productSkuGroupId;
-        if(productSkuGroups.isEmpty()){
-            productSkuGroupId = java.util.UUID.randomUUID().toString();
-            productSkuGroupMapper.insert(new ProductSkuGroup(productSkuGroupId, productName, productTypeId , new Date(), true));
-        }else{
-            productSkuGroupId = productSkuGroups.get(0).getSkuGroupId();
-        }
-        return productSkuGroupId;
-    }
-
     private String insertProductSkuInTransaction(ProductSkuCreateDTO request){
         HichinaProduct product = new HichinaProduct();
         product.setProductName(request.getProductName());
@@ -207,7 +191,7 @@ public class ProductSkuController {
         product.setCreatedTime(new Date());
         product.setCreatedBy(userUtil.currentUserName());
         // check if sku group of name request.getProductName() and request.getProductTypeId() exist, if not, insert new sku group, and set corresponding sku_group_id in product
-        String productSkuGroupId = checkProductGroupExistence(request.getProductName(), request.getProductTypeId());
+        String productSkuGroupId = productSkuService.checkProductGroupExistence(request.getProductName(), request.getProductTypeId());
         product.setSkuGroupId(productSkuGroupId);
         // insert common attribute
         hichinaProductMapper.insert(product);
@@ -250,6 +234,7 @@ public class ProductSkuController {
                 throw new RuntimeException("Not supported data type!");
             }
         }
+        productSkuGroupMapper.updateMinPriceAndImage(productSkuGroupId);
         return product.getSkuId();
     }
     @PostMapping
@@ -267,97 +252,25 @@ public class ProductSkuController {
     }
 
     @PutMapping("/withpropertybags/{skuId}")
-    @Transactional
     public HichinaResponse updateProductWithAllProperties(@PathVariable("skuId") String skuId ,@RequestBody ProductSkuUpdateDTO request){
         HichinaResponse ret = new HichinaResponse();
-
-        List<HichinaProduct> hichinaProducts = hichinaProductMapper.findRawBySkuId(skuId);
-        if(hichinaProducts.isEmpty()){
-            throw new RuntimeException("Nothing to update");
-        }
-        HichinaProduct toUpdate = hichinaProducts.get(0);
-        if(!request.getProductName().equals(toUpdate.getProductName())){
-            // indicating name change, so must update sku group id
-            String skuGroupId = checkProductGroupExistence(request.getProductName(), toUpdate.getProductTypeId());
-            toUpdate.setSkuGroupId(skuGroupId);
-        }
-        toUpdate.setProductName(request.getProductName());
-        toUpdate.setProductContent(request.getProductContent());
-        // update basic info
-        hichinaProductMapper.updateBySkuId(toUpdate);
-
-        productSkuGroupMapper.deleteUnreferenced();
-
-        // update property bags
-        List<ProductPropertyBag> propertyBags = request.getPropertyBags();
-
-        updatePropertyBagsBySkuId(skuId, propertyBags);
-
+        HichinaProduct toUpdate = productSkuService.updateProducts(skuId, request);
+        productSkuService.postProcessSkuGroup(toUpdate);
         ret.setOk(true);
         ret.setData(skuId);
         ret.setMessage("成功更新skuId:"+skuId+"的产品");
-
         return ret;
     }
 
     @DeleteMapping("/batch")
-    @Transactional
     public HichinaResponse deleteProductSkus(@RequestBody ProductSkuBatchDeleteRequest req){
-
-        // delete all related custom properties
-        productSkuTimestampAttributeMappingMapper.batchDelete(req.getToDelete());
-        productSkuIntAttributeMappingMapper.batchDelete(req.getToDelete());
-        productSkuVarcharAttributeMappingMapper.batchDelete(req.getToDelete());
-        // delete base product record
-        hichinaProductMapper.batchDelete(req.getToDelete());
-        // remove unreferenced group
-        productSkuGroupMapper.deleteUnreferenced();
-
+        List<String> affectedSkuGroupIds = productSkuGroupMapper.findSkuGroupIdsBySkuIds(req.getToDelete());
+        productSkuService.deleteProductSkus(req.getToDelete());
+        productSkuService.postProcessSkuGroupV2(affectedSkuGroupIds);
         HichinaResponse ret = new HichinaResponse();
         ret.setOk(true);
         ret.setData(req.getToDelete());
         ret.setMessage("成功批量删除product sku");
-
         return ret;
-    }
-
-    private void updatePropertyBagsBySkuId(String skuId, List<ProductPropertyBag> propertyBags){
-        // first filter out those propertybag with no value
-        List<ProductPropertyBag> nonEmptyPropertyBag  = propertyBags.stream().filter(r -> !Strings.isEmpty(r.getAttributeValue())).collect(Collectors.toList());
-
-        for(ProductPropertyBag item: nonEmptyPropertyBag){
-            if("integer".equals(item.getDataType())){
-                ProductSkuIntAttributeMapping upsertObj = new ProductSkuIntAttributeMapping();
-                upsertObj.setAttributeId(item.getAttributeId());
-                upsertObj.setSkuId(skuId);
-                upsertObj.setDataType(item.getDataType());
-                upsertObj.setAttributeValue(Integer.parseInt(item.getAttributeValue()));
-                productSkuIntAttributeMappingMapper.upsertBySkuIdAndAttributeId(upsertObj);
-            }else if("string".equals(item.getDataType()) || "image".equals(item.getDataType()) || "datestring".equals(item.getDataType())){
-                ProductSkuVarcharAttributeMapping upsertObj = new ProductSkuVarcharAttributeMapping();
-                upsertObj.setAttributeId(item.getAttributeId());
-                upsertObj.setSkuId(skuId);
-                upsertObj.setDataType(item.getDataType());
-                upsertObj.setAttributeValue(item.getAttributeValue());
-                productSkuVarcharAttributeMappingMapper.upsertBySkuIdAndAttributeId(upsertObj);
-            }else if("date".equals(item.getDataType())){
-                ProductSkuTimestampAttributeMapping upsertObj = new ProductSkuTimestampAttributeMapping();
-                upsertObj.setAttributeId(item.getAttributeId());
-                upsertObj.setSkuId(skuId);
-                upsertObj.setDataType(item.getDataType());
-
-                SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd", Locale.ENGLISH);
-                Date date = null;
-                try {
-                    date = formatter.parse(item.getAttributeValue());
-                    upsertObj.setAttributeValue(date);
-                    productSkuTimestampAttributeMappingMapper.upsertBySkuIdAndAttributeId(upsertObj);
-                }catch (ParseException e) {
-                    throw new RuntimeException("Invalid date format");
-                }
-            }else{
-                // do nothing
-            }
-        }
     }
 }

@@ -6,11 +6,10 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class HichinaProductListDTO {
-    private String skuId;
     private String skuGroupId;
     private String skuGroupName;
     private String productTypeId;
     private String productTypeName;
-    private Integer price;
+    private Integer minPrice;
     private String imageUrl;
 }

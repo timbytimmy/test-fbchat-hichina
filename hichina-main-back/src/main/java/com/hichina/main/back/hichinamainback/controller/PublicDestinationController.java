@@ -4,10 +4,8 @@ import com.aliyuncs.utils.StringUtils;
 import com.github.pagehelper.PageHelper;
 import com.hichina.main.back.hichinamainback.config.EnableHichinaAutoLog;
 import com.hichina.main.back.hichinamainback.mapper.DestinationMapper;
-import com.hichina.main.back.hichinamainback.model.DTO.DestinationProfileDTO;
-import com.hichina.main.back.hichinamainback.model.DTO.DestinationWithGuidebook;
-import com.hichina.main.back.hichinamainback.model.DTO.HichinaResponse;
-import com.hichina.main.back.hichinamainback.model.DTO.PaginationWrapper;
+import com.hichina.main.back.hichinamainback.mapper.ProductSkuGroupDestinationMappingMapper;
+import com.hichina.main.back.hichinamainback.model.DTO.*;
 import com.hichina.main.back.hichinamainback.model.Destination;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +19,23 @@ public class PublicDestinationController {
 
     @Autowired
     private DestinationMapper destinationMapper;
+
+    @Autowired
+    private ProductSkuGroupDestinationMappingMapper productSkuGroupDestinationMappingMapper;
+
+    @GetMapping("/relavanttourproduct/{destinationId}")
+    @EnableHichinaAutoLog(description = "Get relavant tours by destinationId")
+    public HichinaResponse getRelavantToursByDestinationId(@PathVariable("destinationId") String destinationId){
+
+        HichinaResponse ret = new HichinaResponse();
+        List<HichinaProductListDTO> productListDTOS = productSkuGroupDestinationMappingMapper.findRelatedTourProductByDestinationId(destinationId);
+
+        ret.setOk(true);
+        ret.setData(productListDTOS);
+        ret.setMessage("Succeed getting relevant tours by destinationId");
+
+        return ret;
+    }
 
     @GetMapping("/{destinationId}")
     @EnableHichinaAutoLog(description = "Get destination with guidebook by id")

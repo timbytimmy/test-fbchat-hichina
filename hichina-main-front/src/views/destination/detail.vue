@@ -32,8 +32,9 @@
 
     <p class="text mt-50">Relevant Tours of {{ destinationName }}</p>
 
-    <div class="list flex-start mt-16">
-      <other-product-item :productSummary="[]" class="product-item" v-for="i in 4" :class="{'no-mar': i % 4 === 0}"/>
+    <div class="list flex-start mt-16" v-for="(item, index) in relevantToursProduct" v-bind:key="index">
+      <!-- <other-product-item :productSummary="[]" class="product-item" v-for="i in 4" :class="{'no-mar': i % 4 === 0}"/> -->
+      <other-product-item :productSummary="item" class="other-item" float/>
     </div>
 
     <p class="text mt-50">Relevant Blogs of Kunming</p>
@@ -57,6 +58,7 @@
   const downloadUrl = ref("")
   const destinationName = ref("")
   const childDestinations = ref([])
+  const relevantToursProduct = ref([])
   function goDownload(){
     if(downloadUrl.value==null || downloadUrl.value=="" ){
       ElNotification({
@@ -70,9 +72,9 @@
     }
   }
 
-  onMounted(() => {
-    console.log("on mounted destination detail page")
-    const route = useRoute()
+  const route = useRoute()
+
+  function loadDestinations(){
     AXIOS.get('/api/public/destination/'+route.params.destinationId).then(response=>{
        console.log("destination detail: ")
        console.log(response.data.data);
@@ -84,7 +86,9 @@
       console.log("get destination detail err")
       console.log(e)
     })
-    // get children destinations:
+  }
+
+  function loadChildrenDestination(){
     AXIOS.get('/api/public/destination/children/'+route.params.destinationId).then(response=>{
        console.log("destination children list: ")
        console.log(response.data.data);
@@ -94,6 +98,30 @@
       console.log("get destination detail err")
       console.log(e)
     })
+  }
+
+  function loadRelatedTours(){
+    AXIOS.get('/api/public/destination/relavanttourproduct/'+route.params.destinationId).then(response=>{
+       console.log("relevant products : ")
+       console.log(response.data)
+       if(response.data.ok===true){
+        relevantToursProduct.value = response.data.data;
+       }else{
+        relevantToursProduct.value = [];
+       }
+    }).catch(e=>{
+      console.log("get relevant tours product err")
+      console.log(e)
+    })
+
+  }
+
+  onMounted(() => {
+    console.log("on mounted destination detail page")
+    loadDestinations()
+    // get children destinations:
+    loadChildrenDestination()
+    loadRelatedTours()
   })
 </script>
 
