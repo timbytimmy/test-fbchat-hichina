@@ -1,5 +1,7 @@
 <template>
-  <div>A verification email has been sent to your your mailbox...</div>
+  <div class="notification">
+    <p class="notification-text">Please go to your mailbox to activate your account</p>
+  </div>
 </template>
   
   <script setup>
@@ -8,7 +10,7 @@ import router from "../../router";
 const waitAndGo = async () => {
   setTimeout(() => {
     router.push({ name: "home" });
-  }, 5000);
+  }, 8000);
 };
 
 onMounted(() => {
@@ -141,4 +143,18 @@ onMounted(() => {
     margin-bottom: 20px;
   }
 }
+
+.notification {
+    background-color: #f8f8f8;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 10px;
+    text-align: center;
+  }
+
+  .notification-text {
+    font-weight: bold;
+    font-size: 3em;
+    color: rgb(241, 78, 78);
+  }
 </style>
