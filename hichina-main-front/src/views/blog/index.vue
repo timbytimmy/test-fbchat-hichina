@@ -32,8 +32,8 @@
         <p class="video-info">From Blog Title My 30 days of Going to Tibet</p>
       </div>
       <blog-item class="product-item" :blog="item.value" v-if="item.type==='blog'" float/>
-      <other-product-item :productSummary="item.value" class="other-item" v-if="item.type === 'product'" float/>
-      <scale-product-item class="scale-item" :scaleItem="item.value" v-if="item.type==='scaleblog'" float/>
+      <!-- <other-product-item :productSummary="item.value" class="other-item" v-if="item.type === 'product'" float/> -->
+      <!-- <scale-product-item class="scale-item" :scaleItem="item.value" v-if="item.type==='scaleblog'" float/> -->
     </template>
   </div>
 
@@ -102,11 +102,14 @@
       // }
       for(var index in bloglist.value){
         var obj = {}
-        obj.type=parseInt(Math.random() * 2)==0?'blog':'scaleblog';
+        // obj.type=parseInt(Math.random() * 2)==0?'blog':'scaleblog';
+        obj.type='blog'
         obj.value = bloglist.value[index]
         unifiedItemList.value.push(obj)
       }
-      loadProducts();
+      globalUnifiedItemList.value=globalUnifiedItemList.value.concat(unifiedItemList.value)
+
+      // loadProducts();
     })
     .catch(function (error) {
       console.log(error);
