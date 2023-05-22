@@ -25,6 +25,25 @@ public class PublicBlogController {
     @Autowired
     private UserMapper userMapper;
 
+    @GetMapping("/blog-author-profile-image/{blogId}")
+    @EnableHichinaAutoLog(description = "Get blog author profile image url by blogId")
+    public HichinaResponse getBlogAuthorImageUrlByBlogId(@PathVariable("blogId") String blogId){
+        HichinaResponse ret = new HichinaResponse();
+
+        List<String> urls = blogMapper.findAuthorProfileImage(blogId);
+
+        if(urls.isEmpty()){
+          throw new RuntimeException("Cannot find user");
+        }
+        String url = urls.get(0);
+
+        ret.setData(url);
+        ret.setOk(true);
+        ret.setMessage("Succeed get author url for blog: "+ blogId);
+
+        return ret;
+    }
+
     @GetMapping("/{blogId}")
     @EnableHichinaAutoLog(description = "Get blog detail by id")
     public HichinaResponse getBlogDetailById(@PathVariable("blogId") String blogId){

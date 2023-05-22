@@ -14,6 +14,9 @@ public interface BlogMapper {
     @Select("select b.title,  u.username as authorName, b.created_time as createdTime, b.content  from blog b inner join user u on u.user_id = b.user_id where b.blog_id=#{blogId}")
     List<BlogDetailDTO> findBlogById(String blogId);
 
+    @Select("select u.profile_image_url  from blog b inner join user u on b.user_id = u.user_id where b.blog_id = #{blogId}")
+    List<String> findAuthorProfileImage(String blogId);
+
     @Select("select blog_id, created_time, title, head_image_url, content from blog where draft=0 order by created_time desc")
     List<BlogListItemDTO> findBlogSummaryList();
 

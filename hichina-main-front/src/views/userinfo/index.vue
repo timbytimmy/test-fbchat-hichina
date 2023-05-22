@@ -190,7 +190,7 @@
       ElNotification({
       title: "Succeed",
       message: "上传成功",
-      type: "Succeed",
+      type: "success",
       });
       showImageUpload.value = false;
     }
