@@ -1,19 +1,12 @@
 <template>
   <div class="swiper">
     <div class="swiper-wrapper">
-      <swiper-container  autoplay-delay="3000" loop="true">
+      <swiper-container  autoplay-delay="3000" loop="true" css-mode="true" navigation="true" pagination="true" scrollbar="true">
         <swiper-slide style="cursor: pointer" class="banner swiper-slide" v-for="(item,index) in sliders " :key="index" >
           <v-lazy-image :src="item.imageUrl" alt="" />
         </swiper-slide>
       </swiper-container>
     </div>
-    <el-icon class="swiper-button-prev swiper-btn" size="50">
-      <svg-icon icon-class="swiper-prev"/>
-    </el-icon>
-    <el-icon class="swiper-button-next swiper-btn" size="50">
-      <svg-icon icon-class="swiper-next"/>
-    </el-icon>
-    <div class="swiper-pagination"></div>
   </div>
 
   <!-- <p class="text">Editor's Choice this Week</p> -->
