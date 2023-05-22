@@ -31,7 +31,7 @@
     </div>
   </div>
 
-  <div class="list" :class="{show: scrollY > 200}">
+  <!-- <div class="list" :class="{show: scrollY > 200}">
     <div class="list-item">
       <p>Relavant Destinations</p>
       <div class="img mt-4">
@@ -46,7 +46,7 @@
         <span class="tag">Dali</span>
       </div>
     </div>
-  </div>
+  </div> -->
 </template>
 
 <script setup>

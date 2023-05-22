@@ -33,15 +33,14 @@
     <p class="text mt-50">Relevant Tours of {{ destinationName }}</p>
 
     <div class="list flex-start mt-16" v-for="(item, index) in relevantToursProduct" v-bind:key="index">
-      <!-- <other-product-item :productSummary="[]" class="product-item" v-for="i in 4" :class="{'no-mar': i % 4 === 0}"/> -->
       <other-product-item :productSummary="item" class="other-item" float/>
     </div>
 
-    <p class="text mt-50">Relevant Blogs of Kunming</p>
+    <!-- <p class="text mt-50">Relevant Blogs of Kunming</p>
 
     <div class="list flex-start no-bor mt-16">
       <product-item :productSummary="[]" class="product-item" v-for="i in 4" :class="{'no-mar': i % 4 === 0}"/>
-    </div>
+    </div> -->
 
     <p class="more mt-46">鼠标滚动至此处自动加载</p>
   </div>
