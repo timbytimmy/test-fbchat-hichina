@@ -155,6 +155,11 @@ public class BlogController {
         }
         Blog blog = blogs.get(0);
 
+        User user = UserUtil.getUserByCurrentPrincipal(userMapper, UserController.currentUser());
+        if(!blog.getUserId().equals(user.getUserId())){
+            throw new RuntimeException("You can only edit your blog, not others' blog");
+        }
+
         blog.setTitle(request.getTitle());
         blog.setContent(request.getContent());
         blog.setHeadImageUrl(request.getHeadImageUrl());
