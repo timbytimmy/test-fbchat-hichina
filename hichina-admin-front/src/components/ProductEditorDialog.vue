@@ -175,9 +175,18 @@
               <q-date v-model="item.attributeValue" minimal />
             </div>
             <div v-if="item.dataType === 'datestring'">
+              <q-btn
+                style="background: #ff0080; color: white"
+                label="Clear Date"
+                @click="clearDate(item, 'attributeValue', item.attributeId)"
+              />
+              <br />
               <label style="word-wrap: break-word"
                 >{{ item.attributeName }}, Selected dates:
-                {{ dateLabel[item.attributeId] }}</label
+                {{
+                  dateLabel[item.attributeId] ||
+                  this.dateArray2String(item.attributeValue)
+                }}</label
               >
               <br />
               <hichina-date-picker
@@ -264,9 +273,28 @@
               />
             </div>
             <div v-if="item.dataType === 'datestring'">
+              <q-btn
+                style="background: #ff0080; color: white"
+                label="Clear Date"
+                @click="
+                  clearDate(
+                    new_sku_dialog_customPropertyBag,
+                    '[datestring]' + item.attributeId,
+                    item.attributeId
+                  )
+                "
+              />
+              <br />
               <label style="word-wrap: break-word"
                 >{{ item.attributeName }} , Selected dates:
-                {{ dateLabel[item.attributeId] }}</label
+                {{
+                  dateLabel[item.attributeId] ||
+                  this.dateArray2String(
+                    new_sku_dialog_customPropertyBag[
+                      "[datestring]" + item.attributeId
+                    ]
+                  )
+                }}</label
               >
               <br />
               <hichina-date-picker
@@ -476,6 +504,10 @@ export default {
     this.loadAllProductTypes();
   },
   methods: {
+    clearDate(obj, key, key2) {
+      obj[key] = null;
+      this.dateLabel[key2] = "";
+    },
     formatAndSaveTempDateString(dateArray) {
       this.tempDateString = this.dateArray2String(dateArray);
       return this.tempDateString;
