@@ -106,30 +106,6 @@
   const globalUnifiedItemList = ref([])
   const unifiedItemList = ref([])
 
-  // function scroll () {
-  //   window.onscroll = () => {
-  //     // console.log("set scroll:"+document.documentElement.offsetHeight)
-  //     // let bottomOfWindow = Math.ceil(window.pageYOffset, document.documentElement.scrollTop, document.body.scrollTop) + window.innerHeight === document.documentElement.offsetHeight
-  //     var reachbottom = (window.innerHeight+document.documentElement.scrollTop>document.body.scrollHeight)
-  //     // console.log("window.pageYOffset:"+window.pageYOffset)
-  //     // console.log("document.documentElement.scrollTop:"+document.documentElement.scrollTop)
-  //     // console.log("document.body.scrollTop:"+document.body.scrollTop)
-  //     // console.log("document.body.scrollHeight"+document.body.scrollHeight)
-  //     // console.log("window.innerHeight:"+window.innerHeight)
-  //     // console.log("document.documentElement.offsetHeight:"+document.documentElement.offsetHeight)
-      
-  //     // if (bottomOfWindow) {
-  //     //   console.log("set scroll true")
-  //     // }
-  //     if(reachbottom){
-  //       currentPage.value+=1
-  //       // document.documentElement.scrollTop-=document.body.scrollHeight/2;
-  //       console.log("before loading bloglist"+document.body.scrollHeight)
-  //       loadBlogList()
-  //     }
-  //   }
-  // }
-
   function loadMore(){
     currentPage.value+=1
     var maxPage = totalBlogCount.value/blogPageSizePage.value
@@ -138,13 +114,6 @@
     }
   }
 
-  // function handleScroll(el) {
-  //   console.log("scoll me")
-  //   if((el.srcElement.offsetHeight + el.srcElement.scrollTop) >= el.srcElement.scrollHeight) {
-  //     this.hasScrolledToBottom = true;
-  //   }
-  // }
-  
   function loadBlogList(){
     loading.value = true;
     unifiedItemList.value=[]
@@ -224,56 +193,31 @@
     router.push({ path: val })
   }
 
-  onMounted(() => {
-    scroll()
-    // const swiperEl = document.querySelector('swiper-container');
-
-    // swiperEl.addEventListener('progress', (event) => {
-    //   const [swiper, progress] = event.detail;
-    // });
-
-    // swiperEl.addEventListener('slidechange', (event) => {
-    //   // console.log('slide changed');
-    // });
-
-    // load slider
+  function loadHomeSliders(){
     AXIOS.get('/api/public/pagecontent/homesliders').then(response=>{
        sliders.value = response.data.data
        loadBlogList()
     }).catch(e=>{
       console.log(e)
     })
+  }
 
-    // load destination
+  function loadRand6Destinations(){
     AXIOS.get('/api/public/destination/rand6').then(response=>{
       randDestinations.value = response.data.data
     }).catch(e=>{
       alert(e)
     })
+  }
+
+  onMounted(() => {
+    // load slider
+    loadHomeSliders()
+
+    // load destination
+    loadRand6Destinations()
   })
 
-  // const options = [
-  //   {
-  //     value: 'Option1',
-  //     label: 'Option1'
-  //   },
-  //   {
-  //     value: 'Option2',
-  //     label: 'Option2'
-  //   },
-  //   {
-  //     value: 'Option3',
-  //     label: 'Option3'
-  //   },
-  //   {
-  //     value: 'Option4',
-  //     label: 'Option4'
-  //   },
-  //   {
-  //     value: 'Option5',
-  //     label: 'Option5'
-  //   }
-  // ]
   const hoverFlag = ref(false)
   const arr = getRandomArr()
 
@@ -296,7 +240,7 @@
 <style scoped lang="scss">
 
   .scrollbar{
-      overflow-y: scroll;
+      overflow: scroll;
   }
   .float {
     max-width: $min-width;
