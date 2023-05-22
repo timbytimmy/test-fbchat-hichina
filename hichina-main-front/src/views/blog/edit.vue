@@ -121,7 +121,7 @@ function updateBlog() {
       ElNotification({
         title: "Succeed",
         message: "Succeed updating blogs",
-        type: "Succeed",
+        type: "success",
       });
     })
     .catch((err) => {
@@ -129,7 +129,7 @@ function updateBlog() {
       ElNotification({
         title: "Error",
         message: "Failed updating blogs",
-        type: "Error",
+        type: "error",
       });
     });
 }
