@@ -17,7 +17,7 @@
       </div>
     </div>
 
-    <p class="text mt-16">Places to go in {{ destinationName }}</p>
+    <p class="text mt-16" v-if="childDestinations.length>0">Places to go in {{ destinationName }}</p>
 
     <div class="list mt-36">
       <div class="list-item flex-between stretch" v-for="item in childDestinations" v-bind:key="item.destinationId">
@@ -30,7 +30,7 @@
       </div>
     </div>
 
-    <p class="text mt-50">Relevant Tours of {{ destinationName }}</p>
+    <p class="text mt-50" v-if="relevantToursProduct.length>0">Relevant Tours of {{ destinationName }}</p>
 
     <div class="list flex-start mt-16" v-for="(item, index) in relevantToursProduct" v-bind:key="index">
       <other-product-item :productSummary="item" class="other-item" float/>
