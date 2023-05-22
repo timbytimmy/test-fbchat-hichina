@@ -25,7 +25,7 @@
 
         <div class="content flex-item">
           <p class="title">{{ item.destinationName }}</p>
-          <p class="mt-50">{{ item.description }}</p>
+          <p class="mt-50">{{ removeHtmlTag(item.description) }}</p>
         </div>
       </div>
     </div>
@@ -72,6 +72,13 @@
   }
 
   const route = useRoute()
+
+  function removeHtmlTag(input){
+    var div = document.createElement("div");
+    div.innerHTML = input;
+    var text = div.textContent || div.innerText || "";
+    return text;
+  }
 
   function loadDestinations(){
     AXIOS.get('/api/public/destination/'+route.params.destinationId).then(response=>{
