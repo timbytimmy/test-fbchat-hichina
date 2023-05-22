@@ -53,7 +53,7 @@ public class PublicRegisterController {
         String redisKey = java.util.UUID.randomUUID().toString();
         String redisValue = request.getEmail()+","+request.getPassword();
 
-        redisUtil.add(redisKey, 5*60L, redisValue);
+        redisUtil.add(redisKey, 10*60L, redisValue);
 
         if(isEmail(request.getEmail())){
             sendValidationEmail(redisKey, request.getEmail());
