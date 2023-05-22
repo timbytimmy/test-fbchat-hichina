@@ -262,6 +262,16 @@ public class ProductSkuController {
         return ret;
     }
 
+    @PutMapping("/contentonly/{skuId}")
+    public HichinaResponse updateContentOnly(@PathVariable("skuId") String skuId ,@RequestBody ProductSkuContentUpdateRequest request){
+        HichinaResponse ret = new HichinaResponse();
+        productSkuService.updateProductContentOnly(skuId, request.getContent());
+        ret.setOk(true);
+        ret.setData(skuId);
+        ret.setMessage("成功更新skuId:"+skuId+"的产品（仅主体内容）");
+        return ret;
+    }
+
     @DeleteMapping("/batch")
     public HichinaResponse deleteProductSkus(@RequestBody ProductSkuBatchDeleteRequest req){
         List<String> affectedSkuGroupIds = productSkuGroupMapper.findSkuGroupIdsBySkuIds(req.getToDelete());

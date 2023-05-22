@@ -59,6 +59,18 @@ public class ProductSkuService {
     }
 
     @Transactional
+    public void updateProductContentOnly(String skuId, String content){
+        HichinaProduct ret = new HichinaProduct();
+        List<HichinaProduct> hichinaProducts = hichinaProductMapper.findRawBySkuId(skuId);
+        if(hichinaProducts.isEmpty()){
+            throw new RuntimeException("Nothing to update");
+        }
+        HichinaProduct toUpdate = hichinaProducts.get(0);
+        toUpdate.setProductContent(content);
+        hichinaProductMapper.updateBySkuId(toUpdate);
+    }
+
+    @Transactional
     public HichinaProduct updateProducts(String skuId , ProductSkuUpdateDTO request){
         List<HichinaProduct> hichinaProducts = hichinaProductMapper.findRawBySkuId(skuId);
         if(hichinaProducts.isEmpty()){

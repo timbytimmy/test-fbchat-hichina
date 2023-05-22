@@ -131,6 +131,7 @@
             <div row justify-center>
               <QuillEditor
                 theme="snow"
+                @update:content="editing"
                 v-model:content="editSkuDialogDescription"
                 contentType="html"
                 toolbar="full"
@@ -384,6 +385,7 @@
 
 <script>
 import { api } from "boot/axios";
+import { debounce } from "lodash";
 import { useQuasar } from "quasar";
 import UploadImage from "v-upload-image";
 import myUpload from "vue-image-crop-upload";
@@ -502,8 +504,27 @@ export default {
   mounted() {
     this.getRestBase();
     this.loadAllProductTypes();
+    this.editing = debounce(this.editing, 500);
   },
   methods: {
+    updateContentOnly() {
+      console.log("updateContentOnly...");
+      var params = {};
+      params.content = this.editSkuDialogDescription;
+      api
+        .put("/api/v1/productsku/contentonly/" + this.currentSkuId, params)
+        .then((response) => {
+          this.showNotifyMessageSucceed(response.data.message);
+        })
+        .catch((e) => {
+          this.showNotifyMessageFail(e.toString());
+        });
+    },
+    editing() {
+      if (this.mode === "edit") {
+        this.updateContentOnly();
+      }
+    },
     clearDate(obj, key, key2) {
       obj[key] = null;
       this.dateLabel[key2] = "";
