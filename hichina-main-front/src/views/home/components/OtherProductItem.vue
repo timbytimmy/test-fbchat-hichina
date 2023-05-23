@@ -1,6 +1,11 @@
 <template>
-  <div class="item" :class="{'float-item': float}" style="cursor: pointer;" @click="goPage('/product-detail/'+productSummary.skuGroupId)">
+  <div class="item" :class="{'float-item': float}" style="cursor: pointer;position: relative;" @click="goPage('/product-detail/'+productSummary.skuGroupId)">
     <v-lazy-image class="logo" :src="productSummary.imageUrl" src-placeholder="https://photoprism.hichinatravel.com/api/v1/t/2bfc32550ae040956f7e861566d26c487c0143e7/32mcf2k4/tile_224" alt="" />
+    <div class="overlay">
+      <el-icon size="24">
+        <svg-icon icon-class="money" color="#FFF033"/>
+      </el-icon>
+    </div>
     <div class="item-content">
       <p class="time">Start from ¥ {{ productSummary.minPrice }}</p>
       <p class="title mt-20"><a :href="'./product-detail/'+productSummary.skuGroupId">{{ productSummary.skuGroupName }}</a></p>
@@ -63,5 +68,22 @@
       font-size: 17px;
       font-weight: bold;
     }
+  }
+
+  .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: left;
+    align-items: left;
+    background-color: rgba(0, 0, 0, 0.1); /* Adjust the background color and transparency as needed */
+  }
+
+  .overlay i {
+    color: #fff; /* Adjust the icon color as needed */
+    font-size: 24px; /* Adjust the icon size as needed */
   }
 </style>

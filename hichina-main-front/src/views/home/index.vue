@@ -15,7 +15,7 @@
   <section class="wrapper mt-84">
     <div class="item-title pd-20 flex-between">
       <p>Destinations</p>
-      <p class="more flex-between">More destinations
+      <p class="more-destinations flex-between" @click="goPage('/destination')">More destinations
         <el-icon>
           <ArrowRight/>
         </el-icon>
@@ -418,4 +418,14 @@
     box-shadow: 0px 7px 7px 0px rgba(0, 0, 0, 0.5);
     object-fit: cover;
   }
+
+  
+
+  .more-destinations{
+    cursor: pointer;
+    color: rgba(42, 130, 228, 1);
+    font-size: 14px;
+    line-height: 150%;
+  }
+
 </style>
