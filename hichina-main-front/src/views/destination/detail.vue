@@ -7,7 +7,7 @@
 
   <div class="wrapper mt-46">
     <div class="head-content flex-between stretch">
-      <v-lazy-image class="logo" :src="destinationProfileImage" alt="" />
+      <v-lazy-image class="logo" :src="destinationProfileImage" src-placeholder="https://photoprism.hichinatravel.com/api/v1/t/2bfc32550ae040956f7e861566d26c487c0143e7/32mcf2k4/fit_720" alt="" />
       <div>
         <div class="info" v-html="description"></div>
         <div class="flex-between mt-24">
@@ -80,12 +80,22 @@
     return text;
   }
 
+  function normalizeMultiImageUrl(input){
+    if(input.indexOf(',')>-1){
+       return input.split(',').shift();
+     }else if(input.indexOf(';')>-1){
+      return input.split(';').shift();
+     }
+     return input;
+  }
+
   function loadDestinations(){
     AXIOS.get('/api/public/destination/'+route.params.destinationId).then(response=>{
        console.log("destination detail: ")
        console.log(response.data.data);
        description.value = response.data.data.description;
-       destinationProfileImage.value = response.data.data.destinationProfileImage;
+       destinationProfileImage.value = normalizeMultiImageUrl(response.data.data.destinationProfileImage);
+       console.log(destinationProfileImage.value)
        downloadUrl.value = response.data.data.downloadUrl;
        destinationName.value = response.data.data.destinationName;
     }).catch(e=>{

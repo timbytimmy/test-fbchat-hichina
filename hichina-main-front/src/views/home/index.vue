@@ -27,7 +27,7 @@
       <!-- <x-hover-item class="wrapper-item" v-for="i in 6"/> -->
       <div  v-for="item in randDestinations" :key="item.destinationId" class="item radius wrapper-item" @mouseenter="hoverFlag = true"
            @mouseleave="hoverFlag = false">
-        <v-lazy-image class="destination-profile" @click="goPage('/destination-detail/'+item.destinationId)" :src="item.destinationProfileImage" alt="" />
+        <v-lazy-image class="destination-profile" @click="goPage('/destination-detail/'+item.destinationId)" :src="normalizeMultiImageUrl(item.destinationProfileImage)" alt="" />
         <div class="notice" :class="{ open: hoverFlag }">
           <slot>
             <p>{{item.destinationName}}</p>
@@ -114,6 +114,15 @@
     }
   }
 
+  function normalizeMultiImageUrl(input){
+    if(input.indexOf(',')>-1){
+       return input.split(',').shift();
+     }else if(input.indexOf(';')>-1){
+      return input.split(';').shift();
+     }
+     return input;
+  }
+
   function loadBlogList(){
     loading.value = true;
     unifiedItemList.value=[]
@@ -131,7 +140,8 @@
       bloglist.value = response.data.data.data
       for(var index in bloglist.value){
         var obj = {}
-        obj.type=parseInt(Math.random() * 2)==0?'blog':'scaleblog';
+        // obj.type=parseInt(Math.random() * 2)==0?'blog':'scaleblog';
+        obj.type='blog';
         obj.value = bloglist.value[index]
         unifiedItemList.value.push(obj)
       }
