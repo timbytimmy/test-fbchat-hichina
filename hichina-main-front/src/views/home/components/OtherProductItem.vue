@@ -1,7 +1,7 @@
 <template>
   <div class="item" :class="{'float-item': float}" style="cursor: pointer;position: relative;" @click="goPage('/product-detail/'+productSummary.skuGroupId)">
     <v-lazy-image class="logo" :src="productSummary.imageUrl" src-placeholder="https://photoprism.hichinatravel.com/api/v1/t/2bfc32550ae040956f7e861566d26c487c0143e7/32mcf2k4/tile_224" alt="" />
-    <div class="overlay">
+    <div class="overlay" v-if="showIcon">
       <el-icon size="24">
         <svg-icon icon-class="money" color="#FFF033"/>
       </el-icon>
@@ -17,6 +17,7 @@
   import router from "../../../router";
   const props = defineProps({
     float: Boolean,
+    showIcon: Boolean,
     productSummary: {
       type: Object
     }

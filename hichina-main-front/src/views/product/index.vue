@@ -60,7 +60,7 @@
     </p>
 
     <div class="list flex-start mt-34">
-      <other-product-item class="list-item" :product-summary="item" v-for="(item,index) in globalProductList" v-bind:key="index" :class="{'no-mar': (index+1) % 4 === 0}"/>
+      <other-product-item class="list-item" :product-summary="item" :show-icon="false" v-for="(item,index) in globalProductList" v-bind:key="index" :class="{'no-mar': (index+1) % 4 === 0}"/>
     </div>
     <div style="width: 100%;">
       <el-button type="primary" plain class="get-more mt-100" @click="loadMore" style="cursor: pointer;">Click to load more</el-button>

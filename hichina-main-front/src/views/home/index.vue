@@ -63,7 +63,7 @@
         <p class="video-info">From Blog Title My 30 days of Going to Tibet</p>
       </div>
       <blog-item class="product-item" :blog="item.value" v-if="item.type==='blog'" float/>
-      <other-product-item :productSummary="item.value" class="other-item" v-if="item.type === 'product'" float/>
+      <other-product-item :productSummary="item.value" :showIcon="true" class="other-item" v-if="item.type === 'product'" float/>
       <special-product-item class="scale-item" :special="item.value" v-if="item.type==='scaleblog'" float/>
     </template>
   </div>
