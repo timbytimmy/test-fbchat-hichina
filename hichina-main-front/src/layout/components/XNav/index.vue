@@ -27,12 +27,12 @@
     </el-menu>
 
     <div class="flex-between">
-      <div class="flex-between">
+      <!-- <div class="flex-between">
         <svg-icon icon-class="user"/>
         <el-select v-model="value1" class="m-2" size="mini" placeholder="请选择">
           <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"/>
         </el-select>
-      </div>
+      </div> -->
       <span v-if="currentUser==''" class="login"><el-button type="primary" @click="goPage('/auth/register')">Register</el-button> / <el-button type="primary" @click="goPage('/auth/login')">Login</el-button></span>
       <el-dropdown style="cursor: pointer;" v-if="currentUser!=''">
         <span class="el-dropdown-link">
