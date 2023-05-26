@@ -166,6 +166,14 @@
               <q-item-label>攻略页轮播图</q-item-label>
             </q-item-section>
           </q-item>
+          <q-item clickable target="_blank" @click="goPage('/home-post')">
+            <q-item-section avatar>
+              <q-icon :name="'image'" />
+            </q-item-section>
+            <q-item-section>
+              <q-item-label>首页海报位</q-item-label>
+            </q-item-section>
+          </q-item>
           <q-item clickable target="_blank" @click="goPage('/bloghome')">
             <q-item-section avatar>
               <q-icon :name="'image'" />

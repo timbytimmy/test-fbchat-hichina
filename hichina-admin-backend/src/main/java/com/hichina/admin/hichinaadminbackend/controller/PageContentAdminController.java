@@ -1,11 +1,14 @@
 package com.hichina.admin.hichinaadminbackend.controller;
 
 import com.hichina.admin.hichinaadminbackend.model.DTO.HichinaResponse;
+import com.hichina.admin.hichinaadminbackend.model.DTO.HomePostImageRequest;
 import com.hichina.admin.hichinaadminbackend.model.mongo.BlogSlideImage;
 import com.hichina.admin.hichinaadminbackend.model.mongo.GuidebookIntroSlideImage;
+import com.hichina.admin.hichinaadminbackend.model.mongo.HomePostImage;
 import com.hichina.admin.hichinaadminbackend.model.mongo.HomeSlideImage;
 import com.hichina.admin.hichinaadminbackend.repository.BlogSlideImageRepository;
 import com.hichina.admin.hichinaadminbackend.repository.GuidebookIntroSlideImageRepository;
+import com.hichina.admin.hichinaadminbackend.repository.HomePostImageRepository;
 import com.hichina.admin.hichinaadminbackend.repository.HomeSlideImageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +26,23 @@ public class PageContentAdminController {
 
     @Autowired
     private BlogSlideImageRepository blogSlideImageRepository;
+
+    @Autowired
+    private HomePostImageRepository homePostImageRepository;
+
+    @PostMapping("/homepostimage")
+    public HichinaResponse setHomePostImage(@RequestBody HomePostImageRequest request){
+        HichinaResponse ret = new HichinaResponse();
+        homePostImageRepository.deleteAll();
+        HomePostImage homePostImage = new HomePostImage();
+        homePostImage.setPostImageUrl(request.getPostImageUrl());
+        homePostImage.setPostLink(request.getPostLink());
+        homePostImageRepository.insert(homePostImage);
+        ret.setOk(true);
+        ret.setMessage("Succeed update home post Image");
+
+        return ret;
+    }
 
     @PostMapping("/guidebookintrosliders")
     public HichinaResponse setGuidebookIntroSliders(@RequestBody List<GuidebookIntroSlideImage> sliders){

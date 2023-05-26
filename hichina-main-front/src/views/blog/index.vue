@@ -92,8 +92,6 @@
     params.query="";
     params.page = currentPage.value;
     AXIOS.get("/api/public/blog/list", {params: params}).then(function (response) {
-      console.log("blog list:")
-      console.log(response.data)
       bloglist.value = response.data.data.data
       totalBlogCount.value = response.data.data.total;
 

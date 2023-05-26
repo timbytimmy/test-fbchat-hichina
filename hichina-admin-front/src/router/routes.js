@@ -91,6 +91,16 @@ const routes = [
     ],
   },
   {
+    path: "/home-post",
+    component: () => import("layouts/MainLayout.vue"),
+    children: [
+      {
+        path: "",
+        component: () => import("pages/HomePostPage.vue"),
+      },
+    ],
+  },
+  {
     path: "/guidebook-intro",
     component: () => import("layouts/MainLayout.vue"),
     children: [

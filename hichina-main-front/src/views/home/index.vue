@@ -47,7 +47,7 @@
         <p class="info">What's New this Week?</p>
       </div>
 
-      <v-lazy-image src="https://photoprism.hichinatravel.com/api/v1/t/d76cacc7070ef1b96516c5f82cbb6f277df9fc4e/32mcf2k4/fit_2048" alt="" />
+      <v-lazy-image style="cursor: pointer;" @click="goToBlog(homePostLink)" :src="homePostImageUrl" alt="" />
     </div>
 
     <div class="item-title pd-20 flex-between mt-36">
@@ -106,6 +106,9 @@
   const globalUnifiedItemList = ref([])
   const unifiedItemList = ref([])
 
+  const homePostLink = ref("")
+  const homePostImageUrl = ref("")
+
   function loadMore(){
     currentPage.value+=1
     var maxPage = totalBlogCount.value/blogPageSizePage.value
@@ -132,8 +135,6 @@
     console.log("loading page: "+currentPage.value)
     params.page = currentPage.value;
     AXIOS.get("/api/public/blog/list", {params: params}).then(function (response) {
-      console.log("blog list:")
-      console.log(response.data)
       if(totalBlogCount.value==-1){
         totalBlogCount.value = response.data.data.total
       }
@@ -212,6 +213,17 @@
     })
   }
 
+  function loadHomePost(){
+    AXIOS.get('/api/public/pagecontent/homepost').then(response=>{
+      console.log("loaded home post: ")
+       console.log(response.data.data)
+       homePostLink.value = response.data.data.postLink;
+       homePostImageUrl.value = response.data.data.postImageUrl;
+    }).catch(e=>{
+      console.log(e)
+    })
+  }
+
   function loadRand6Destinations(){
     AXIOS.get('/api/public/destination/rand6').then(response=>{
       randDestinations.value = response.data.data
@@ -223,6 +235,8 @@
   onMounted(() => {
     // load slider
     loadHomeSliders()
+
+    loadHomePost()
 
     // load destination
     loadRand6Destinations()
