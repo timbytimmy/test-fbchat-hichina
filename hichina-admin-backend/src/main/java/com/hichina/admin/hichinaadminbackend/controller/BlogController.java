@@ -16,6 +16,20 @@ public class BlogController {
     @Autowired
     private BlogMapper blogMapper;
 
+    @PutMapping("/batchDraft")
+    @Transactional
+    public HichinaResponse draftBlogs(@RequestBody GeneralBatchDraftRequest req){
+        
+        blogMapper.batchDraft(req.getToDraft());
+
+        HichinaResponse ret = new HichinaResponse();
+        ret.setOk(true);
+        ret.setData(req.getToDraft());
+        ret.setMessage("成功批量存草稿博客");
+
+        return ret;
+    }
+
     @DeleteMapping("/batch")
     @Transactional
     public HichinaResponse deleteBlogs(@RequestBody GeneralBatchDeleteRequest req){

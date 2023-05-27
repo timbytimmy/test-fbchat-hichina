@@ -11,4 +11,5 @@ public class BlogListItemDTO {
     private String blogId;
     private String title;
     private Date createdTime;
+    private Boolean draft;
 }

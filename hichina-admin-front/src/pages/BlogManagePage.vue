@@ -1,5 +1,24 @@
 <template>
   <q-page padding>
+    <q-dialog v-model="confirmDraft" persistent>
+      <q-card>
+        <q-card-section class="row items-center">
+          <q-avatar icon="signal_wifi_off" color="primary" text-color="white" />
+          <span class="q-ml-sm">确定要将所选放入草稿吗？</span>
+        </q-card-section>
+
+        <q-card-actions align="right">
+          <q-btn flat label="取消" color="primary" v-close-popup />
+          <q-btn
+            flat
+            label="确认放入草稿"
+            color="primary"
+            @click="executeDraft"
+            v-close-popup
+          />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
     <q-dialog v-model="confirmDelete" persistent>
       <q-card>
         <q-card-section class="row items-center">
@@ -39,9 +58,16 @@
           <q-btn
             style="margin-right: 50px"
             round
-            color="primary"
+            color="red"
             @click="goDelete"
             icon="delete"
+          />
+          <q-btn
+            style="margin-right: 50px"
+            round
+            color="orange"
+            @click="goDraft"
+            icon="drafts"
           />
           <q-input
             borderless
@@ -97,6 +123,26 @@ export default {
     this.$refs.blogTableRef.requestServerInteraction();
   },
   methods: {
+    executeDraft() {
+      console.log(this.selected);
+
+      var listOfId2Draft = [];
+      for (var i in this.selected) {
+        listOfId2Draft.push(this.selected[i].blogId);
+      }
+
+      var params = {};
+      params.toDraft = listOfId2Draft;
+      api
+        .put("/api/v1/blog/batchDraft", params)
+        .then((response) => {
+          this.showNotifyMessageSucceed(response.data.message);
+          this.$refs.blogTableRef.requestServerInteraction();
+        })
+        .catch((e) => {
+          this.showNotifyMessageFail(e.toString());
+        });
+    },
     executeDelete() {
       console.log("to delete selected:");
       console.log(this.selected);
@@ -124,6 +170,13 @@ export default {
         return;
       }
       this.confirmDelete = true;
+    },
+    goDraft() {
+      if (this.selected.length < 1) {
+        this.showNotifyMessageFail("没有选中任何项");
+        return;
+      }
+      this.confirmDraft = true;
     },
     onRequest(props) {
       const { page, rowsPerPage } = props.pagination;
@@ -154,6 +207,7 @@ export default {
   },
   data() {
     return {
+      confirmDraft: false,
       confirmDelete: false,
       selected: [],
       loading: false,
@@ -191,6 +245,16 @@ export default {
           label: "创建时间",
           align: "left",
           field: "createdTime",
+          sortable: false,
+          style:
+            "max-width: 120px;min-width: 120px;text-overflow: ellipsis !important;white-space: nowrap !important;overflow: hidden !important;",
+        },
+        {
+          name: "draft",
+          required: true,
+          label: "是否草稿状态",
+          align: "left",
+          field: "draft",
           sortable: false,
           style:
             "max-width: 120px;min-width: 120px;text-overflow: ellipsis !important;white-space: nowrap !important;overflow: hidden !important;",
