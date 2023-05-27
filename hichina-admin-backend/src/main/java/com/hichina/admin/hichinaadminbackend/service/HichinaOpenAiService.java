@@ -8,12 +8,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-
 import java.net.InetSocketAddress;
 import java.net.Proxy;
 import java.util.List;
 
-import static java.time.Duration.ofSeconds;
 
 @Service
 public class HichinaOpenAiService {
@@ -31,12 +29,10 @@ public class HichinaOpenAiService {
         String[] args = tokenAndTimeout.split(",");
         // key trick: the timeout here is very important
         LOG.info(String.format("===init openai args: api key: %s, timeout in second: %s, local proxy port:%s",args[0],args[1],args[2]));
-        service = new OpenAiService(args[0], ofSeconds(Integer.parseInt(args[1])));
-
 
         if(!"-1".equals(args[2])){
             // use proxy
-            Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("127.0.0.1", Integer.parseInt(args[2])));
+            Proxy proxy = new Proxy(Proxy.Type.SOCKS, new InetSocketAddress("127.0.0.1", Integer.parseInt(args[2])));
             chatGPT = new ChatGPT(args[0],proxy);
         }else{
             chatGPT = new ChatGPT(args[0]);
