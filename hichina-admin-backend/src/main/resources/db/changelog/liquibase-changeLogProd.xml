@@ -497,4 +497,10 @@
                     type="INT"/>
         </addColumn>
     </changeSet>
+    <changeSet  author="liquibase-docs"  id="modifyDataType-destination_name_longer">
+        <modifyDataType
+                columnName="destination_name"
+                newDataType="VARCHAR(500)"
+                tableName="destination"/>
+    </changeSet>
 </databaseChangeLog>
