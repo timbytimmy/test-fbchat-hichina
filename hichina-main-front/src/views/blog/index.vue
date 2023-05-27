@@ -37,9 +37,9 @@
     </template>
   </div>
 
-  <div style="width: 100%;">
+  <!-- <div style="width: 100%;">
     <el-button type="primary" plain class="get-more mt-100" @click="loadMore" style="cursor: pointer;">Click to load more</el-button>
-  </div>
+  </div> -->
 
 </template>
 
@@ -51,6 +51,7 @@
   import ScaleProductItem from '../home/components/ScaleProductItem'
   import { useRouter } from 'vue-router';
   import {AXIOS} from '@/common/http-commons'
+  import { debounce } from 'lodash';
   const data = reactive({
     list: [
       {id: 0, title: 'Latest Blogs'},
@@ -177,9 +178,20 @@
     console.log("...loading video")
   }
 
+  function getNextBatch() {
+    window.onscroll = debounce(function() {
+      let bottomOfWindow = document.documentElement.scrollTop + window.innerHeight + 100 > document.documentElement.scrollHeight;
+     
+      if(bottomOfWindow){
+        loadMore()
+      }
+    }, 500)
+  }
+
   onMounted(() => {
     loadVideos();
     loadSliders();
+    getNextBatch();
   })
 
   const {list} = toRefs(data)

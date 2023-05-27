@@ -270,13 +270,6 @@
         loadMore()
       }
     }, 500)
-    // window.onscroll = () => {
-    //   let bottomOfWindow = document.documentElement.scrollTop + window.innerHeight > document.documentElement.scrollHeight;
-     
-    //   if(bottomOfWindow){
-    //     loadMore()
-    //   }
-    // }
   }
 
 </script>

@@ -62,20 +62,21 @@
     <div class="list flex-start mt-34">
       <other-product-item class="list-item" :product-summary="item" :show-icon="false" v-for="(item,index) in globalProductList" v-bind:key="index" :class="{'no-mar': (index+1) % 4 === 0}"/>
     </div>
-    <div style="width: 100%;">
+    <!-- <div style="width: 100%;">
       <el-button type="primary" plain class="get-more mt-100" @click="loadMore" style="cursor: pointer;">Click to load more</el-button>
-    </div>
+    </div> -->
   </div>
 </template>
 
 <script setup>
   import {AXIOS} from '@/common/http-commons'
   import OtherProductItem from '../home/components/OtherProductItem'
+  import { debounce } from 'lodash';
   const active = ref(0)
 
   const query=ref("")
 
-  const pageSize = ref(100)
+  const pageSize = ref(5)
   const currentPage = ref(1)
   const productList = ref([])
   const globalProductList = ref([])
@@ -86,17 +87,17 @@
   const HOLIDAYPACKAGETYPE="e05d07a3-a717-45b8-b009-47a349890e41";
   const CHINALOCALPACKAGETYPE="fd264cab-ee8d-4571-a477-03d7e7c090b3";
 
-  function debounce(cb, delay){
-      let timer
-      return function(...args){
-        if (timer){
-          clearTimeout(timer)
-        }
-        timer = setTimeout(() =>{
-          cb.call(this,...args)
-        },delay)
-      }
-  }
+  // function debounce(cb, delay){
+  //     let timer
+  //     return function(...args){
+  //       if (timer){
+  //         clearTimeout(timer)
+  //       }
+  //       timer = setTimeout(() =>{
+  //         cb.call(this,...args)
+  //       },delay)
+  //     }
+  // }
 
   const search = debounce(value =>{
     console.log(value)
@@ -131,6 +132,16 @@
     loadAllProducts()
   }
 
+  function getNextBatch() {
+    window.onscroll = debounce(function() {
+      let bottomOfWindow = document.documentElement.scrollTop + window.innerHeight + 100 > document.documentElement.scrollHeight;
+     
+      if(bottomOfWindow){
+        loadMore()
+      }
+    }, 500)
+  }
+
   function loadAllProducts(){
     var params = {}
     params.pageSize = pageSize.value;
@@ -151,6 +162,7 @@
   onMounted(() => {
     setActiveTab(0)
       // loadAllProducts()
+    getNextBatch()
   })
 
   const isFive = computed(() => {

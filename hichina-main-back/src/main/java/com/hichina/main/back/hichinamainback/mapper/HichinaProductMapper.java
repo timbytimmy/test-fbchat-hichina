@@ -31,7 +31,7 @@ public interface HichinaProductMapper {
 
     @Select("select count(*) from (select sku_group_id, sku_group_name, g.product_type_id , t.product_type_name, g.min_price, g.image_url  \n" +
             "from product_sku_group g inner join hichina_product_type t on t.product_type_id = g.product_type_id\n" +
-            "where g.enabled=1 and g.product_type_id=#{productTypeId} and sku_group_name like CONCAT('%',CONCAT(#{query},'%')))")
+            "where g.enabled=1 and g.product_type_id=#{productTypeId} and sku_group_name like CONCAT('%',CONCAT(#{query},'%'))) aa")
     Integer countAllProductListByQueryAndProductTypeId(String query, String productTypeId);
 
     @Select("select count(*) from (select sku_group_id, sku_group_name, g.product_type_id , t.product_type_name, g.min_price, g.image_url  \n" +
