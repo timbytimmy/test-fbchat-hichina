@@ -125,6 +125,22 @@
         </q-expansion-item>
         <q-expansion-item
           default-opened
+          icon="book"
+          label="博文管理"
+          v-if="getMyRole() == 'SUPERADMIN' || getMyRole() == 'EMPLOYEE'"
+          :content-inset-level="1"
+        >
+          <q-item clickable target="_blank" @click="goPage('/blogmanage')">
+            <q-item-section avatar>
+              <q-icon :name="'book'" />
+            </q-item-section>
+            <q-item-section>
+              <q-item-label>博客</q-item-label>
+            </q-item-section>
+          </q-item>
+        </q-expansion-item>
+        <q-expansion-item
+          default-opened
           icon="auto_stories"
           label="攻略书管理"
           v-if="getMyRole() == 'SUPERADMIN' || getMyRole() == 'EMPLOYEE'"

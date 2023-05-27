@@ -101,6 +101,16 @@ const routes = [
     ],
   },
   {
+    path: "/blogmanage",
+    component: () => import("layouts/MainLayout.vue"),
+    children: [
+      {
+        path: "",
+        component: () => import("pages/BlogManagePage.vue"),
+      },
+    ],
+  },
+  {
     path: "/guidebook-intro",
     component: () => import("layouts/MainLayout.vue"),
     children: [
