@@ -52,7 +52,7 @@ public class DestinationController {
             throw new RuntimeException("Nothing to update");
         }
         Destination toUpdate = destinations.get(0);
-        String generatedDescription = hichinaOpenAiService.generateShortDescription(toUpdate.getDestinationName());
+        String generatedDescription = hichinaOpenAiService.generateShortDescriptionV2(toUpdate.getDestinationName());
         toUpdate.setDescription(generatedDescription);
         destinationMapper.update(toUpdate);
         ret.setOk(true);
