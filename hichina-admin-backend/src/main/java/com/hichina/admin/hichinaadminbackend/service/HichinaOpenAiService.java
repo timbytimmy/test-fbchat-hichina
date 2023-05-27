@@ -3,6 +3,8 @@ package com.hichina.admin.hichinaadminbackend.service;
 import com.theokanning.openai.OpenAiService;
 import com.theokanning.openai.completion.CompletionChoice;
 import com.theokanning.openai.completion.CompletionRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -10,6 +12,8 @@ import java.util.List;
 
 @Service
 public class HichinaOpenAiService {
+    private static final Logger LOG = LoggerFactory.getLogger(HichinaOpenAiService.class);
+
     @Value("${chatgpt.model}")
     private String model;
 
@@ -19,6 +23,7 @@ public class HichinaOpenAiService {
     public void setNameStatic(String tokenAndTimeout){
         String[] args = tokenAndTimeout.split(",");
         // key trick: the timeout here is very important
+        LOG.info(String.format("===init openai args: %s, %s",args[0],args[1]));
         service = new OpenAiService(args[0], Integer.parseInt(args[1]));
     }
 
