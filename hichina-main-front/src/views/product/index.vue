@@ -76,7 +76,7 @@
 
   const query=ref("")
 
-  const pageSize = ref(5)
+  const pageSize = ref(100)
   const currentPage = ref(1)
   const productList = ref([])
   const globalProductList = ref([])

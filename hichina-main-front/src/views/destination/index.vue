@@ -1,14 +1,14 @@
 <template>
-  <div class="head">
+  <!-- <div class="head">
     <v-lazy-image
       src="https://photoprism.hichinatravel.com/api/v1/t/2bfc32550ae040956f7e861566d26c487c0143e7/32mcf2k4/fit_2048"
       alt=""
-    />
+    /> 
 
-    <!-- <div class="point-list">
+     <div class="point-list">
       此处由于xiaopiu问题，补上一个空的div
-    </div> -->
-  </div>
+    </div> 
+  </div> -->
 
   <p class="title mt-52">Seasonal Recommendation</p>
   <div
@@ -38,10 +38,10 @@
       />
     </div>
   </div>
-  <div style="width: 100%;">
+  <!-- <div style="width: 100%;">
     <el-button type="primary" plain class="get-more mt-100" @click="loadMore" style="cursor: pointer;">Click to load more</el-button>
-  </div>
-  <div class="wrapper">
+  </div> -->
+  <!-- <div class="wrapper">
     <p class="text mt-26">Province and city list</p>
 
     <ul class="area-list mt-26">
@@ -213,14 +213,16 @@
         Zunyi·遵义
       </li>
     </ul>
-  </div>
+  </div> -->
 </template>
 
 <script setup>
 import VLazyImage from "v-lazy-image";
 import { AXIOS } from "@/common/http-commons";
 import DestinationCard from "../../components/DestinationCard";
-const pageSize = ref(50);
+import { debounce } from 'lodash';
+
+const pageSize = ref(45);
 const currentPage = ref(1);
 const destinationCards = ref([]);
 const globalDestinationCards = ref([]);
@@ -231,17 +233,27 @@ function loadMore(){
   loadDestinations()
 }
 
-function debounce(cb, delay) {
-  let timer;
-  return function (...args) {
-    if (timer) {
-      clearTimeout(timer);
+function getNextBatch() {
+  window.onscroll = debounce(function() {
+    let bottomOfWindow = document.documentElement.scrollTop + window.innerHeight + 100 > document.documentElement.scrollHeight;
+     
+    if(bottomOfWindow){
+      loadMore()
     }
-    timer = setTimeout(() => {
-      cb.call(this, ...args);
-    }, delay);
-  };
+  }, 500)
 }
+
+// function debounce(cb, delay) {
+//   let timer;
+//   return function (...args) {
+//     if (timer) {
+//       clearTimeout(timer);
+//     }
+//     timer = setTimeout(() => {
+//       cb.call(this, ...args);
+//     }, delay);
+//   };
+// }
 
 const search = debounce((value) => {
   globalDestinationCards.value = []
@@ -269,6 +281,7 @@ function loadDestinations() {
 }
 onMounted(() => {
   loadDestinations();
+  getNextBatch();
 });
 </script>
 
