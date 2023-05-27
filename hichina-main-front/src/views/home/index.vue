@@ -471,7 +471,7 @@
     width: 100%;
     height: 100%;
 
-    background-color: rgba(0, 0, 0, 0.5); /* Adjust the overlay color as needed */
+    background-color: rgba(0, 0, 0, 0.1); /* Adjust the overlay color as needed */
     color: #fff; /* Adjust the text color as needed */
     padding: 50px; /* Adjust the padding as needed */
     box-sizing: border-box;
