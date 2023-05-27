@@ -264,7 +264,7 @@
 
   function getNextBatch() {
     window.onscroll = debounce(function() {
-      let bottomOfWindow = document.documentElement.scrollTop + window.innerHeight > document.documentElement.scrollHeight;
+      let bottomOfWindow = document.documentElement.scrollTop + window.innerHeight + 100 > document.documentElement.scrollHeight;
      
       if(bottomOfWindow){
         loadMore()
