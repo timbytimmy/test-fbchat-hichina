@@ -3,10 +3,14 @@
   <div class="swiper">
     <div class="swiper-wrapper">
       <swiper-container  autoplay-delay="2000" loop="true" css-mode="true" navigation="true" pagination="true" scrollbar="true">
-        <swiper-slide style="cursor: pointer" class="banner " v-for="(item,index) in sliders " :key="index" @click="goToBlog(item.linkToBlog)" >
-          <p class="title">{{ item.title }}</p>
-          <p class="info">{{ item.subTitle }}</p>
+        <swiper-slide class="banner " v-for="(item,index) in sliders " :key="index" @click="goToBlog(item.linkToBlog)" >
+          <!-- <p class="title">fffffffff</p>
+          <p class="info">{{ item.subTitle }}</p> -->
           <v-lazy-image :src="item.imageUrl" alt="" />
+          <div class="card-overlay">
+            <h3 class="card-title">{{ item.title }}</h3>
+            <p class="card-description">{{ item.subTitle }}</p>
+          </div>
         </swiper-slide>
       </swiper-container>
     </div>
@@ -209,6 +213,8 @@
   function loadHomeSliders(){
     AXIOS.get('/api/public/pagecontent/homesliders').then(response=>{
        sliders.value = response.data.data
+       console.log("sliders.value")
+       console.log(sliders.value)
        loadBlogList()
     }).catch(e=>{
       console.log(e)
@@ -295,6 +301,7 @@
 
 
   .banner {
+    cursor: pointer;
     position: relative;
     height: 547px;
     overflow: hidden;
@@ -303,8 +310,9 @@
       position: absolute;
       left: 107px;
       top: 175px;
-      color: rgba(255, 255, 255, 1);
-      font-size: 111px;
+      // color: rgba(255, 255, 255, 1);
+      color: red;
+      font-size: 24px;
       line-height: 150%;
       text-align: left;
     }
@@ -454,6 +462,28 @@
     color: rgba(42, 130, 228, 1);
     font-size: 14px;
     line-height: 150%;
+  }
+
+  .card-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    background-color: rgba(0, 0, 0, 0.5); /* Adjust the overlay color as needed */
+    color: #fff; /* Adjust the text color as needed */
+    padding: 50px; /* Adjust the padding as needed */
+    box-sizing: border-box;
+  }
+
+  .card-title {
+    font-size: 150px; /* Adjust the title font size as needed */
+    margin-bottom: 10px; /* Adjust the title margin as needed */
+  }
+
+  .card-description {
+    font-size: 24px; /* Adjust the description font size as needed */
   }
 
 </style>
