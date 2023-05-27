@@ -57,7 +57,7 @@
   </section>
 
   <div class="float pd-20 mt-28" v-loading="loading">
-    <template v-for="(item, index) in globalUnifiedItemList" v-bind:key="index">
+    <div v-for="(item, index) in globalUnifiedItemList" v-bind:key="index">
       <div v-if="item.type === 'video'" class="video-content">
         <video src="http://mp42.china.com.cn/video_tide/video/2023/3/13/20233131678679710349_367_2.mp4" controls></video>
         <p class="video-info">From Blog Title My 30 days of Going to Tibet</p>
@@ -65,12 +65,13 @@
       <blog-item class="product-item" :blog="item.value" v-if="item.type==='blog'" float/>
       <other-product-item :productSummary="item.value" :showIcon="true" class="other-item" v-if="item.type === 'product'" float/>
       <special-product-item class="scale-item" :special="item.value" v-if="item.type==='scaleblog'" float/>
-    </template>
+    </div>
   </div>
+  
 
-  <div style="width: 100%;">
+  <!-- <div style="width: 100%;">
     <el-button type="primary" plain class="get-more mt-100" @click="loadMore" style="cursor: pointer;">Click to load more</el-button>
-  </div>
+  </div> -->
 </div>
   
 </template>
@@ -83,6 +84,7 @@
   import OtherProductItem from './components/OtherProductItem'
   import SpecialProductItem from './components/SpecialProductItem'
   import { useRouter } from 'vue-router';
+  import { debounce } from 'lodash';
 
   const sliders = ref([])
   const randDestinations = ref([])
@@ -95,7 +97,7 @@
 
   const loading= ref(false)
 
-  const blogPageSizePage = ref(15)
+  const blogPageSizePage = ref(30)
   const productPageSizePage = ref(5)
 
   const bloglist =ref([])
@@ -240,6 +242,8 @@
 
     // load destination
     loadRand6Destinations()
+
+    getNextBatch()
   })
 
   const hoverFlag = ref(false)
@@ -256,6 +260,23 @@
 
   function goToBlog(url){
     window.location.href = url
+  }
+
+  function getNextBatch() {
+    window.onscroll = debounce(function() {
+      let bottomOfWindow = document.documentElement.scrollTop + window.innerHeight > document.documentElement.scrollHeight;
+     
+      if(bottomOfWindow){
+        loadMore()
+      }
+    }, 500)
+    // window.onscroll = () => {
+    //   let bottomOfWindow = document.documentElement.scrollTop + window.innerHeight > document.documentElement.scrollHeight;
+     
+    //   if(bottomOfWindow){
+    //     loadMore()
+    //   }
+    // }
   }
 
 </script>

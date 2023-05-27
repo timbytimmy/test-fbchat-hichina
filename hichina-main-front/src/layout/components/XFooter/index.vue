@@ -29,7 +29,7 @@
 <style scoped lang="scss">
   .footer {
     position: relative;
-    margin-top: 99px;
+    margin-top: 0px;
     width: 100%;
     height: 325px;
     color: rgba(80, 80, 80, 1);

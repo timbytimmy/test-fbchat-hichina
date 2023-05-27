@@ -13,7 +13,7 @@
 
 <style scoped lang="scss">
   .container {
-    padding-bottom: 325px;
+    padding-bottom: 125px;
     min-height: calc(100vh - 403px);
   }
 </style>
