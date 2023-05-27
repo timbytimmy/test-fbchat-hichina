@@ -71,8 +71,14 @@
             <q-btn
               color="purple"
               dense
-              label="更多详情"
+              label="编辑"
               @click="goDestinationDetail(props.row.destinationId)"
+            />
+            <q-btn
+              color="green"
+              dense
+              label="ChatGpt生成简述"
+              @click="chatGptGenerateDesc(props.row.destinationId)"
             />
           </q-td>
         </template>
@@ -97,6 +103,12 @@ export default {
     const $q = useQuasar();
 
     return {
+      showLoading() {
+        $q.loading.show();
+      },
+      hideLoading() {
+        $q.loading.hide();
+      },
       showNotifyMessageFail(msg) {
         $q.notify({
           message: msg,
@@ -187,6 +199,25 @@ export default {
     this.refreshTable();
   },
   methods: {
+    chatGptGenerateDesc(destId) {
+      this.showLoading();
+      api
+        .put("/api/v1/destination/openai-gen-desc/" + destId)
+        .then((response) => {
+          console.log("generating description with chatgpt");
+          console.log(response.data);
+          if (response.data.ok === true) {
+            this.showNotifyMessageSucceed(response.data.message);
+          } else {
+            this.showNotifyMessageFail(response.data.message);
+          }
+          this.hideLoading();
+        })
+        .catch((e) => {
+          this.showNotifyMessageFail(e.toString());
+          this.hideLoading();
+        });
+    },
     goDestinationDetail(val) {
       this.$refs.destinationCreateDialgRef.toggleEditMode(val);
     },

@@ -6,6 +6,7 @@ import com.hichina.admin.hichinaadminbackend.mapper.ProductSkuGroupDestinationMa
 import com.hichina.admin.hichinaadminbackend.model.DTO.*;
 import com.hichina.admin.hichinaadminbackend.model.Destination;
 import com.hichina.admin.hichinaadminbackend.model.ProductSkuGroupDestinationMapping;
+import com.hichina.admin.hichinaadminbackend.service.HichinaOpenAiService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +21,9 @@ public class DestinationController {
 
     @Autowired
     private DestinationMapper destinationMapper;
+
+    @Autowired
+    private HichinaOpenAiService hichinaOpenAiService;
 
     @Autowired
     private ProductSkuGroupDestinationMappingMapper productSkuGroupDestinationMappingMapper;
@@ -37,6 +41,25 @@ public class DestinationController {
         ret.setMessage("Succceed binding destination and product sku group");
 
         return ret;
+    }
+
+    @PutMapping("/openai-gen-desc/{destinationId}")
+    public HichinaResponse updateDestinationDecriptionWithOpenAI(@PathVariable("destinationId") String destinationId){
+        HichinaResponse ret = new HichinaResponse();
+
+        List<Destination> destinations = destinationMapper.findDestinationById(destinationId);
+        if(destinations.isEmpty()){
+            throw new RuntimeException("Nothing to update");
+        }
+        Destination toUpdate = destinations.get(0);
+        String generatedDescription = hichinaOpenAiService.generateShortDescription(toUpdate.getDestinationName());
+        toUpdate.setDescription(generatedDescription);
+        destinationMapper.update(toUpdate);
+        ret.setOk(true);
+        ret.setData(destinationId);
+        ret.setMessage("成功用openAi生成目的地描述");
+        return ret;
+
     }
 
     @DeleteMapping("/unbind-skugroup-destination")

@@ -46,6 +46,10 @@ dependencies {
 	implementation 'com.github.pagehelper:pagehelper-spring-boot-starter:1.4.6'
 	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-logging
 	implementation 'org.springframework.boot:spring-boot-starter-logging:3.0.3'
+	// https://mvnrepository.com/artifact/com.theokanning.openai-gpt3-java/api
+	implementation 'com.theokanning.openai-gpt3-java:api:0.12.0'
+	// https://mvnrepository.com/artifact/com.theokanning.openai-gpt3-java/client
+	implementation 'com.theokanning.openai-gpt3-java:client:0.12.0'
 }
 
 tasks.named('test') {

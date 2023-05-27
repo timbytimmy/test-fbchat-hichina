@@ -39,18 +39,18 @@ public interface DestinationMapper {
     @Select("select count(*) from destination where level=#{level}")
     Integer countByLevel(Integer level);
 
-    @Select("select * from destination where destination_name like CONCAT('%',CONCAT(#{query},'%')) or description like CONCAT('%',CONCAT(#{query},'%')) order by created_date desc")
+    @Select("select * from destination where destination_id like CONCAT('%',CONCAT(#{query},'%')) or destination_name like CONCAT('%',CONCAT(#{query},'%')) or description like CONCAT('%',CONCAT(#{query},'%')) order by created_date desc")
     List<Destination> findDestinationsByQuery(String query);
 
-    @Select("select destination_id, destination_name from destination where destination_name like CONCAT('%',CONCAT(#{query},'%')) order by created_date desc")
+    @Select("select destination_id, destination_name from destination where destination_id like CONCAT('%',CONCAT(#{query},'%')) or destination_name like CONCAT('%',CONCAT(#{query},'%')) order by created_date desc")
     List<DestinationShortDTO> findDestinationShortByQuery(String query);
 
-    @Select("select * from destination where destination_name like CONCAT('%',CONCAT(#{query},'%')) or description like CONCAT('%',CONCAT(#{query},'%')) and level=#{level} order by created_date desc")
+    @Select("select * from destination where destination_id like CONCAT('%',CONCAT(#{query},'%')) or destination_name like CONCAT('%',CONCAT(#{query},'%')) or description like CONCAT('%',CONCAT(#{query},'%')) and level=#{level} order by created_date desc")
     List<Destination> findDestinationsByQueryAndLevel(String query, Integer level);
 
-    @Select("select count(*) from destination where destination_name like CONCAT('%',CONCAT(#{query},'%')) or description like CONCAT('%',CONCAT(#{query},'%'))")
+    @Select("select count(*) from destination where destination_id like CONCAT('%',CONCAT(#{query},'%')) or destination_name like CONCAT('%',CONCAT(#{query},'%')) or description like CONCAT('%',CONCAT(#{query},'%'))")
     Integer countByQuery(String query);
 
-    @Select("select count(*) from destination where destination_name like CONCAT('%',CONCAT(#{query},'%')) or description like CONCAT('%',CONCAT(#{query},'%')) and leve=#{level}")
+    @Select("select count(*) from destination where destination_id like CONCAT('%',CONCAT(#{query},'%')) or destination_name like CONCAT('%',CONCAT(#{query},'%')) or description like CONCAT('%',CONCAT(#{query},'%')) and leve=#{level}")
     Integer countByQueryAndLevel(String query, Integer level);
 }
