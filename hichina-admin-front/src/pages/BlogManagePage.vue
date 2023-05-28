@@ -81,6 +81,17 @@
             </template>
           </q-input>
         </template>
+        <template v-slot:body-cell-blogId="props">
+          <q-td :props="props">
+            <q-btn
+              color="blue-grey-3"
+              style="cursor: pointer"
+              @click="copyText(props.row.blogId)"
+              type="button"
+              >复制ID</q-btn
+            >
+          </q-td>
+        </template>
       </q-table>
     </div>
   </q-page>
@@ -123,6 +134,29 @@ export default {
     this.$refs.blogTableRef.requestServerInteraction();
   },
   methods: {
+    copyText(text) {
+      const unsecuredCopyToClipboard = (text) => {
+        const textArea = document.createElement("textarea");
+        textArea.value = text;
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        try {
+          document.execCommand("copy");
+        } catch (err) {
+          console.error("Unable to copy to clipboard", err);
+        }
+        document.body.removeChild(textArea);
+      };
+
+      if (window.isSecureContext && navigator.clipboard) {
+        navigator.clipboard.writeText(text);
+        this.showNotifyMessageSucceed("成功复制" + text + "到剪贴板");
+      } else {
+        unsecuredCopyToClipboard(text);
+        this.showNotifyMessageSucceed("成功复制" + text + "到剪贴板");
+      }
+    },
     executeDraft() {
       console.log(this.selected);
 

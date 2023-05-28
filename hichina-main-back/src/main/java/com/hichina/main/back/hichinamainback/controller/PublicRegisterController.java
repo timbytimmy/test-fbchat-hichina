@@ -140,7 +140,7 @@ public class PublicRegisterController {
                 "              </tr>\n" +
                 "              <tr height=\"30\">\n" +
                 "                <td style=\"padding-left:55px;padding-right:55px;font-family:'微软雅黑','黑体',arial;font-size:14px;\">\n" +
-                "                  Please click link below(available for 5 minutes)，so that you can start using HiChinaTravel service：\n" +
+                "                  Please click link below(available for 10 minutes)，so that you can start using HiChinaTravel service：\n" +
                 "                </td>\n" +
                 "              </tr>\n" +
                 "              <tr height=\"60\">\n" +
