@@ -1,3 +1,20 @@
+:9055 {
+	root * /root/Downloads/prod/hichina2023/hichina-admin-front/dist/spa
+	try_files {path} /index.html
+	file_server
+	log {
+		output file ./hichinaadminfrontprod.log {
+			roll_size 1gb
+			roll_keep 5
+			roll_keep_for 720h
+		}
+	}
+	handle_errors {
+		rewrite * /404.html
+		file_server
+	}
+}
+
 :9051 {
 	root * /root/Downloads/hichina2023/hichina-admin-front/dist/spa
 	try_files {path} /index.html
@@ -21,6 +38,23 @@
 	file_server
 	log {
 		output file ./underconstruction.log {
+			roll_size 1gb
+			roll_keep 5
+			roll_keep_for 720h
+		}
+	}
+	handle_errors {
+		rewrite * /404.html
+		file_server
+	}
+}
+:9057 {
+	encode gzip
+	root * /root/Downloads/prod/hichina2023/hichina-main-front/dist
+	try_files {path} /index.html
+	file_server
+	log {
+		output file ./mainsiteqafrontprod.log {
 			roll_size 1gb
 			roll_keep 5
 			roll_keep_for 720h
