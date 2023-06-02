@@ -25,4 +25,13 @@ public class UserUtil {
             return users.get(0);
         }
     }
+
+    public static User getUserByEmail(UserMapper userMapper, String email){
+        List<User> users = userMapper.findByUsernameOrEmail(email);
+        if(users.isEmpty()){
+            return null;
+        }else{
+            return users.get(0);
+        }
+    }
 }

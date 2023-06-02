@@ -270,9 +270,7 @@ function loadDestinations() {
   (params.query = query.value),
     AXIOS.get("/api/public/destination/list", { params: params })
       .then(function (response) {
-        console.log("got list of destination:");
         destinationCards.value = response.data.data.data;
-        console.log(destinationCards.value);
         globalDestinationCards.value = globalDestinationCards.value.concat(destinationCards.value)
       })
       .catch(function (error) {
