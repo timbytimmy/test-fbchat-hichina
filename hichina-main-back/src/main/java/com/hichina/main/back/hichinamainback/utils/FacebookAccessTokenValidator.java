@@ -2,30 +2,16 @@ package com.hichina.main.back.hichinamainback.utils;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.hichina.main.back.hichinamainback.config.HichinaAutoLogAspect;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.protocol.HttpClientContext;
-import org.apache.http.config.Registry;
-import org.apache.http.config.RegistryBuilder;
-import org.apache.http.conn.socket.ConnectionSocketFactory;
-import org.apache.http.conn.socket.PlainConnectionSocketFactory;
-import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
-import org.apache.http.protocol.HttpContext;
-import org.apache.http.ssl.SSLContexts;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
+
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.InetSocketAddress;
-import java.net.Proxy;
-import java.net.Socket;
-import java.net.SocketAddress;
+import java.net.*;
 
 @Component
 public class FacebookAccessTokenValidator {
@@ -37,51 +23,38 @@ public class FacebookAccessTokenValidator {
     private Environment env;
 
     public boolean validateAccessToken(String accessToken) {
-//        System.setProperty("https.protocols", "TLSv1,TLSv1.1,TLSv1.2");
-        Registry<ConnectionSocketFactory> reg = RegistryBuilder.<ConnectionSocketFactory>create()
-                .register("http", new MyConnectionSocketFactory())
-                .register("https",new MySSLConnectionSocketFactory()).build();
-        PoolingHttpClientConnectionManager connManager = new PoolingHttpClientConnectionManager(reg);
-        CloseableHttpClient httpClient = HttpClients.custom()
-                .setConnectionManager(connManager)
-                .build();
-        LOG.info("===preparing socket proxy: "+env.getProperty("gfw.proxy.port"));
-        SocketAddress socketAddress = new InetSocketAddress("127.0.0.1", Integer.parseInt(env.getProperty("gfw.proxy.port")));
-        HttpClientContext context = HttpClientContext.create();
-        context.setAttribute("socks.address", socketAddress);
-        HttpGet httpGet = new HttpGet(GRAPH_API_URL + accessToken);
+        // Define the proxy server details
+        String proxyHost = "127.0.0.1";
+        int proxyPort = Integer.parseInt(env.getProperty("gfw.proxy.port"));
+        // Define the target URL
+        String targetUrl = "https://graph.facebook.com/v14.0/me?access_token="+accessToken;
+        // Create a Proxy object with the proxy server details
+        Proxy proxy = new Proxy(Proxy.Type.SOCKS, new InetSocketAddress(proxyHost, proxyPort));
+        // Create a URL object with the target URL
+        // Open a connection to the URL using the proxy
+        HttpURLConnection connection = null;
         try {
-            JsonObject response = httpClient.execute(httpGet, httpResponse -> {
-                JsonParser jsonParser = new JsonParser();
-                InputStreamReader reader = new InputStreamReader(httpResponse.getEntity().getContent());
-                return jsonParser.parse(reader).getAsJsonObject();
-            }, context);
-            return response.has("id");
-        } catch (Exception e) {
-            e.printStackTrace();
-            LOG.error("===Exception validating: "+ e.getMessage());
+            URL url = new URL(targetUrl);
+            System.setProperty("https.protocols", "TLSv1,TLSv1.1,TLSv1.2");
+            connection = (HttpURLConnection) url.openConnection(proxy);
+            connection.setRequestMethod("GET");
+            StringBuilder responseBuilder = new StringBuilder();
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    responseBuilder.append(line);
+                }
+            }
+            String response = responseBuilder.toString();
+            int responseCode = connection.getResponseCode();
+            System.out.println("Response Code: " + responseCode);
+            JsonParser jsonParser = new JsonParser();
+            JsonObject jsonResponse = jsonParser.parse(response).getAsJsonObject();
+            return jsonResponse.has("id");
+        } catch (IOException e) {
             return false;
-        }
-    }
-
-    static class MyConnectionSocketFactory extends PlainConnectionSocketFactory {
-        @Override
-        public Socket createSocket(final HttpContext context) throws IOException {
-            InetSocketAddress socksaddr = (InetSocketAddress) context.getAttribute("socks.address");
-            // socket代理
-            Proxy proxy = new Proxy(Proxy.Type.SOCKS, socksaddr);
-            return new Socket(proxy);
-        }
-    }
-    static class MySSLConnectionSocketFactory extends SSLConnectionSocketFactory {
-        public MySSLConnectionSocketFactory() {
-            super(SSLContexts.createDefault(), getDefaultHostnameVerifier());
-        }
-        @Override
-        public Socket createSocket(final HttpContext context) throws IOException {
-            InetSocketAddress socksaddr = (InetSocketAddress) context.getAttribute("socks.address");
-            Proxy proxy = new Proxy(Proxy.Type.SOCKS, socksaddr);
-            return new Socket(proxy);
+        } finally {
+            connection.disconnect();
         }
     }
 }
