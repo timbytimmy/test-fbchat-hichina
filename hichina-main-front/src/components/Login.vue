@@ -186,6 +186,7 @@ export default {
   },
   methods: {
     goToFacebookLogin() {
+      this.loading = true
       FB.login(function (response) {
         // handle the response
         if (response.authResponse) {
