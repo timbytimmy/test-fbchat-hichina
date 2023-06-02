@@ -1,5 +1,5 @@
 <template>
-  <el-form
+  <el-form v-loading="loading"
     class="login-form"
     :model="model"
     ref="form"
