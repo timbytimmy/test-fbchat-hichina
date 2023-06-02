@@ -30,6 +30,10 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         String name = authentication.getName();
         String password = authentication.getCredentials().toString();
 
+        if(name.contains(",")){
+            return null;
+        }
+
         try {
             List<User> users = userMapper.findByUsernameOrEmail(name);
             if(users.isEmpty()){
