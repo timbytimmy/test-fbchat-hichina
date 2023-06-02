@@ -19,13 +19,17 @@ public class FacebookAccessTokenValidator {
 
     private static final String GRAPH_API_URL = "https://graph.facebook.com/v14.0/me?access_token=";
 
+    static {
+        System.setProperty("https.protocols", "TLSv1,TLSv1.1,TLSv1.2");
+    }
+
     @Autowired
     private Environment env;
 
     public boolean validateAccessToken(String accessToken) {
         // Define the proxy server details
         String proxyHost = "127.0.0.1";
-        System.setProperty("https.protocols", "TLSv1,TLSv1.1,TLSv1.2");
+//        System.setProperty("https.protocols", "TLSv1,TLSv1.1,TLSv1.2");
 
         int proxyPort = Integer.parseInt(env.getProperty("gfw.proxy.port"));
         // Define the target URL
