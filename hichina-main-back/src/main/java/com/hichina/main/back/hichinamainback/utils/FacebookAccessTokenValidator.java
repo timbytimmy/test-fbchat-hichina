@@ -2,6 +2,7 @@ package com.hichina.main.back.hichinamainback.utils;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.hichina.main.back.hichinamainback.config.HichinaAutoLogAspect;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.config.Registry;
@@ -14,6 +15,8 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.protocol.HttpContext;
 import org.apache.http.ssl.SSLContexts;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
@@ -26,6 +29,8 @@ import java.net.SocketAddress;
 
 @Component
 public class FacebookAccessTokenValidator {
+    private static final Logger LOG = LoggerFactory.getLogger(FacebookAccessTokenValidator.class);
+
     private static final String GRAPH_API_URL = "https://graph.facebook.com/v14.0/me?access_token=";
 
     @Autowired
@@ -39,6 +44,7 @@ public class FacebookAccessTokenValidator {
         CloseableHttpClient httpClient = HttpClients.custom()
                 .setConnectionManager(connManager)
                 .build();
+        LOG.info("===preparing socket proxy: "+env.getProperty("gfw.proxy.port"));
         SocketAddress socketAddress = new InetSocketAddress("127.0.0.1", Integer.parseInt(env.getProperty("gfw.proxy.port")));
         HttpClientContext context = HttpClientContext.create();
         context.setAttribute("socks.address", socketAddress);
@@ -52,6 +58,7 @@ public class FacebookAccessTokenValidator {
             return response.has("id");
         } catch (Exception e) {
             e.printStackTrace();
+            LOG.error("===Exception validating: "+ e.getMessage());
             return false;
         }
     }
