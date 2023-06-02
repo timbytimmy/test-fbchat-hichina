@@ -25,6 +25,8 @@ public class FacebookAccessTokenValidator {
     public boolean validateAccessToken(String accessToken) {
         // Define the proxy server details
         String proxyHost = "127.0.0.1";
+        System.setProperty("https.protocols", "TLSv1,TLSv1.1,TLSv1.2");
+        
         int proxyPort = Integer.parseInt(env.getProperty("gfw.proxy.port"));
         // Define the target URL
         String targetUrl = "https://graph.facebook.com/v14.0/me?access_token="+accessToken;
@@ -35,7 +37,6 @@ public class FacebookAccessTokenValidator {
         HttpURLConnection connection = null;
         try {
             URL url = new URL(targetUrl);
-            System.setProperty("https.protocols", "TLSv1,TLSv1.1,TLSv1.2");
             connection = (HttpURLConnection) url.openConnection(proxy);
             connection.setRequestMethod("GET");
             StringBuilder responseBuilder = new StringBuilder();
@@ -52,6 +53,7 @@ public class FacebookAccessTokenValidator {
             JsonObject jsonResponse = jsonParser.parse(response).getAsJsonObject();
             return jsonResponse.has("id");
         } catch (IOException e) {
+            LOG.error("===exception in http request: "+e.getMessage());
             return false;
         } finally {
             connection.disconnect();
