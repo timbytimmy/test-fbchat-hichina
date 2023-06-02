@@ -37,6 +37,7 @@ public class FacebookAccessTokenValidator {
     private Environment env;
 
     public boolean validateAccessToken(String accessToken) {
+//        System.setProperty("https.protocols", "TLSv1,TLSv1.1,TLSv1.2");
         Registry<ConnectionSocketFactory> reg = RegistryBuilder.<ConnectionSocketFactory>create()
                 .register("http", new MyConnectionSocketFactory())
                 .register("https",new MySSLConnectionSocketFactory()).build();
