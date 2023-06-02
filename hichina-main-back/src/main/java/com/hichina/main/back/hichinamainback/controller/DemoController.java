@@ -44,7 +44,7 @@ public class DemoController {
         int proxyPort = 1083;
 
         // Define the target URL
-        String targetUrl = "https://graph.facebook.com/v14.0/me?access_token=EAAOIMZBkz7HoBAN30SFG9FsJ93fZADM2ZBfhHgZCme1siqOSpZCU1x25rKqhzMZBDFZA8ycGU93ff84uOz3PXz73mwc77M5r8UlUZCf6biJxWojCpCbHiifHuhwZCPaOoN2UCSb6VXz3D49oOa6IWfRPhZATQbwEjdeFPRaeZCmUOq7nRVcFmSibkFWH9tCmGhhj3ZBaMo8HoMZBXkEzEXK6Pz1ly";
+        String targetUrl = "https://graph.facebook.com/v14.0/me?access_token=EAAOIMZBkz7HoBABqSIYZClDV3rAVoK13PWFLhV3cxI3ZAamWQpSjdmv75QWWtLKv3g257ZAoMUetnIxZCNM6A6sP7qWP2khPv1SQOQqo6TjZBTIHZCkg7kkIeDMlcOKqaPSb35oF1S8prev7uRzLsCg8CYY8shdpMZBSFZAu0OekgC9rZCpQtW59YOB7LAjJkEcNsPMPyAuDF6uw6jrVmCNBeW";
 
         // Create a Proxy object with the proxy server details
         Proxy proxy = new Proxy(Proxy.Type.SOCKS, new InetSocketAddress(proxyHost, proxyPort));
