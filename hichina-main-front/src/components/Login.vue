@@ -209,7 +209,6 @@ export default {
               var data = {
                 username: response.id+","+response.name+","+response.email+","+response.picture.data.url,
                 password: accessToken,
-                timeout: 1000,
               };
 
               AXIOS.post("/login", Qs.stringify(data), {
@@ -257,7 +256,6 @@ export default {
       var data = {
         username: this.model.username,
         password: this.model.password,
-        timeout: 1000,
       };
 
       AXIOS.post("/login", Qs.stringify(data), {
