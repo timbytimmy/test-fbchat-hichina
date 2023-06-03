@@ -7,11 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
-
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.*;
 
 @Component
 public class FacebookAccessTokenValidator {
@@ -29,39 +25,20 @@ public class FacebookAccessTokenValidator {
     public boolean validateAccessToken(String accessToken) {
         // Define the proxy server details
         String proxyHost = "127.0.0.1";
-        System.setProperty("https.protocols", "TLSv1.2");
 
         int proxyPort = Integer.parseInt(env.getProperty("gfw.proxy.port"));
         // Define the target URL
         String targetUrl = GRAPH_API_URL+accessToken;
         // Create a Proxy object with the proxy server details
-        Proxy proxy = new Proxy(Proxy.Type.SOCKS, new InetSocketAddress(proxyHost, proxyPort));
-        // Create a URL object with the target URL
-        // Open a connection to the URL using the proxy
-        HttpURLConnection connection = null;
+
         try {
-            URL url = new URL(targetUrl);
-            System.setProperty("https.protocols", "TLSv1.2");
-            connection = (HttpURLConnection) url.openConnection(proxy);
-            connection.setRequestMethod("GET");
-            StringBuilder responseBuilder = new StringBuilder();
-            try (BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    responseBuilder.append(line);
-                }
-            }
-            String response = responseBuilder.toString();
-            int responseCode = connection.getResponseCode();
-            System.out.println("Response Code: " + responseCode);
+            String response = HttpUtils.sendToWithProxy(targetUrl, proxyHost, proxyPort);
             JsonParser jsonParser = new JsonParser();
             JsonObject jsonResponse = jsonParser.parse(response).getAsJsonObject();
             return jsonResponse.has("id");
         } catch (IOException e) {
-            LOG.error("===exception in http request: "+e.getMessage());
+            LOG.error("===didn't validate succeed"+e.getMessage());
             return false;
-        } finally {
-            connection.disconnect();
         }
     }
 }

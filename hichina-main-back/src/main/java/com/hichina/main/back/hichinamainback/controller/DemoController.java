@@ -2,18 +2,13 @@ package com.hichina.main.back.hichinamainback.controller;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.hichina.main.back.hichinamainback.utils.HttpUtils;
 import com.hichina.main.back.hichinamainback.utils.RedisUtil;
 import com.hichina.main.back.hichinamainback.utils.WxPayUtil;
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -44,38 +39,10 @@ public class DemoController {
         int proxyPort = 1083;
 
         // Define the target URL
-        String targetUrl = "https://graph.facebook.com/v14.0/me?access_token=EAAOIMZBkz7HoBABqSIYZClDV3rAVoK13PWFLhV3cxI3ZAamWQpSjdmv75QWWtLKv3g257ZAoMUetnIxZCNM6A6sP7qWP2khPv1SQOQqo6TjZBTIHZCkg7kkIeDMlcOKqaPSb35oF1S8prev7uRzLsCg8CYY8shdpMZBSFZAu0OekgC9rZCpQtW59YOB7LAjJkEcNsPMPyAuDF6uw6jrVmCNBeW";
+        String targetUrl = "https://graph.facebook.com/v14.0/me?access_token=EAAOIMZBkz7HoBAGkAuxiCExK50z7KBaIePyqmoHtzy49WWkO5y1GvkcvSNZBv7nEZAjNFv9DwZBecOEImptxcGmThXkShS8zL7j3tK0YkcHaTgTQeZBvXuRVTL35Juq5ZCD96pMOTIZBdADUtoPgMN14WgiipQnWk3saICPQKNmeUe9Xgj3VwB4YDwTarD6LWS81oX4n6ztbYqvLwmfSuqA";
 
-        // Create a Proxy object with the proxy server details
-        Proxy proxy = new Proxy(Proxy.Type.SOCKS, new InetSocketAddress(proxyHost, proxyPort));
 
-        // Create a URL object with the target URL
-        URL url = new URL(targetUrl);
-
-        // Open a connection to the URL using the proxy
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection(proxy);
-
-        connection.setRequestMethod("GET");
-        StringBuilder responseBuilder = new StringBuilder();
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                responseBuilder.append(line);
-            }
-        }
-        String response = responseBuilder.toString();
-        // Set the request method (GET, POST, etc.)
-//        connection.setRequestMethod("GET");
-
-        // Get the response code
-        int responseCode = connection.getResponseCode();
-        System.out.println("Response Code: " + responseCode);
-
-        // Read the response content
-        // ...
-
-        // Close the connection
-        connection.disconnect();
+        String response = HttpUtils.sendToWithProxy(targetUrl, proxyHost, proxyPort);
 
         JsonParser jsonParser = new JsonParser();
         JsonObject jsonResponse = jsonParser.parse(response).getAsJsonObject();
