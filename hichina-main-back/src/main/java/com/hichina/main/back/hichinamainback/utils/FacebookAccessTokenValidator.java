@@ -33,6 +33,7 @@ public class FacebookAccessTokenValidator {
 
         try {
             String response = HttpUtils.sendToWithProxy(targetUrl, proxyHost, proxyPort);
+            LOG.info("===response from httputil: "+response);
             JsonParser jsonParser = new JsonParser();
             JsonObject jsonResponse = jsonParser.parse(response).getAsJsonObject();
             return jsonResponse.has("id");
