@@ -45,6 +45,7 @@ public class HttpUtils {
             HttpGet request = new HttpGet(url);
 
 //            LOG.info("Executing request " + request + " to " + target + " via SOCKS proxy " + socksaddr);
+            System.setProperty("https.protocols", "TLSv1.2");
             CloseableHttpResponse response = httpclient.execute(request, context);
             try {
                 return new String(EntityUtils.toByteArray(response.getEntity()), "UTF-8");
