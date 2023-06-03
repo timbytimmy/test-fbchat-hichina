@@ -31,15 +31,15 @@ public class FacebookAccessTokenValidator {
         String targetUrl = GRAPH_API_URL+accessToken;
         // Create a Proxy object with the proxy server details
 
-        try {
-            String response = HttpUtils.sendToWithProxy(targetUrl, proxyHost, proxyPort);
-            LOG.info("===response from httputil: "+response);
-            JsonParser jsonParser = new JsonParser();
-            JsonObject jsonResponse = jsonParser.parse(response).getAsJsonObject();
-            return jsonResponse.has("id");
-        } catch (IOException e) {
-            LOG.error("===didn't validate succeed"+e.getMessage());
-            return false;
-        }
+//        try {
+            JsonObject response = HttpUtils.sendToWithProxyV2(targetUrl, proxyHost, proxyPort);
+//            LOG.info("===response from httputil: "+response);
+//            JsonParser jsonParser = new JsonParser();
+//            JsonObject jsonResponse = jsonParser.parse(response).getAsJsonObject();
+            return response!=null?response.has("id"):false;
+//        } catch (IOException e) {
+//            LOG.error("===didn't validate succeed"+e.getMessage());
+//            return false;
+//        }
     }
 }

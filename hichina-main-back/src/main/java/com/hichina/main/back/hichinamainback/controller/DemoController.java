@@ -39,16 +39,11 @@ public class DemoController {
         int proxyPort = 1083;
 
         // Define the target URL
-        String targetUrl = "https://graph.facebook.com/v14.0/me?access_token=EAAOIMZBkz7HoBAGkAuxiCExK50z7KBaIePyqmoHtzy49WWkO5y1GvkcvSNZBv7nEZAjNFv9DwZBecOEImptxcGmThXkShS8zL7j3tK0YkcHaTgTQeZBvXuRVTL35Juq5ZCD96pMOTIZBdADUtoPgMN14WgiipQnWk3saICPQKNmeUe9Xgj3VwB4YDwTarD6LWS81oX4n6ztbYqvLwmfSuqA";
+        String targetUrl = "https://graph.facebook.com/v14.0/me?access_token=EAAOIMZBkz7HoBAE2w4bLC6XxH2SM3tUNfHRRQSgxykJ2upVuCuZAJPEuZCAenKnACS8uDHGfbmnVNCEIuxqevR0f3LYI1p8x2MO3tYh5eypNdIXuGOjPdkuLfVP1JH8ZCTBDuoj7vadhZAjPNtEl8IjCz1dzZAakfsPpiZCFsfYy4yYQZAWmOfbIWjcPkhbXVmvQfoVwL5f9KUDbUdwKxaHN";
 
+        JsonObject response = HttpUtils.sendToWithProxyV2(targetUrl, proxyHost, proxyPort);
 
-        String response = HttpUtils.sendToWithProxy(targetUrl, proxyHost, proxyPort);
-
-        JsonParser jsonParser = new JsonParser();
-        JsonObject jsonResponse = jsonParser.parse(response).getAsJsonObject();
-
-        System.out.println(jsonResponse.has("id"));
-        return response;
+        return response.toString();
     }
 
 }

@@ -1,5 +1,11 @@
 package com.hichina.main.back.hichinamainback.utils;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import okhttp3.Call;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHost;
 import org.apache.http.client.ClientProtocolException;
@@ -25,6 +31,30 @@ import java.net.*;
 
 public class HttpUtils {
     private static final Logger LOG = LoggerFactory.getLogger(HttpUtils.class);
+
+    public static JsonObject sendToWithProxyV2(String url, String proxyHost, Integer proxyPort){
+        InetSocketAddress proxyAddr = new InetSocketAddress(proxyHost, proxyPort);
+        Proxy proxy = new Proxy(Proxy.Type.SOCKS, proxyAddr);
+
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+        OkHttpClient client = new OkHttpClient.Builder()
+                .proxy(proxy)
+                .build();
+
+        Call call = client.newCall(request);
+        try {
+            Response response = call.execute();
+            LOG.info("===ok client response code: "+response.code());
+            Gson gson = new Gson();
+            JsonObject entity = gson.fromJson(response.body().string(), JsonObject.class);
+            return entity;
+        } catch (IOException e) {
+            LOG.error("===okclient exception: "+ e.getMessage());
+            return null;
+        }
+    }
 
     public static String sendToWithProxy(String url, String proxyHost, Integer proxyPort) throws IOException {
         System.setProperty("https.protocols", "TLSv1.2");
