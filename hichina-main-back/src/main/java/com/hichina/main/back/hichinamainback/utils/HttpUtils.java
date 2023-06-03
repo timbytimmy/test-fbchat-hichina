@@ -27,7 +27,6 @@ public class HttpUtils {
     private static final Logger LOG = LoggerFactory.getLogger(HttpUtils.class);
 
     public static String sendToWithProxy(String url, String proxyHost, Integer proxyPort) throws IOException {
-        System.setProperty("jdk.tls.client.protocols", "TLSv1.2");
         System.setProperty("https.protocols", "TLSv1.2");
         Registry<ConnectionSocketFactory> reg = RegistryBuilder.<ConnectionSocketFactory>create()
                 .register("http", PlainConnectionSocketFactory.INSTANCE)
@@ -71,6 +70,7 @@ public class HttpUtils {
 
         @Override
         public Socket createSocket(final HttpContext context) throws IOException {
+            System.setProperty("https.protocols", "TLSv1.2");
             InetSocketAddress socksaddr = (InetSocketAddress) context.getAttribute("socks.address");
             Proxy proxy = new Proxy(Proxy.Type.SOCKS, socksaddr);
             return new Socket(proxy);
