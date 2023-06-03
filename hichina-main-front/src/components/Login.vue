@@ -250,7 +250,7 @@ export default {
             type: "error",
           });
         }
-      });
+      },{scope: 'email'});
     },
     async login() {
       this.loading = true;
