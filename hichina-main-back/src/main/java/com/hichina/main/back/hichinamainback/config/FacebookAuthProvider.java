@@ -30,6 +30,7 @@ public class FacebookAuthProvider implements AuthenticationProvider {
             user.setCreatedTime(new Date());
             user.setSalt(CustomAuthenticationProvider.generateSalt());
             user.setUsername(name);
+            user.setPassword("");
             user.setEmail(email);
             user.setFacebookId(fbId);
             user.setProfileImageUrl(profileImageUrl);
