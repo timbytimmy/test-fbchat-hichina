@@ -6,8 +6,6 @@ import okhttp3.Call;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpHost;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -70,11 +68,7 @@ public class HttpUtils {
             InetSocketAddress socksaddr = new InetSocketAddress(proxyHost, proxyPort);
             HttpClientContext context = HttpClientContext.create();
             context.setAttribute("socks.address", socksaddr);
-
-//            HttpHost target = new HttpHost(proxyHost, proxyPort, "http");
             HttpGet request = new HttpGet(url);
-
-//            LOG.info("Executing request " + request + " to " + target + " via SOCKS proxy " + socksaddr);
             System.setProperty("https.protocols", "TLSv1.2");
             CloseableHttpResponse response = httpclient.execute(request, context);
             try {
