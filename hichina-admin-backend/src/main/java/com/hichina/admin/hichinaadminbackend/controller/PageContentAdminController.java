@@ -30,6 +30,20 @@ public class PageContentAdminController {
     @Autowired
     private HomePostImageRepository homePostImageRepository;
 
+    @GetMapping("/homepostimage")
+    public HichinaResponse getHomePostImage(){
+        HichinaResponse ret = new HichinaResponse();
+        List<HomePostImage> sliders = homePostImageRepository.findAll();
+        if(sliders.isEmpty()){
+            ret.setData(null);
+        }else{
+            ret.setData(sliders.get(0));
+        }
+        ret.setOk(true);
+        ret.setMessage("成功获取blog首页所有Home post");
+        return ret;
+    }
+
     @PostMapping("/homepostimage")
     public HichinaResponse setHomePostImage(@RequestBody HomePostImageRequest request){
         HichinaResponse ret = new HichinaResponse();

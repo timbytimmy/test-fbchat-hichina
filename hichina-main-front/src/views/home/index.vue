@@ -42,7 +42,7 @@
     </div>
 
     <div class="pd-20">
-      <button class="help">Want a Tailor Made Trip to China? Click Here for help</button>
+      <button class="help" @click="goContact" >Want a Tailor Made Trip to China? Click Here for help</button>
     </div>
 
     <div class="banner-center pd-20 mt-20">
@@ -210,6 +210,10 @@
     router.push({ path: val })
   }
 
+  function goContact(){
+    router.push({path: "/contact"})
+  }
+
   function loadHomeSliders(){
     AXIOS.get('/api/public/pagecontent/homesliders').then(response=>{
        sliders.value = response.data.data
@@ -351,6 +355,7 @@
   }
 
   .help {
+    cursor: pointer;
     margin-top: 73px;
     width: 100%;
     height: 78px;
