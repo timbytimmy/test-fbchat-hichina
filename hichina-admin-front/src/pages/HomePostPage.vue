@@ -69,6 +69,24 @@ export default {
         });
     },
   },
+  mounted() {
+    api
+      .get("/api/v1/pagecontent/homepostimage")
+      .then((response) => {
+        console.log("got home post image");
+        console.log(response.data.data);
+
+        if (response.data.ok === true) {
+          this.postImageUrl = response.data.data.postImageUrl;
+          this.postLink = response.data.data.postLink;
+        } else {
+          this.showNotifyMessageFail(response.data.message);
+        }
+      })
+      .catch((e) => {
+        this.showNotifyMessageFail(e.toString());
+      });
+  },
   data() {
     return {
       postImageUrl: "",
