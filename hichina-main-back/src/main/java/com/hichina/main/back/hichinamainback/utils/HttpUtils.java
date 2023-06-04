@@ -30,6 +30,13 @@ import java.net.*;
 public class HttpUtils {
     private static final Logger LOG = LoggerFactory.getLogger(HttpUtils.class);
 
+    /**
+     * this is the tricky code with socks 5 proxy, can use as a template
+     * @param url
+     * @param proxyHost
+     * @param proxyPort
+     * @return
+     */
     public static JsonObject sendToWithProxyV2(String url, String proxyHost, Integer proxyPort){
         InetSocketAddress proxyAddr = new InetSocketAddress(proxyHost, proxyPort);
         Proxy proxy = new Proxy(Proxy.Type.SOCKS, proxyAddr);

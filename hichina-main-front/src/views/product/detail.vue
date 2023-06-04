@@ -67,7 +67,7 @@
         <p>CNY</p>
         <p v-if="productTypeId!=LOCALSPECIALTYPRODUCTTYPE && productTypeId!= HOTELPRODUCTTYPE" class="price flex-item">{{ adultCount*adultUnitPrice+childCount*childUnitPrice+infantCount*infantUnitPrice }}</p>
         <p v-if="productTypeId==LOCALSPECIALTYPRODUCTTYPE || productTypeId== HOTELPRODUCTTYPE" class="price flex-item">{{ generalPrice*buyCount }}</p>
-        <button class="pre-book">Pre-Book Consult</button>
+        <button class="pre-book" @click="goPage('/contact')">Pre-Book Consult</button>
         <button class="book" @click="collectConfigAndGoPage('book')">Book Now</button>
       </div>
     </div>
@@ -93,6 +93,7 @@
 </template>
 
 <script setup>
+  import router from "../../router";
   import VLazyImage from "v-lazy-image";
   import {AXIOS} from '@/common/http-commons'
   import { useRouter } from 'vue-router';
@@ -119,7 +120,9 @@
     return text;
   }
 
-  const router = useRouter()
+  function goPage(val){
+    router.push({path: val})
+  }
   const activeCategory = ref("")
   const adultCount = ref(1)
   const childCount = ref(0)
@@ -635,6 +638,7 @@
     }
 
     .pre-book {
+      cursor: pointer;
       width: 151px;
       height: 100%;
       color: rgba(250, 250, 250, 1);

@@ -47,6 +47,11 @@ const constantRoutes = [
         component: () => import('@/views/product')
       },
       {
+        path: '/contact',
+        name: 'contact',
+        component: () => import('@/views/contact')
+      },
+      {
         path: '/finishpay',
         name: 'finishpay',
         component: () => import('@/views/finishpay')
