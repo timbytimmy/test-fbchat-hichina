@@ -142,7 +142,19 @@
 
   }
 
+  function logView(){
+    AXIOS.post("/api/public/pagestats/view-destination/"+route.params.destinationId)
+    .then((res) => {
+      console.log("view cnt of this destination:")
+      console.log(res.data);
+    })
+    .catch((err) => {
+      console.error("Error:", err);
+    });
+  }
+
   onMounted(() => {
+    logView()
     console.log("on mounted destination detail page")
     loadDestinations()
     // get children destinations:

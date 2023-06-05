@@ -30,6 +30,20 @@ public class PageStatsController {
         return ret;
     }
 
+    @PostMapping("/view-destination/{destinationId}")
+    @EnableHichinaAutoLog(description = "logDestinationDetailView")
+    public HichinaResponse logDestinationView(@PathVariable("destinationId") String destination){
+        HichinaResponse ret = new HichinaResponse();
+
+        Long viewCnt = pageStatsService.LogPageObjectView(destination, Constants.DESTINATIONDETAILPAGE);
+
+        ret.setMessage("Update succeed incrementing view count for destination detail page");
+        ret.setOk(true);
+        ret.setData(viewCnt);
+
+        return ret;
+    }
+
     @PostMapping("/view-blog/{blogId}")
     @EnableHichinaAutoLog(description = "logProductView")
     public HichinaResponse logBlogView(@PathVariable("blogId") String blogId){
