@@ -19,7 +19,7 @@
         <el-icon size="24">
           <svg-icon icon-class="eye-open" color="#2a82e4" />
         </el-icon>
-        <span>110000</span>
+        <span>{{pageViewCnt}}</span>
       </p>
       <p class="flex-between">
         <span>Collect this</span>
@@ -68,6 +68,7 @@ const content = ref("");
 const createdTime = ref("");
 const authorInfo = ref({});
 const authorProfileImageUrl = ref("");
+const pageViewCnt = ref(0)
 
 const route = useRoute();
 
@@ -94,8 +95,6 @@ function getAuthorPrincipal() {
 function loadBlogDetail() {
   AXIOS.get("/api/public/blog/" + route.params.blogId)
     .then((response) => {
-      console.log("blog detail: ");
-      console.log(response.data.data);
       title.value = response.data.data.title;
       username.value = response.data.data.authorName;
       content.value = response.data.data.content;
@@ -107,8 +106,20 @@ function loadBlogDetail() {
     });
 }
 
+function logView(){
+  AXIOS.post("/api/public/pagestats/view-blog/"+route.params.blogId)
+  .then((res) => {
+    console.log("view cnt of this blog:")
+    console.log(res.data);
+    pageViewCnt.value = res.data.data
+  })
+  .catch((err) => {
+    console.error("Error:", err);
+  });
+}
+
 onMounted(() => {
-  console.log("on mounted");
+  logView()
   getAuthorPrincipal();
   loadBlogDetail();
 });

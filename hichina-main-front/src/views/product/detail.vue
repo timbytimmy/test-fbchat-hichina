@@ -230,14 +230,11 @@
   }
 
   function setPrice(sku){
-    console.log("sku in setPrice:")
-    console.log(sku)
     if(sku==null){
       if(productTypeId.value == LOCALSPECIALTYPRODUCTTYPE || productTypeId.value == HOTELPRODUCTTYPE){
         console.log("001")
         generalPrice.value = 0;
       }else{
-        console.log("002")
         adultUnitPrice.value = 0
         childUnitPrice.value = 0
         infantUnitPrice.value = 0
@@ -320,8 +317,6 @@
       var availableDates = extractAttributeValueFromProductPropertyBag(skusInGroup.skus[indexArray[i]],AVAILABLEDATEPROP);
       candidateAvailableDates = candidateAvailableDates + availableDates
     }
-    console.log("got all available date string concated: ")
-    console.log(candidateAvailableDates)
 
     var dateObjArray = multiDateString2DateObjectArray(candidateAvailableDates)
 
@@ -351,8 +346,6 @@
     }
     state.disabledDates.dates = segmentDisabledDates
 
-    console.log("before force rerender date picker")
-    console.log(state.disabledDates)
     forceRerender()
   }
   
@@ -464,14 +457,7 @@
 
   function processSkuGroups(inputArray){
     if(inputArray.length>0){
-      // productName same within all sku in group
       productName.value=inputArray[0]['hichinaProductBasicDTO']['productName'];
-      //at startup, use the first element's description, can be switched to other later when user clicks a different package category
-      //productDescription.value=inputArray[0].hichinaProductBasicDTO.productContent;
-      
-
-      console.log("here is the product description got:")
-      console.log(productDescription.value)
       productTypeId.value = inputArray[0]['hichinaProductBasicDTO']['productTypeId'];
       productTypeName.value = inputArray[0]['hichinaProductBasicDTO']['productTypeName'];
       if(productTypeId.value === "3a53caed-b788-4290-896d-7922532ad769"){
@@ -493,6 +479,17 @@
     }
   }
 
+  function logView(){
+    AXIOS.post("/api/public/pagestats/view-product/"+route.params.skuGroupId)
+    .then((res) => {
+      console.log("view cnt of this product:")
+      console.log(res.data);
+    })
+    .catch((err) => {
+      console.error("Error:", err);
+    });
+  }
+
   function loadSkusInGroup(){
     var params =  {}
     params.skuGroupId = route.params.skuGroupId
@@ -501,8 +498,6 @@
     })
     .then(function (response) {
        skusInGroup.skus = response.data.data
-       console.log("this is skusinGroup:")
-       console.log(skusInGroup.skus)
        processSkuGroups(skusInGroup.skus)
     })
     .catch(function (error) {
@@ -511,6 +506,7 @@
   }
 
   onMounted(() => {
+    logView()
     loadSkusInGroup()
   })
 </script>
