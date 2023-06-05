@@ -52,6 +52,7 @@
   import ProductItem from '../home/components/ProductItem'
   import OtherProductItem from '../home/components/OtherProductItem'
   import {AXIOS} from '@/common/http-commons'
+  import { useSeoMeta } from 'unhead'
   const description = ref("")
   const destinationProfileImage = ref("")
   const downloadUrl = ref("")
@@ -98,6 +99,15 @@
        console.log(destinationProfileImage.value)
        downloadUrl.value = response.data.data.downloadUrl;
        destinationName.value = response.data.data.destinationName;
+
+       useSeoMeta({
+        title: destinationName.value,
+        description: description.value,
+        ogDescription: description.value,
+        ogTitle: destinationName.value,
+        ogImage: 'https://www.hichinatravel.com/static/png/name-67280b81.png',
+        twitterCard: 'summary_large_image',
+      })
     }).catch(e=>{
       console.log("get destination detail err")
       console.log(e)

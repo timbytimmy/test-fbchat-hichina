@@ -21,9 +21,13 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import Datepicker from 'vuejs3-datepicker';
+import { createHead } from "unhead"
+const head = createHead();
+
 library.add(fas)
 const app = createApp(App)
 app.use(router)
+app.use(head)
 app.use(ElementPlus)
 app.use(elementIcons)
 app.use(vueCountryRegionSelect);

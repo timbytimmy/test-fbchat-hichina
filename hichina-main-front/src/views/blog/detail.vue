@@ -59,8 +59,10 @@ import VLazyImage from "v-lazy-image";
 import { useRouter } from "vue-router";
 import { useWindowScroll } from "@vueuse/core";
 import { AXIOS } from "@/common/http-commons";
+import { useSeoMeta } from 'unhead'
 const { y: scrollY } = useWindowScroll();
 console.log(scrollY.value);
+
 
 const title = ref("");
 const username = ref("");
@@ -69,6 +71,20 @@ const createdTime = ref("");
 const authorInfo = ref({});
 const authorProfileImageUrl = ref("");
 const pageViewCnt = ref(0)
+
+const siteData = reactive({
+  title: 'My Awesome Blog',
+  shortContent: 'Hichina Travel Blog'
+})
+
+// useHead({
+//   title: computed(()=>'fuck'),
+//   meta: [
+//     { hid: 'Description', name: 'Description', content: removeHtmlTag(content.value).substring(0,50)},
+//     { hid: 'Keywords', name: 'Keywords', content: title.value}
+//   ]
+// })
+
 
 const route = useRoute();
 
@@ -99,11 +115,34 @@ function loadBlogDetail() {
       username.value = response.data.data.authorName;
       content.value = response.data.data.content;
       createdTime.value = response.data.data.createdTime;
+
+      // set head meta for seo
+      // Set the title meta tag
+      siteData.title = title.value;
+      siteData.shortContent = removeHtmlTag(content.value).substring(0,50)
+
+
+      useSeoMeta({
+        title: siteData.title,
+        description: siteData.shortContent,
+        ogDescription: siteData.shortContent,
+        ogTitle: siteData.title,
+        ogImage: 'https://www.hichinatravel.com/static/png/name-67280b81.png',
+        twitterCard: 'summary_large_image',
+      })
     })
     .catch((e) => {
       console.log("get blog detail err");
       console.log(e);
     });
+
+}
+
+function removeHtmlTag(input){
+  var div = document.createElement("div");
+  div.innerHTML = input;
+  var text = div.textContent || div.innerText || "";
+  return text;
 }
 
 function logView(){

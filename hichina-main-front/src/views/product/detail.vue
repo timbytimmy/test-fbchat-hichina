@@ -97,6 +97,7 @@
   import VLazyImage from "v-lazy-image";
   import {AXIOS} from '@/common/http-commons'
   import { useRouter } from 'vue-router';
+  import { useSeoMeta } from 'unhead'
   const route = useRoute()
   const change = (obj)=>{
     console.log('obj',obj)
@@ -460,6 +461,16 @@
       productName.value=inputArray[0]['hichinaProductBasicDTO']['productName'];
       productTypeId.value = inputArray[0]['hichinaProductBasicDTO']['productTypeId'];
       productTypeName.value = inputArray[0]['hichinaProductBasicDTO']['productTypeName'];
+
+      useSeoMeta({
+        title: productName.value,
+        description: productName.value,
+        ogDescription: productName.value,
+        ogTitle: productName.value,
+        ogImage: 'https://www.hichinatravel.com/static/png/name-67280b81.png',
+        twitterCard: 'summary_large_image',
+      })
+
       if(productTypeId.value === "3a53caed-b788-4290-896d-7922532ad769"){
         // 跟团游，则按照跟团游的页面模板来设置各个参数
         setTourProductData(inputArray);

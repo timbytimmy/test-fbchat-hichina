@@ -200,6 +200,29 @@
   resolved "https://registry.npmmirror.com/@types/web-bluetooth/-/web-bluetooth-0.0.16.tgz#1d12873a8e49567371f2a75fe3e7f7edca6662d8"
   integrity sha512-oh8q2Zc32S6gd/j50GowEjKLoOVOwHP/bWVjKJInBwQqdOYMdPrf1oVlelTlyfFK3CKxL1uahMDAr+vy8T7yMQ==
 
+"@unhead/dom@1.1.27":
+  version "1.1.27"
+  resolved "https://registry.npmmirror.com/@unhead/dom/-/dom-1.1.27.tgz#bee76bb92f8957146d7f70d5f6ccc0ad4f33bf23"
+  integrity sha512-sUrzpKIVvFp8TFx1mgp5t0k5ts1+KmgjMgRRuvRTZMBMVeGQRLSuL3uo34iwuFmKxeI6BXT5lVBk5H02c1XdGg==
+  dependencies:
+    "@unhead/schema" "1.1.27"
+    "@unhead/shared" "1.1.27"
+
+"@unhead/schema@1.1.27":
+  version "1.1.27"
+  resolved "https://registry.npmmirror.com/@unhead/schema/-/schema-1.1.27.tgz#a676da8a4ceeca43c7620817253d7abcea7b5dc3"
+  integrity sha512-S+xhPoBxBXDrsW9ltcF9Cv3cntMbSx+dfSmE7RNyDhogqHd3+lDEV2dnQpHKWTGjujwwMCALV5SADunAn785bw==
+  dependencies:
+    hookable "^5.5.3"
+    zhead "^2.0.4"
+
+"@unhead/shared@1.1.27":
+  version "1.1.27"
+  resolved "https://registry.npmmirror.com/@unhead/shared/-/shared-1.1.27.tgz#fe4b141f821ba58a35163990fc65c991dd1419dc"
+  integrity sha512-ElZ5WcMnhVlg44OAwTNq4XBkNePcL/BHZk7WKFcqpeGTJrEvSfs40lGJoo4sMsgDAd+XQdhJDd4dJu48jQB3kg==
+  dependencies:
+    "@unhead/schema" "1.1.27"
+
 "@vitejs/plugin-vue@^3.1.0":
   version "3.2.0"
   resolved "https://registry.npmmirror.com/@vitejs/plugin-vue/-/plugin-vue-3.2.0.tgz#a1484089dd85d6528f435743f84cdd0d215bbb54"
@@ -1402,6 +1425,11 @@ he@^1.1.1:
   version "1.2.0"
   resolved "https://registry.npmmirror.com/he/-/he-1.2.0.tgz#84ae65fa7eafb165fddb61566ae14baf05664f0f"
   integrity sha512-F/1DnUGPopORZi0ni+CvrCgHQ5FyEAHRLSApuYWMmrbSwoN2Mn/7k+Gl38gJnR7yyDZk6WLXwiGod1JOWNDKGw==
+
+hookable@^5.5.3:
+  version "5.5.3"
+  resolved "https://registry.npmmirror.com/hookable/-/hookable-5.5.3.tgz#6cfc358984a1ef991e2518cb9ed4a778bbd3215d"
+  integrity sha512-Yc+BQe8SvoXH1643Qez1zqLRmbA5rCL+sSmk6TVos0LWVfNIB7PGncdlId77WzLGSIB5KaWgTaNTs2lNVEI6VQ==
 
 htmlparser2@^3.8.3:
   version "3.10.1"
@@ -2649,6 +2677,16 @@ ufo@^1.0.0, ufo@^1.1.1:
   resolved "https://registry.npmmirror.com/ufo/-/ufo-1.1.1.tgz#e70265e7152f3aba425bd013d150b2cdf4056d7c"
   integrity sha512-MvlCc4GHrmZdAllBc0iUDowff36Q9Ndw/UzqmEKyrfSzokTd9ZCy1i+IIk5hrYKkjoYVQyNbrw7/F8XJ2rEwTg==
 
+unhead@^1.1.27:
+  version "1.1.27"
+  resolved "https://registry.npmmirror.com/unhead/-/unhead-1.1.27.tgz#52558e0dc9b25e68ffc57196b03390f2e414900b"
+  integrity sha512-KnE4xeV/mZLxnXG1VAp1nsaO2vzMq9Ch5uN4Y2SJAG4fXLEBi/A8evr3Vd81c+oAwQZjDXKFW60HDCJCkwo/Cw==
+  dependencies:
+    "@unhead/dom" "1.1.27"
+    "@unhead/schema" "1.1.27"
+    "@unhead/shared" "1.1.27"
+    hookable "^5.5.3"
+
 unimport@^0.2.7:
   version "0.2.10"
   resolved "https://registry.npmmirror.com/unimport/-/unimport-0.2.10.tgz#9ac0d003db40c750a8ecc0fd4317dc5e0500795e"
@@ -2945,3 +2983,8 @@ yargs@^15.3.1:
     which-module "^2.0.0"
     y18n "^4.0.0"
     yargs-parser "^18.1.2"
+
+zhead@^2.0.4:
+  version "2.0.4"
+  resolved "https://registry.npmmirror.com/zhead/-/zhead-2.0.4.tgz#42509bbe85b790de9121301eac47d440d9073876"
+  integrity sha512-V4R94t3ifk9AURym6OskbKcnowzgp5Z88tkoL/NF67vyryNxC62u6mx5F1Ux4oh4+YN7FFmKYEyWy6m5kfPH6g==
