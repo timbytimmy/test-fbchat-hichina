@@ -1,18 +1,15 @@
 package com.hichina.main.back.hichinamainback.controller;
 
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.hichina.main.back.hichinamainback.utils.HttpUtils;
 import com.hichina.main.back.hichinamainback.utils.RedisUtil;
 import com.hichina.main.back.hichinamainback.utils.WxPayUtil;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.*;
 
 @RestController
 @RequestMapping("/api/public/demo")
@@ -23,14 +20,13 @@ public class DemoController {
     @Autowired
     private WxPayUtil wxPayUtil;
 
-
+    @Autowired
+    private HttpServletRequest request;
 
     @GetMapping("/showme")
     public String trySomething() throws IOException {
-//        String ve = wxPayUtil.test();
-
-//        return ve;
-        return "f*ck";
+        String clientIp = request.getRemoteAddr();
+        return clientIp;
     }
     @GetMapping("/setCookie")
     public String setCookie() throws IOException {

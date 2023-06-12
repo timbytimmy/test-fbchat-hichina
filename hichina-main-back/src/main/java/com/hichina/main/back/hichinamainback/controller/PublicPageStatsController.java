@@ -12,9 +12,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/public/pagestats")
-public class PageStatsController {
+public class PublicPageStatsController {
     @Autowired
     private PageStatsService pageStatsService;
+
+    @PostMapping("/pv/{pageName}")
+    public HichinaResponse pageViewTrack(@PathVariable String pageName){
+        HichinaResponse ret = new HichinaResponse();
+        return ret;
+    }
 
     @PostMapping("/view-product/{skuGroupId}")
     @EnableHichinaAutoLog(description = "logProductView")

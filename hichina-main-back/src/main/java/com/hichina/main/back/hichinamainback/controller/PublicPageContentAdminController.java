@@ -18,7 +18,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/public/pagecontent")
-public class PageContentAdminController {
+public class PublicPageContentAdminController {
     @Autowired
     private HomeSlideImageRepository homeSlideImageRepository;
 
