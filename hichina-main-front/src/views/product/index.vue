@@ -142,6 +142,17 @@
     }, 500)
   }
 
+  function logPv(){
+    AXIOS.post("/api/public/pagestats/pv/product")
+    .then((res) => {
+      console.log("log pv:")
+      console.log(res.data);
+    })
+    .catch((err) => {
+      console.error("Error:", err);
+    });
+  }
+
   function loadAllProducts(){
     var params = {}
     params.pageSize = pageSize.value;
@@ -160,6 +171,7 @@
   }
 
   onMounted(() => {
+    logPv()
     setActiveTab(0)
       // loadAllProducts()
     getNextBatch()

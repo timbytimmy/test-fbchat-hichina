@@ -490,6 +490,17 @@
     }
   }
 
+  function logPv(){
+    AXIOS.post("/api/public/pagestats/pv/product-detail-"+route.params.skuGroupId)
+    .then((res) => {
+      console.log("log pv:")
+      console.log(res.data);
+    })
+    .catch((err) => {
+      console.error("Error:", err);
+    });
+  }
+
   function logView(){
     AXIOS.post("/api/public/pagestats/view-product/"+route.params.skuGroupId)
     .then((res) => {
@@ -517,6 +528,7 @@
   }
 
   onMounted(() => {
+    logPv()
     logView()
     loadSkusInGroup()
   })

@@ -214,6 +214,17 @@
     router.push({path: "/contact"})
   }
 
+  function logPv(){
+    AXIOS.post("/api/public/pagestats/pv/home")
+    .then((res) => {
+      console.log("log pv:")
+      console.log(res.data);
+    })
+    .catch((err) => {
+      console.error("Error:", err);
+    });
+  }
+
   function loadHomeSliders(){
     AXIOS.get('/api/public/pagecontent/homesliders').then(response=>{
        sliders.value = response.data.data
@@ -227,8 +238,6 @@
 
   function loadHomePost(){
     AXIOS.get('/api/public/pagecontent/homepost').then(response=>{
-      console.log("loaded home post: ")
-       console.log(response.data.data)
        homePostLink.value = response.data.data.postLink;
        homePostImageUrl.value = response.data.data.postImageUrl;
     }).catch(e=>{
@@ -245,6 +254,7 @@
   }
 
   onMounted(() => {
+    logPv()
     // load slider
     loadHomeSliders()
 

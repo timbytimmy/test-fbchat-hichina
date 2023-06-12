@@ -19,6 +19,10 @@ public class PublicPageStatsController {
     @PostMapping("/pv/{pageName}")
     public HichinaResponse pageViewTrack(@PathVariable String pageName){
         HichinaResponse ret = new HichinaResponse();
+        String clientIp = pageStatsService.logPv(pageName);
+        ret.setData(clientIp);
+        ret.setOk(true);
+        ret.setMessage("Succeed log pv for : "+ pageName);
         return ret;
     }
 

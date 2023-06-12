@@ -277,7 +277,20 @@ function loadDestinations() {
         console.log(error);
       });
 }
+
+function logPv(){
+  AXIOS.post("/api/public/pagestats/pv/destination")
+  .then((res) => {
+    console.log("log pv:")
+    console.log(res.data);
+  })
+  .catch((err) => {
+    console.error("Error:", err);
+  });
+}
+
 onMounted(() => {
+  logPv()
   loadDestinations();
   getNextBatch();
 });

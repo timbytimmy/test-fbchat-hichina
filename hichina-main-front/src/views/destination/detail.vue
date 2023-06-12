@@ -153,7 +153,19 @@
     });
   }
 
+  function logPv(){
+    AXIOS.post("/api/public/pagestats/pv/destination-detail-"+route.params.destinationId)
+    .then((res) => {
+      console.log("log pv:")
+      console.log(res.data);
+    })
+    .catch((err) => {
+      console.error("Error:", err);
+    });
+  }
+
   onMounted(() => {
+    logPv()
     logView()
     console.log("on mounted destination detail page")
     loadDestinations()

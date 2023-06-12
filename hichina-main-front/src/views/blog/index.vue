@@ -187,8 +187,19 @@
       }
     }, 500)
   }
+  function logPv(){
+    AXIOS.post("/api/public/pagestats/pv/blog")
+    .then((res) => {
+      console.log("log pv:")
+      console.log(res.data);
+    })
+    .catch((err) => {
+      console.error("Error:", err);
+    });
+  }
 
   onMounted(() => {
+    logPv();
     loadVideos();
     loadSliders();
     getNextBatch();
