@@ -1,14 +1,9 @@
 <template>
   <div>
-    <Survey :survey="survey" />
   </div>
 </template>
 
 <script setup>
-  import 'survey-core/defaultV2.min.css';
-  import { Survey } from 'survey-vue-ui';
-  import { Model } from 'survey-core';
-
   const surveyJson = {
     elements: [{
       name: "FirstName",
@@ -23,7 +18,7 @@
   
   const survey = ref({})
   function loadSurvey() {
-     survey.value = new Model(surveyJson);
+
   }
 
 
