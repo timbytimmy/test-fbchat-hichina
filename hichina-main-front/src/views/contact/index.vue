@@ -8,7 +8,7 @@
     <div class="center-text subtitle">our co-workers will will response ASAP</div>
     <h2 class="center-text contact-us">Also, add us on Wechat/WhatsAPP!</h2>
     <div class="center-text">
-      <v-lazy-image src="https://photoprism.hichinatravel.com/api/v1/t/f62b1535514a0ce49a5ddb32d3d98edf93094606/32mcf2k4/fit_1280" alt="" />
+      <v-lazy-image src="https://photoprism.hichinatravel.com/api/v1/t/d68ee79239386b14869f548a423de4bcc7e3cb31/32mcf2k4/fit_2048" alt="" />
     </div>
 
   </div>

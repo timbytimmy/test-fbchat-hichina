@@ -121,6 +121,11 @@ const constantRoutes = [
         name: 'login',
         component: () => import('@/views/login')
       },
+      {
+        path: '/survey',
+        name: 'survey',
+        component: () => import('@/views/survey')
+      },
     ]
   }
 ]
