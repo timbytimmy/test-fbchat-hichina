@@ -71,6 +71,8 @@
       <special-product-item class="scale-item" :special="item.value" v-if="item.type==='scaleblog'" float/>
     </div>
   </div>
+
+  <p class="more mt-46">Scroll to load more</p>
   
 
   <!-- <div style="width: 100%;">
@@ -501,4 +503,12 @@
     font-size: 24px; /* Adjust the description font size as needed */
   }
 
+  .more {
+    color: rgba(80, 80, 80, 1);
+    background-color: rgb(243, 239, 239);
+    font-size: 14px;
+    text-align: center;
+    margin-bottom: 50px;
+    margin-top: -20px;
+  }
 </style>

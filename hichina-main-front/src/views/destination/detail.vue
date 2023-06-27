@@ -42,7 +42,7 @@
       <product-item :productSummary="[]" class="product-item" v-for="i in 4" :class="{'no-mar': i % 4 === 0}"/>
     </div> -->
 
-    <p class="more mt-46">鼠标滚动至此处自动加载</p>
+    <p class="more mt-46">Scroll to load more</p>
   </div>
 </template>
 
