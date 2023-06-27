@@ -28,8 +28,8 @@
     <el-form-item>
       <el-button type="primary" native-type="submit">Login</el-button>
     </el-form-item>
-    <div class="separate-line"></div>
-    <el-form-item>
+    <div v-if="false" class="separate-line"></div>
+    <el-form-item v-if="false">
       <el-button
         color="#626aef"
         @click="goToFacebookLogin"
