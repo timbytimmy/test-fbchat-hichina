@@ -26,6 +26,7 @@ public class MailUtil {
 
     public void sendMailV2(String to, String title, String content){
         try {
+            LOG.info(String.format("===sending reg validate email to %s with title %s ",to, title));
             AliyunMail.sendMail(env.getProperty("hichina.email.sender"), env.getProperty("hichina.email.authcode"), AliyunMail.ALIDM_SMTP_HOST, AliyunMail.ALIDM_SMTP_PORT, title,
                     content, to);
         } catch (Exception e) {
