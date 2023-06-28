@@ -40,15 +40,64 @@
       <router-view />
     </q-page-container>
 
-    <q-footer reveal bordered class="bg-grey-8 text-white">
-      <q-toolbar>
-        <q-toolbar-title>
-          <q-avatar>
-            <img src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg" />
-          </q-avatar>
-          <div>Title</div>
-        </q-toolbar-title>
-      </q-toolbar>
+    <q-footer reveal bordered class="bg-blue-6 text-white">
+      <div class="q-pa-md">
+        <div class="row justify-center">
+          <div class="col-12 col-md-3 text-white q-pl-xl q-pt-md">
+            <div class="text-subtitle1 text-weight-bold">
+              About HiChinaTravel
+            </div>
+            <div class="text-body2 hover_underline_white q-mt-md">About Us</div>
+            <div class="text-body2 hover_underline_white q-mt-md">
+              Contact us
+            </div>
+            <div class="text-body2 hover_underline_white q-mt-md">
+              Copyright
+            </div>
+            <div class="text-body2 hover_underline_white q-mt-md">Privacy</div>
+            <div class="text-body2 hover_underline_white q-mt-md">Join Us</div>
+          </div>
+          <div class="col-12 col-md-5 q-pt-xl">
+            <div
+              class="text-subtitle1 text-weight-medium hover_underline_white q-mt-md"
+            >
+              Facebook: HiChinaTravel
+            </div>
+            <div
+              class="text-subtitle1 text-weight-medium hover_underline_white q-mt-md"
+            >
+              WeChat Official Account: HCTravel
+            </div>
+            <div
+              class="text-subtitle1 text-weight-medium hover_underline_white q-mt-md"
+            >
+              Instagram: HiChinaTravel
+            </div>
+            <div
+              class="text-subtitle1 text-weight-medium hover_underline_white q-mt-md"
+            >
+              Support: customerservice@hichinatrip.com
+            </div>
+            <div
+              class="text-subtitle1 text-weight-medium hover_underline_white q-mt-md"
+            >
+              Address: 4,Zhixin Rd. Qixia District Nanjing City, Jiangsu
+              Province, P.R China
+            </div>
+          </div>
+          <div class="col-12 col-md-4"></div>
+        </div>
+        <div class="row justify-center q-mt-xl">
+          <div class="text-body2 text-weight-medium hover_underline_white">
+            COPYRIGHT © 2015-2023 WWW.HICHINATRAVEL.COM, ALL RIGHTS RESERVED
+          </div>
+        </div>
+        <div class="row justify-center">
+          <div class="text-body2 text-weight-medium hover_underline_white">
+            备案号： 京ICP备16006305号-1
+          </div>
+        </div>
+      </div>
     </q-footer>
   </q-layout>
 </template>
