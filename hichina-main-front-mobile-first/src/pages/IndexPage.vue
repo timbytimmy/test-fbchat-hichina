@@ -6,6 +6,7 @@
         v-model="slide"
         navigation
         infinite
+        height="540px"
         :autoplay="2000"
         arrows
         transition-prev="slide-right"
@@ -14,21 +15,19 @@
         @mouseleave="autoplay = true"
       >
         <q-carousel-slide
-          :name="1"
-          img-src="https://cdn.quasar.dev/img/mountains.jpg"
-        />
-        <q-carousel-slide
-          :name="2"
-          img-src="https://cdn.quasar.dev/img/parallax1.jpg"
-        />
-        <q-carousel-slide
-          :name="3"
-          img-src="https://cdn.quasar.dev/img/parallax2.jpg"
-        />
-        <q-carousel-slide
-          :name="4"
-          img-src="https://cdn.quasar.dev/img/quasar.jpg"
-        />
+          v-for="(item, index) in sliders"
+          :key="index"
+          :name="index"
+          :img-src="item.imageUrl"
+          class="cursor-pointer"
+          @click="goToBlog(item.linkToBlog)"
+        >
+          <div class="q-mt-xl q-ml-xl absolute-left custom-caption">
+            <div style="height: 100px"></div>
+            <div class="text-h1 text-weight-bolder">{{ item.title }}</div>
+            <div class="text-h5 text-weight-medium">{{ item.subTitle }}</div>
+          </div>
+        </q-carousel-slide>
       </q-carousel>
     </div>
   </q-page>
@@ -43,6 +42,10 @@ export default defineComponent({
   name: "IndexPage",
   setup() {
     const sliders = ref([]);
+
+    function goToBlog(url) {
+      window.location.href = url;
+    }
 
     function loadHomeSliders() {
       api
@@ -66,7 +69,15 @@ export default defineComponent({
     return {
       slide: ref(1),
       autoplay: ref(true),
+      sliders,
+      goToBlog,
     };
   },
 });
 </script>
+<style lang="sass" scoped>
+.custom-caption
+  text-align: left
+  padding: 12px
+  color: white
+</style>

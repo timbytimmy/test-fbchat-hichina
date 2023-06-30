@@ -6,7 +6,7 @@
           <div class="text-h6">产品-目的地关联</div>
         </q-card-section>
         <q-card-section>
-          <div class="text-h6">
+          <div class="text-h1">
             <q-input
               outlined
               @update:model-value="(val) => goFilterDestination(val)"
