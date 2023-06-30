@@ -15,7 +15,7 @@ public class CorsConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins(env.getProperty("frontend.url"), "https://www.facebook.com")
+                .allowedOrigins(env.getProperty("frontend.url"), env.getProperty("frontend.mobilefirst.url"), "https://www.facebook.com")
                 .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
                 .allowedHeaders("*")
                 .allowCredentials(true)
