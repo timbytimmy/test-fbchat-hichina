@@ -29,12 +29,99 @@
         <!-- this is the trick -->
         <q-space />
 
-        <div class="row">
-          <q-btn flat dense color="primary" label="Register" class="q-mr-lg" />
-          <q-btn flat dense color="primary" label="Login" class="q-mr-sm" />
+        <div class="row no-wrap">
+          <q-btn
+            flat
+            dense
+            no-wrap
+            no-caps
+            color="primary"
+            label="Register"
+            class="q-mr-lg"
+            v-if="$q.screen.gt.xs"
+          />
+          <q-btn
+            flat
+            dense
+            no-wrap
+            no-caps
+            color="primary"
+            label="Login"
+            class="q-mr-sm"
+            v-if="$q.screen.gt.xs"
+          />
+        </div>
+        <div>
+          <q-btn
+            v-if="!$q.screen.gt.xs"
+            flat
+            dense
+            round
+            @click="toggleLeftDrawer"
+            icon="menu"
+            aria-label="Menu"
+          />
         </div>
       </q-toolbar>
     </q-header>
+
+    <q-drawer v-model="leftDrawerOpen" bordered class="bg-grey-2" :width="240">
+      <q-scroll-area class="fit">
+        <q-list padding>
+          <q-item v-ripple clickable>
+            <q-item-section avatar>
+              <q-icon color="grey" name="fingerprint" />
+            </q-item-section>
+            <q-item-section>
+              <q-item-label>GuideBooks</q-item-label>
+            </q-item-section>
+          </q-item>
+          <q-item v-ripple clickable>
+            <q-item-section avatar>
+              <q-icon color="grey" name="fingerprint" />
+            </q-item-section>
+            <q-item-section>
+              <q-item-label>Blogs/Vlogs</q-item-label>
+            </q-item-section>
+          </q-item>
+          <q-item v-ripple clickable>
+            <q-item-section avatar>
+              <q-icon color="grey" name="fingerprint" />
+            </q-item-section>
+            <q-item-section>
+              <q-item-label>Travel Shop</q-item-label>
+            </q-item-section>
+          </q-item>
+          <q-item v-ripple clickable>
+            <q-item-section avatar>
+              <q-icon color="grey" name="fingerprint" />
+            </q-item-section>
+            <q-item-section>
+              <q-item-label>Destinations</q-item-label>
+            </q-item-section>
+          </q-item>
+
+          <q-separator class="q-my-md" />
+
+          <q-item v-ripple clickable>
+            <q-item-section avatar>
+              <q-icon color="grey" name="login" />
+            </q-item-section>
+            <q-item-section>
+              <q-item-label>Login</q-item-label>
+            </q-item-section>
+          </q-item>
+          <q-item v-ripple clickable>
+            <q-item-section avatar>
+              <q-icon color="grey" name="account_circle" />
+            </q-item-section>
+            <q-item-section>
+              <q-item-label>Register</q-item-label>
+            </q-item-section>
+          </q-item>
+        </q-list>
+      </q-scroll-area>
+    </q-drawer>
 
     <q-page-container>
       <router-view />
