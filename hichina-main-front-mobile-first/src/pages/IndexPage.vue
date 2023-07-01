@@ -45,7 +45,7 @@
       <div
         class="col-12 col-sm-4 col-md-2"
         v-for="item in randDestinations"
-        :key="item.destinationId"
+        :key="item.blogId"
       >
         <div class="q-pa-md">
           <q-card
@@ -105,6 +105,92 @@
         </div>
       </div>
     </div>
+    <div class="row">
+      <div class="text-h5 text-weight-bold text-blue-6 q-pl-md q-mt-md">
+        People are traveling!
+      </div>
+    </div>
+    <div class="row">
+      <div class="text-h3 text-weight-medium q-pl-md q-mt-md">
+        What's in China!
+      </div>
+    </div>
+    <div class="row justify-left">
+      <div
+        class="col-12 col-sm-4 col-md-2"
+        v-for="(item, index) in globalUnifiedItemList"
+        v-bind:key="index"
+      >
+        <div class="q-pa-md">
+          <q-card
+            v-if="item.type === 'blog'"
+            class="cursor-pointer"
+            flat
+            bordered
+          >
+            <q-img
+              :src="item.value.headImageUrl"
+              placeholder-src="https://photoprism.hichinatravel.com/api/v1/t/2bfc32550ae040956f7e861566d26c487c0143e7/32mcf2k4/tile_224"
+            />
+
+            <q-card-section>
+              <div class="text-overline text-orange-9">
+                {{ item.value.createdTime }}
+              </div>
+              <div class="text-h5 q-mt-sm q-mb-xs">{{ item.value.title }}</div>
+              <div class="text-caption text-grey">
+                {{ item.value.content }}
+              </div>
+            </q-card-section>
+
+            <q-slide-transition>
+              <div v-show="expanded">
+                <q-separator />
+                <q-card-section class="text-subitle2">
+                  {{ lorem }}
+                </q-card-section>
+              </div>
+            </q-slide-transition>
+          </q-card>
+          <q-card
+            v-if="item.type === 'product'"
+            class="cursor-pointer"
+            flat
+            bordered
+          >
+            <q-img
+              :src="item.value.imageUrl"
+              placeholder-src="https://photoprism.hichinatravel.com/api/v1/t/2bfc32550ae040956f7e861566d26c487c0143e7/32mcf2k4/tile_224"
+            />
+
+            <q-card-section>
+              <div class="text-subtitle1 text-pink">
+                Start from ￥{{ item.value.minPrice }}
+              </div>
+              <div class="text-h5 q-mt-sm q-mb-xs">
+                {{ item.value.skuGroupName }}
+              </div>
+            </q-card-section>
+
+            <q-slide-transition>
+              <div v-show="expanded">
+                <q-separator />
+                <q-card-section class="text-subitle2">
+                  {{ lorem }}
+                </q-card-section>
+              </div>
+            </q-slide-transition>
+          </q-card>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <p class="text-center" style="background-color: #9e9e9e">
+          Scroll to load more
+        </p>
+      </div>
+    </div>
   </q-page>
 </template>
 
@@ -112,6 +198,7 @@
 import { ref, onMounted } from "vue";
 import { defineComponent } from "vue";
 import { api } from "boot/axios";
+import { debounce } from "lodash";
 
 export default defineComponent({
   name: "IndexPage",
@@ -121,6 +208,18 @@ export default defineComponent({
     const hoverFlag = ref(false);
     const homePostLink = ref("");
     const homePostImageUrl = ref("");
+
+    const currentPage = ref(1);
+    const totalBlogCount = ref(-1);
+    const blogPageSize = ref(30);
+    const productPageSizePage = ref(5);
+    const loading = ref(false);
+
+    const bloglist = ref([]);
+    const productlist = ref([]);
+
+    const globalUnifiedItemList = ref([]);
+    const unifiedItemList = ref([]);
 
     function goToBlog(url) {
       window.location.href = url;
@@ -140,8 +239,6 @@ export default defineComponent({
         .get("/api/public/destination/rand6")
         .then((response) => {
           randDestinations.value = response.data.data;
-          console.log("randDestinations.value");
-          console.log(randDestinations.value);
         })
         .catch((e) => {
           alert(e);
@@ -153,7 +250,7 @@ export default defineComponent({
         .get("/api/public/pagecontent/homesliders")
         .then((response) => {
           sliders.value = response.data.data;
-          // loadBlogList();
+          loadBlogList();
         })
         .catch((e) => {
           console.log(e);
@@ -172,11 +269,95 @@ export default defineComponent({
         });
     }
 
+    function loadProducts() {
+      var params = {};
+      params.pageSize = productPageSizePage.value;
+      params.query = "";
+      params.page = currentPage.value;
+      params.productTypeId = "";
+      api
+        .get("/api/public/productsku/productskugrouplist", { params: params })
+        .then(function (response) {
+          productlist.value = response.data.data.data;
+
+          for (var index in productlist.value) {
+            var obj = {};
+            obj.type = "product";
+            obj.value = productlist.value[index];
+            unifiedItemList.value.push(obj);
+          }
+
+          globalUnifiedItemList.value = globalUnifiedItemList.value.concat(
+            unifiedItemList.value
+          );
+
+          loading.value = false;
+
+          console.log(
+            "globalUnifiedItemList.value with currentPage: " + currentPage.value
+          );
+          console.log(globalUnifiedItemList.value);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
+
+    function loadBlogList() {
+      loading.value = true;
+      unifiedItemList.value = [];
+      var params = {};
+      params.pageSize = blogPageSize.value;
+      params.query = "";
+      console.log("loading page: " + currentPage.value);
+      params.page = currentPage.value;
+      api
+        .get("/api/public/blog/list", { params: params })
+        .then(function (response) {
+          if (totalBlogCount.value == -1) {
+            totalBlogCount.value = response.data.data.total;
+          }
+          bloglist.value = response.data.data.data;
+          for (var index in bloglist.value) {
+            var obj = {};
+            // obj.type=parseInt(Math.random() * 2)==0?'blog':'scaleblog';
+            obj.type = "blog";
+            obj.value = bloglist.value[index];
+            unifiedItemList.value.push(obj);
+          }
+          loadProducts();
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
+
+    function loadMore() {
+      currentPage.value += 1;
+      var maxPage = totalBlogCount.value / blogPageSize.value;
+      if (currentPage.value <= maxPage + 1) {
+        loadBlogList();
+      }
+    }
+
+    function getNextBatch() {
+      window.onscroll = debounce(function () {
+        let bottomOfWindow =
+          document.documentElement.scrollTop + window.innerHeight + 100 >
+          document.documentElement.scrollHeight;
+
+        if (bottomOfWindow) {
+          loadMore();
+        }
+      }, 500);
+    }
+
     onMounted(() => {
       // we call "next()" method of our component
       loadHomeSliders();
       loadRand6Destinations();
       loadHomePost();
+      getNextBatch();
     });
 
     return {
@@ -187,6 +368,7 @@ export default defineComponent({
       hoverFlag,
       homePostLink,
       homePostImageUrl,
+      globalUnifiedItemList,
       goToBlog,
       normalizeMultiImageUrl,
     };
