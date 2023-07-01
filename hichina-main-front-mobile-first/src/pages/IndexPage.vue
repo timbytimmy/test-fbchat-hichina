@@ -30,6 +30,44 @@
         </q-carousel-slide>
       </q-carousel>
     </div>
+    <div class="q-pa-md" style="height: 40px"></div>
+    <div class="row">
+      <div class="col-6 col-md-2 text-blue-6 text-h4 q-pl-md">Destinations</div>
+      <div class="col-md-8"></div>
+      <div class="col-6 col-md-2 text-blue-6 cursor-pointer">
+        More destinations >
+      </div>
+    </div>
+    <div class="row">
+      <div class="text-h3 q-pl-md q-mt-md">Places to go in China!</div>
+    </div>
+    <div class="row justify-center">
+      <div
+        class="col-12 col-sm-4 col-md-2"
+        v-for="item in randDestinations"
+        :key="item.destinationId"
+      >
+        <div class="q-pa-md">
+          <q-card
+            class="rand-destination-card cursor-pointer"
+            @mouseenter="hoverFlag = true"
+            @mouseleave="hoverFlag = false"
+          >
+            <q-img
+              style="height: 100%"
+              :src="normalizeMultiImageUrl(item.destinationProfileImage)"
+            >
+              <div class="absolute-bottom" v-if="hoverFlag">
+                <div class="text-h6">{{ item.destinationName }}</div>
+                <div class="text-subtitle2">
+                  {{ item.parentDestinationName }}
+                </div>
+              </div>
+            </q-img>
+          </q-card>
+        </div>
+      </div>
+    </div>
   </q-page>
 </template>
 
@@ -42,9 +80,32 @@ export default defineComponent({
   name: "IndexPage",
   setup() {
     const sliders = ref([]);
-
+    const randDestinations = ref([]);
+    const hoverFlag = ref(false);
     function goToBlog(url) {
       window.location.href = url;
+    }
+
+    function normalizeMultiImageUrl(input) {
+      if (input.indexOf(",") > -1) {
+        return input.split(",").shift();
+      } else if (input.indexOf(";") > -1) {
+        return input.split(";").shift();
+      }
+      return input;
+    }
+
+    function loadRand6Destinations() {
+      api
+        .get("/api/public/destination/rand6")
+        .then((response) => {
+          randDestinations.value = response.data.data;
+          console.log("randDestinations.value");
+          console.log(randDestinations.value);
+        })
+        .catch((e) => {
+          alert(e);
+        });
     }
 
     function loadHomeSliders() {
@@ -52,8 +113,6 @@ export default defineComponent({
         .get("/api/public/pagecontent/homesliders")
         .then((response) => {
           sliders.value = response.data.data;
-          console.log("sliders.value");
-          console.log(sliders.value);
           // loadBlogList();
         })
         .catch((e) => {
@@ -64,13 +123,17 @@ export default defineComponent({
     onMounted(() => {
       // we call "next()" method of our component
       loadHomeSliders();
+      loadRand6Destinations();
     });
 
     return {
       slide: ref(1),
       autoplay: ref(true),
       sliders,
+      randDestinations,
+      hoverFlag,
       goToBlog,
+      normalizeMultiImageUrl,
     };
   },
 });
@@ -80,4 +143,9 @@ export default defineComponent({
   text-align: left
   padding: 12px
   color: white
+
+.rand-destination-card
+  width: 100%
+  max-width: 350px
+  height: 300px
 </style>
