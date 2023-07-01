@@ -85,7 +85,7 @@
         </div>
         <div
           v-if="!$q.screen.gt.xs"
-          class="cursor-pointer col-12 q-mt-md q-pt-md rounded-borders text-white text-weight-bold text-h6 text-no-wrap text-center"
+          class="cursor-pointer col-12 q-mt-md q-pt-md rounded-borders text-white text-weight-bold text-subtitle1 text-no-wrap text-center"
           style="
             background-color: #2a82e4;
             height: 80px;
@@ -94,6 +94,14 @@
           "
         >
           Want a Tailor Made Trip to China? Click Here for Help
+        </div>
+      </div>
+    </div>
+    <div class="q-pa-md">
+      <div class="row">
+        <div class="col-12 cursor-pointer" style="height: 160px">
+          <q-img :src="homePostImageUrl" fit="fill" style="height: 100%">
+          </q-img>
         </div>
       </div>
     </div>
@@ -111,6 +119,9 @@ export default defineComponent({
     const sliders = ref([]);
     const randDestinations = ref([]);
     const hoverFlag = ref(false);
+    const homePostLink = ref("");
+    const homePostImageUrl = ref("");
+
     function goToBlog(url) {
       window.location.href = url;
     }
@@ -149,10 +160,23 @@ export default defineComponent({
         });
     }
 
+    function loadHomePost() {
+      api
+        .get("/api/public/pagecontent/homepost")
+        .then((response) => {
+          homePostLink.value = response.data.data.postLink;
+          homePostImageUrl.value = response.data.data.postImageUrl;
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    }
+
     onMounted(() => {
       // we call "next()" method of our component
       loadHomeSliders();
       loadRand6Destinations();
+      loadHomePost();
     });
 
     return {
@@ -161,6 +185,8 @@ export default defineComponent({
       sliders,
       randDestinations,
       hoverFlag,
+      homePostLink,
+      homePostImageUrl,
       goToBlog,
       normalizeMultiImageUrl,
     };
