@@ -49,11 +49,12 @@
       >
         <div class="q-pa-md">
           <q-card
-            class="rand-destination-card cursor-pointer"
+            class="rand-destination-card cursor-pointer rounded-borders"
             @mouseenter="hoverFlag = true"
             @mouseleave="hoverFlag = false"
           >
             <q-img
+              class="rounded-borders"
               style="height: 100%"
               :src="normalizeMultiImageUrl(item.destinationProfileImage)"
             >
@@ -65,6 +66,34 @@
               </div>
             </q-img>
           </q-card>
+        </div>
+      </div>
+    </div>
+    <div class="q-pa-md">
+      <div class="row">
+        <div
+          v-if="$q.screen.gt.xs"
+          class="cursor-pointer col-12 q-mt-md q-pt-md rounded-borders text-white text-weight-bold text-h5 text-no-wrap text-center"
+          style="
+            background-color: #2a82e4;
+            height: 80px;
+            border-radius: 20px;
+            border: 1px solid black;
+          "
+        >
+          Want a Tailor Made Trip to China? Click Here for Help
+        </div>
+        <div
+          v-if="!$q.screen.gt.xs"
+          class="cursor-pointer col-12 q-mt-md q-pt-md rounded-borders text-white text-weight-bold text-h6 text-no-wrap text-center"
+          style="
+            background-color: #2a82e4;
+            height: 80px;
+            border-radius: 20px;
+            border: 1px solid black;
+          "
+        >
+          Want a Tailor Made Trip to China? Click Here for Help
         </div>
       </div>
     </div>
