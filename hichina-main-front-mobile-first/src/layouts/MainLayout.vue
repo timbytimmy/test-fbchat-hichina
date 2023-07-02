@@ -13,7 +13,14 @@
             </q-toolbar-title>
           </div>
         </div>
-        <q-btn flat no-caps no-wrap class="q-ml-xl" v-if="$q.screen.gt.xs">
+        <q-btn
+          @click="goPage('/guideintro')"
+          flat
+          no-caps
+          no-wrap
+          class="q-ml-xl"
+          v-if="$q.screen.gt.xs"
+        >
           GuideBooks
         </q-btn>
         <q-btn flat no-caps no-wrap class="q-ml-sm" v-if="$q.screen.gt.xs">

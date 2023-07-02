@@ -197,8 +197,8 @@
 <script>
 import { ref, onMounted } from "vue";
 import { defineComponent } from "vue";
-import { api } from "boot/axios";
 import { debounce } from "lodash";
+import { api } from "boot/axios";
 
 export default defineComponent({
   name: "IndexPage",
