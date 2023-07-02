@@ -25,6 +25,47 @@
         </q-carousel-slide>
       </q-carousel>
     </div>
+    <div class="row q-pa-md">
+      <div class="q-gutter-y-md col-6">
+        <q-tabs v-model="tab" dense align="justify" class="text-primary">
+          <q-tab :ripple="false" name="lg" label="Latest Guidebooks" />
+          <q-tab
+            :ripple="false"
+            name="mdg"
+            label="Most Downloaded Guidebooks"
+          />
+        </q-tabs>
+      </div>
+    </div>
+    <div class="row justify-left">
+      <div
+        class="col-12 col-sm-4 col-md-2"
+        v-for="item in guidebooks"
+        :key="item.guideId"
+      >
+        <div class="q-pa-md">
+          <q-card
+            @click="gotoUrl(item.downloadUrl)"
+            class="guidebook-card cursor-pointer rounded-borders"
+            @mouseenter="hoverFlag = true"
+            @mouseleave="hoverFlag = false"
+          >
+            <q-img
+              class="rounded-borders"
+              style="height: 100%"
+              :src="item.coverImageUrl"
+            >
+              <div class="absolute-bottom">
+                <div class="text-h6">{{ item.destinationName }}</div>
+                <div class="text-subtitle2">
+                  {{ item.parentDestinationName }}
+                </div>
+              </div>
+            </q-img>
+          </q-card>
+        </div>
+      </div>
+    </div>
   </q-page>
 </template>
 
@@ -35,6 +76,9 @@ export default {
   name: "GuideIntroPage",
   setup() {
     const sliders = ref([]);
+    const pageSize = ref(1000);
+    const currentPage = ref(1);
+    const guidebooks = ref([]);
 
     function loadSliders() {
       api
@@ -49,14 +93,44 @@ export default {
         });
     }
 
+    function loadGuideBooks() {
+      console.log("loading latest guidebooks...");
+      var params = {};
+      params.pageSize = pageSize.value;
+      params.page = currentPage.value;
+      (params.query = ""),
+        api
+          .get("/api/public/guidebook", {
+            params: params,
+          })
+          .then(function (response) {
+            console.log("all guidebook list:");
+            guidebooks.value = response.data.data.data;
+            console.log(guidebooks.value);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+    }
+
     onMounted(() => {
       loadSliders();
+      loadGuideBooks();
     });
 
     return {
+      hoverFlag: ref(true),
       slide: ref(1),
       sliders,
+      tab: ref("lg"),
+      guidebooks,
     };
   },
 };
 </script>
+<style lang="sass" scoped>
+.guidebook-card
+  width: 100%
+  max-width: 350px
+  height: 300px
+</style>

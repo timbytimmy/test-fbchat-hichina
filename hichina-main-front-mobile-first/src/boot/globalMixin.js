@@ -9,6 +9,9 @@ export default boot(async (/* { app, router, ... } */ { app }) => {
       testGlobalMethod() {
         console.log("from global mixin method");
       },
+      gotoUrl(url) {
+        window.location = url;
+      },
       goPage(val) {
         this.$router.push(val);
       },
