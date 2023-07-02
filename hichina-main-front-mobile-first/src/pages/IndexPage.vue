@@ -383,6 +383,6 @@ export default defineComponent({
 
 .rand-destination-card
   width: 100%
-  max-width: 350px
+  max-width: 550px
   height: 300px
 </style>

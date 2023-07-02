@@ -26,7 +26,7 @@
       </q-carousel>
     </div>
     <div class="row q-pa-md">
-      <div class="q-gutter-y-md col-6">
+      <div class="q-gutter-y-md col-12 col-md-6">
         <q-tabs v-model="tab" dense align="justify" class="text-primary">
           <q-tab :ripple="false" name="lg" label="Latest Guidebooks" />
           <q-tab
@@ -131,6 +131,6 @@ export default {
 <style lang="sass" scoped>
 .guidebook-card
   width: 100%
-  max-width: 350px
+  max-width: 550px
   height: 300px
 </style>
