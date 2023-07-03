@@ -20,7 +20,7 @@
           :name="index"
           :img-src="item.imageUrl"
           class="cursor-pointer"
-          @click="goToBlog(item.linkToBlog)"
+          @click="gotoUrl(item.linkToBlog)"
         >
           <div class="q-mt-xl q-ml-xl absolute-left custom-caption">
             <div style="height: 100px"></div>
@@ -186,7 +186,7 @@
     </div>
     <div class="row">
       <div class="col-12">
-        <p class="text-center" style="background-color: #9e9e9e">
+        <p class="text-center" style="background-color: #b4b4b4">
           Scroll to load more
         </p>
       </div>
@@ -221,9 +221,9 @@ export default defineComponent({
     const globalUnifiedItemList = ref([]);
     const unifiedItemList = ref([]);
 
-    function goToBlog(url) {
-      window.location.href = url;
-    }
+    // function goToBlog(url) {
+    //   window.location.href = url;
+    // }
 
     function normalizeMultiImageUrl(input) {
       if (input.indexOf(",") > -1) {
@@ -369,7 +369,6 @@ export default defineComponent({
       homePostLink,
       homePostImageUrl,
       globalUnifiedItemList,
-      goToBlog,
       normalizeMultiImageUrl,
     };
   },

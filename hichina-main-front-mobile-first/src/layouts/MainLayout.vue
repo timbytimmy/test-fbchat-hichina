@@ -6,7 +6,7 @@
           <div class="col-sm-12 col-xs-12 q-ml-xl q-mr-lg">
             <q-toolbar-title>
               <img
-                @click="$router.push('/home')"
+                @click="$router.push('/')"
                 class="cursor-pointer float-left"
                 src="~/assets/hichinalogo.png"
               />
@@ -23,7 +23,14 @@
         >
           GuideBooks
         </q-btn>
-        <q-btn flat no-caps no-wrap class="q-ml-sm" v-if="$q.screen.gt.xs">
+        <q-btn
+          @click="goPage('/blog')"
+          flat
+          no-caps
+          no-wrap
+          class="q-ml-sm"
+          v-if="$q.screen.gt.xs"
+        >
           Blogs/Vlogs
         </q-btn>
         <q-btn flat no-caps no-wrap class="q-ml-sm" v-if="$q.screen.gt.xs">
