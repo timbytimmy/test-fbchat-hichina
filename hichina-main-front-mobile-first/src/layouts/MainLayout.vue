@@ -33,7 +33,14 @@
         >
           Blogs/Vlogs
         </q-btn>
-        <q-btn flat no-caps no-wrap class="q-ml-sm" v-if="$q.screen.gt.xs">
+        <q-btn
+          @click="goPage('/product')"
+          flat
+          no-caps
+          no-wrap
+          class="q-ml-sm"
+          v-if="$q.screen.gt.xs"
+        >
           Travel Shop
         </q-btn>
         <q-btn flat no-caps no-wrap class="q-ml-sm" v-if="$q.screen.gt.xs">

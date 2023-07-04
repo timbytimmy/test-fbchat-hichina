@@ -142,15 +142,6 @@
                 {{ item.value.content }}
               </div>
             </q-card-section>
-
-            <q-slide-transition>
-              <div v-show="expanded">
-                <q-separator />
-                <q-card-section class="text-subitle2">
-                  {{ lorem }}
-                </q-card-section>
-              </div>
-            </q-slide-transition>
           </q-card>
           <q-card
             v-if="item.type === 'product'"
