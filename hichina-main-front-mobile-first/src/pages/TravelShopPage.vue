@@ -117,6 +117,8 @@ export default {
       api
         .get("/api/public/productsku/productskugrouplist", { params: params })
         .then(function (response) {
+          console.log("response.data.data");
+          console.log(response.data.data);
           productList.value = response.data.data.data;
           if (totalProductCount.value == -1) {
             totalProductCount.value = response.data.data.total;
@@ -154,6 +156,7 @@ export default {
     }
 
     function loadMore() {
+      currentPage.value += 1;
       var maxPage = totalProductCount.value / pageSize.value;
       if (currentPage.value <= maxPage + 1) {
         loadAllProducts();

@@ -9,6 +9,14 @@ export default boot(async (/* { app, router, ... } */ { app }) => {
       testGlobalMethod() {
         console.log("from global mixin method");
       },
+      normalizeMultiImageUrl(input) {
+        if (input.indexOf(",") > -1) {
+          return input.split(",").shift();
+        } else if (input.indexOf(";") > -1) {
+          return input.split(";").shift();
+        }
+        return input;
+      },
       gotoUrl(url) {
         window.location = url;
       },

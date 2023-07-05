@@ -43,7 +43,14 @@
         >
           Travel Shop
         </q-btn>
-        <q-btn flat no-caps no-wrap class="q-ml-sm" v-if="$q.screen.gt.xs">
+        <q-btn
+          @click="goPage('/destination')"
+          flat
+          no-caps
+          no-wrap
+          class="q-ml-sm"
+          v-if="$q.screen.gt.xs"
+        >
           Destinations
         </q-btn>
 

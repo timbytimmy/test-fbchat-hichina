@@ -216,14 +216,14 @@ export default defineComponent({
     //   window.location.href = url;
     // }
 
-    function normalizeMultiImageUrl(input) {
-      if (input.indexOf(",") > -1) {
-        return input.split(",").shift();
-      } else if (input.indexOf(";") > -1) {
-        return input.split(";").shift();
-      }
-      return input;
-    }
+    // function normalizeMultiImageUrl(input) {
+    //   if (input.indexOf(",") > -1) {
+    //     return input.split(",").shift();
+    //   } else if (input.indexOf(";") > -1) {
+    //     return input.split(";").shift();
+    //   }
+    //   return input;
+    // }
 
     function loadRand6Destinations() {
       api

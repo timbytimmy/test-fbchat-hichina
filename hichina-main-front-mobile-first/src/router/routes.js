@@ -23,6 +23,13 @@ const routes = [
       { path: "", component: () => import("pages/TravelShopPage.vue") },
     ],
   },
+  {
+    path: "/destination",
+    component: () => import("layouts/MainLayout.vue"),
+    children: [
+      { path: "", component: () => import("pages/DestinationPage.vue") },
+    ],
+  },
 
   // Always leave this as last one,
   // but you can also remove it
