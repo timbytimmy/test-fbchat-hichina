@@ -69,6 +69,7 @@
             v-if="$q.screen.gt.xs"
           />
           <q-btn
+            @click="goPage('/auth/login')"
             flat
             dense
             no-wrap
