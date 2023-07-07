@@ -152,12 +152,16 @@
   const totalPrice = ref(0)
 
   const TYPEOFPACKAGEPROP="11cd8b32-c4f6-47db-8b8a-486c992bf43b"
-  const LOCALSPECIALTYPRODUCTTYPE = "fd264cab-ee8d-4571-a477-03d7e7c090b3";
-  const HOTELPRODUCTTYPE="a9f5adbe-c09b-49bc-a614-8a1c5d5e5337";
-  const MAXNUM = "720f4f2e-e114-4003-9806-bc56a9366278";
+  const LOCALSPECIALTYPRODUCTTYPE = "fd264cab-ee8d-4571-a477-03d7e7c090b3"
+  const HOTELPRODUCTTYPE="a9f5adbe-c09b-49bc-a614-8a1c5d5e5337"
+  const MAXNUM = "720f4f2e-e114-4003-9806-bc56a9366278"
   const PRODUCTIMAGEURLPROP = "2dea54f4-9b9c-413a-8b3a-0caf273283d2"
   const DAYSPROP = "8cc865ff-b30f-4f00-b426-9e64418e5100"
   const AVAILABLEDATEPROP = "f0b807e5-d1a6-4454-a400-7905a4fea492"
+  const GENERALPRICE="e16df480-b17d-4442-91c2-d6c30d0d7ab0"
+  const ADULTPRICEPROP="e228b843-e054-41f8-91dd-19663460df54"
+  const CHILDPRICEPROP="c4c845a7-4bef-46d8-a5ad-d72a5464e8b1"
+  const INFANTPRICEPROP="448406cb-b68f-439e-9da8-148d78ae8404"
 
   const forceRerender = async () => {
     // Remove MyComponent from the DOM
@@ -243,12 +247,12 @@
     }else{
       if(productTypeId.value == LOCALSPECIALTYPRODUCTTYPE || productTypeId.value == HOTELPRODUCTTYPE){
         console.log("003")
-        generalPrice.value = extractAttributeValueFromProductPropertyBag(sku,"e16df480-b17d-4442-91c2-d6c30d0d7ab0")
+        generalPrice.value = extractAttributeValueFromProductPropertyBag(sku,GENERALPRICE)
       }else{
         console.log("004")
-        adultUnitPrice.value = extractAttributeValueFromProductPropertyBag(sku, "e228b843-e054-41f8-91dd-19663460df54")
-        childUnitPrice.value = extractAttributeValueFromProductPropertyBag(sku, "c4c845a7-4bef-46d8-a5ad-d72a5464e8b1")
-        infantUnitPrice.value = extractAttributeValueFromProductPropertyBag(sku, "448406cb-b68f-439e-9da8-148d78ae8404")
+        adultUnitPrice.value = extractAttributeValueFromProductPropertyBag(sku, ADULTPRICEPROP)
+        childUnitPrice.value = extractAttributeValueFromProductPropertyBag(sku, CHILDPRICEPROP)
+        infantUnitPrice.value = extractAttributeValueFromProductPropertyBag(sku, INFANTPRICEPROP)
       }
     }
   }

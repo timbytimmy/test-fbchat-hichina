@@ -57,7 +57,12 @@
         v-bind:key="index"
       >
         <div class="q-pa-md">
-          <q-card class="cursor-pointer" flat bordered>
+          <q-card
+            @click="goPage('/product-detail/' + item.skuGroupId)"
+            class="cursor-pointer"
+            flat
+            bordered
+          >
             <q-img
               :src="item.imageUrl"
               placeholder-src="https://photoprism.hichinatravel.com/api/v1/t/2bfc32550ae040956f7e861566d26c487c0143e7/32mcf2k4/tile_224"

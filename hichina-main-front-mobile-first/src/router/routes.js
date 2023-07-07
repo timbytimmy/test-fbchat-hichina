@@ -35,6 +35,13 @@ const routes = [
     component: () => import("layouts/MainLayout.vue"),
     children: [{ path: "", component: () => import("pages/LoginPage.vue") }],
   },
+  {
+    path: "/product-detail/:skuGroupId",
+    component: () => import("layouts/MainLayout.vue"),
+    children: [
+      { path: "", component: () => import("pages/ProductDetailPage.vue") },
+    ],
+  },
 
   // Always leave this as last one,
   // but you can also remove it

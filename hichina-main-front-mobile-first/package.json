@@ -17,8 +17,10 @@
     "axios": "^1.4.0",
     "core-js": "^3.6.5",
     "quasar": "^2.6.0",
+    "unhead": "^1.1.30",
     "vue": "^3.0.0",
-    "vue-router": "^4.0.0"
+    "vue-router": "^4.0.0",
+    "vuejs3-datepicker": "^1.0.19"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.13.14",

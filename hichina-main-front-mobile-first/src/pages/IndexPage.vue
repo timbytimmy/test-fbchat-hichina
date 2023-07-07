@@ -360,7 +360,6 @@ export default defineComponent({
       homePostLink,
       homePostImageUrl,
       globalUnifiedItemList,
-      normalizeMultiImageUrl,
     };
   },
 });
