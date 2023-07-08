@@ -283,11 +283,6 @@ export default defineComponent({
           );
 
           loading.value = false;
-
-          console.log(
-            "globalUnifiedItemList.value with currentPage: " + currentPage.value
-          );
-          console.log(globalUnifiedItemList.value);
         })
         .catch(function (error) {
           console.log(error);

@@ -57,7 +57,7 @@
         <!-- this is the trick -->
         <q-space />
 
-        <div class="row no-wrap">
+        <div v-if="currentUser === ''" class="row no-wrap">
           <q-btn
             flat
             dense
@@ -79,6 +79,26 @@
             class="q-mr-sm"
             v-if="$q.screen.gt.xs"
           />
+        </div>
+        <div v-if="currentUser != ''" class="row">
+          <q-btn v-if="$q.screen.gt.xs" round flat class="q-mr-md">
+            <q-avatar size="36px">
+              <img :src="currentProfileImage" />
+            </q-avatar>
+            <q-tooltip>{{ currentUser }}</q-tooltip>
+          </q-btn>
+        </div>
+        <div v-if="currentUser != ''" class="row no-wrap">
+          <q-btn
+            @click="logout()"
+            v-if="$q.screen.gt.xs"
+            round
+            dense
+            color="primary"
+            class="q-mr-md"
+            icon="logout"
+            ><q-tooltip>logout</q-tooltip></q-btn
+          >
         </div>
         <div>
           <q-btn
@@ -132,7 +152,7 @@
 
           <q-separator class="q-my-md" />
 
-          <q-item v-ripple clickable>
+          <q-item v-if="currentUser === ''" v-ripple clickable>
             <q-item-section avatar>
               <q-icon color="grey" name="login" />
             </q-item-section>
@@ -140,7 +160,7 @@
               <q-item-label>Login</q-item-label>
             </q-item-section>
           </q-item>
-          <q-item v-ripple clickable>
+          <q-item v-if="currentUser === ''" v-ripple clickable>
             <q-item-section avatar>
               <q-icon color="grey" name="account_circle" />
             </q-item-section>
@@ -224,52 +244,8 @@
 </template>
 
 <script>
-import { defineComponent, ref } from "vue";
-
-const linksList = [
-  {
-    title: "Docs",
-    caption: "quasar.dev",
-    icon: "school",
-    link: "https://quasar.dev",
-  },
-  {
-    title: "Github",
-    caption: "github.com/quasarframework",
-    icon: "code",
-    link: "https://github.com/quasarframework",
-  },
-  {
-    title: "Discord Chat Channel",
-    caption: "chat.quasar.dev",
-    icon: "chat",
-    link: "https://chat.quasar.dev",
-  },
-  {
-    title: "Forum",
-    caption: "forum.quasar.dev",
-    icon: "record_voice_over",
-    link: "https://forum.quasar.dev",
-  },
-  {
-    title: "Twitter",
-    caption: "@quasarframework",
-    icon: "rss_feed",
-    link: "https://twitter.quasar.dev",
-  },
-  {
-    title: "Facebook",
-    caption: "@QuasarFramework",
-    icon: "public",
-    link: "https://facebook.quasar.dev",
-  },
-  {
-    title: "Quasar Awesome",
-    caption: "Community Quasar projects",
-    icon: "favorite",
-    link: "https://awesome.quasar.dev",
-  },
-];
+import { defineComponent, onMounted, ref } from "vue";
+import { api } from "boot/axios";
 
 export default defineComponent({
   name: "MainLayout",
@@ -278,10 +254,57 @@ export default defineComponent({
 
   setup() {
     const leftDrawerOpen = ref(false);
+    const currentUser = ref("");
+    const currentProfileImage = ref("");
 
+    function whoami() {
+      api
+        .get("/api/v1/user/whoamiv2")
+        .then(function (response) {
+          console.log("current user:" + response.data.data.username);
+          console.log(
+            "current user profile image:" + response.data.data.profileImageUrl
+          );
+          currentUser.value = response.data.data.username;
+          currentProfileImage.value = response.data.data.profileImageUrl;
+          if (
+            currentProfileImage.value == null ||
+            currentProfileImage.value.length < 1
+          ) {
+            currentProfileImage.value =
+              "https://photoprism.hichinatravel.com/api/v1/t/8623903789c65a160279faa0b33159413cb18af4/32mcf2k4/fit_2048";
+          }
+          console.log("currentProfileImage.value");
+          console.log(currentProfileImage.value);
+        })
+        .catch(function (error) {
+          console.log("not logged in err");
+          // router.push({name: 'home'})
+        });
+    }
+    function logout() {
+      console.log("logging out...");
+      api
+        .post(
+          "/logout",
+          {},
+          { headers: { "Content-Type": "application/x-www-form-urlencoded" } }
+        )
+        .then((response) => {
+          location.reload();
+        })
+        .catch((e) => {
+          location.reload();
+        });
+    }
+    onMounted(() => {
+      whoami();
+    });
     return {
-      essentialLinks: linksList,
       leftDrawerOpen,
+      currentUser,
+      currentProfileImage,
+      logout,
       toggleLeftDrawer() {
         leftDrawerOpen.value = !leftDrawerOpen.value;
       },

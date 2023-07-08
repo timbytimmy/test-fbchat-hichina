@@ -329,13 +329,6 @@ export default {
       },
     };
 
-    function removeHtmlTag(input) {
-      var div = document.createElement("div");
-      div.innerHTML = input;
-      var text = div.textContent || div.innerText || "";
-      return text;
-    }
-
     function logPv() {
       api
         .post(

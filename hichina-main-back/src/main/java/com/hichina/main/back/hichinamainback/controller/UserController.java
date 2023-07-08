@@ -3,10 +3,7 @@ package com.hichina.main.back.hichinamainback.controller;
 import com.hichina.main.back.hichinamainback.config.CustomAuthenticationProvider;
 import com.hichina.main.back.hichinamainback.config.EnableHichinaAutoLog;
 import com.hichina.main.back.hichinamainback.mapper.UserMapper;
-import com.hichina.main.back.hichinamainback.model.DTO.GeneralSingleStringDTO;
-import com.hichina.main.back.hichinamainback.model.DTO.HichinaResponse;
-import com.hichina.main.back.hichinamainback.model.DTO.UpdatePasswordDTO;
-import com.hichina.main.back.hichinamainback.model.DTO.UserUpdateRequestDTO;
+import com.hichina.main.back.hichinamainback.model.DTO.*;
 import com.hichina.main.back.hichinamainback.model.User;
 import com.hichina.main.back.hichinamainback.utils.UserUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,6 +67,25 @@ public class UserController {
     @EnableHichinaAutoLog(description = "find who am i")
     public String whoami(){
         return currentUser();
+    }
+
+    private SimplifiedUserDTO simplifyUser(User user){
+        SimplifiedUserDTO ret = new SimplifiedUserDTO();
+        ret.setUsername(currentUser());
+        ret.setProfileImageUrl(user.getProfileImageUrl());
+        return ret;
+    }
+
+    @GetMapping(value="/whoamiv2")
+    @EnableHichinaAutoLog(description = "find who am i v2 with profile image")
+    public HichinaResponse whoamiV2(){
+        HichinaResponse ret = new HichinaResponse();
+        User user = UserUtil.getUserByCurrentPrincipal(userMapper, UserController.currentUser());
+        ret.setOk(true);
+        SimplifiedUserDTO simplifiedUserDTO = simplifyUser(user);
+        ret.setData(simplifiedUserDTO);
+        ret.setMessage("Successfully got my user simplified info");
+        return ret;
     }
 
     public static String currentUser(){
