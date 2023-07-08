@@ -1,16 +1,16 @@
 <template>
   <q-page>
     <div class="row" style="background-color: #e5f2fa; height: 50px">
-      <div class="col-md-3"></div>
+      <div class="col-sm-3"></div>
       <div
-        class="col-12 col-md-9 text-body1 q-pl-md flex"
+        class="col-12 col-sm-9 text-body1 q-pl-md flex"
         style="align-items: center"
       >
         Travel shop > {{ productTypeName }} > {{ productName }}
       </div>
     </div>
     <div class="row q-pa-md" style="min-height: 340px">
-      <div class="col-12 col-md-4" style="height: 340px">
+      <div class="col-12 col-sm-4" style="height: 340px">
         <q-carousel
           animated
           v-model="slide"
@@ -33,7 +33,7 @@
           </q-carousel-slide>
         </q-carousel>
       </div>
-      <div class="col-12 col-md-8 column" style="height: 340px">
+      <div class="col-12 col-sm-8 column" style="height: 340px">
         <div class="text-h4 q-pl-md" style="height: 50px">
           {{ productName }}
         </div>
@@ -43,7 +43,7 @@
       </div>
     </div>
     <div class="row" style="min-height: 500px">
-      <div class="col-12 col-md-4 row justify-center" style="height: 500px">
+      <div class="col-12 col-sm-4 row justify-center" style="height: 500px">
         <!-- https://github.com/shubhadip/vuejs3-datepicker#install -->
         <datepicker
           v-if="renderComponent && productTypeId != LOCALSPECIALTYPRODUCTTYPE"
@@ -58,30 +58,30 @@
         ></datepicker>
       </div>
       <div
-        class="col-12 col-md-8 q-pl-xl q-pt-md column"
+        class="col-12 col-sm-8 q-pl-xl q-pt-md column"
         style="min-height: 500px"
       >
         <div class="row">
-          <div class="col-3 col-md-2 text-weight-bold text-h4">Days:</div>
+          <div class="col-3 col-sm-2 text-weight-bold text-h4">Days:</div>
           <div
             v-if="productTypeId != FLIGHTPRODUCTTYPE"
-            class="col-11 col-md-10 flex text-h6 q-pl-sm"
+            class="col-11 col-sm-10 flex text-h6 q-pl-sm"
             style="align-items: center"
           >
             {{ days - 1 }} nights {{ days }} days
           </div>
           <div
             v-if="productTypeId === FLIGHTPRODUCTTYPE"
-            class="col-11 col-md-10 flex text-h6 q-pl-sm"
+            class="col-11 col-sm-10 flex text-h6 q-pl-sm"
             style="align-items: center"
           >
             {{ days }} days
           </div>
         </div>
         <div class="row">
-          <div class="col-3 col-md-2 text-weight-bold text-h4">Option:</div>
+          <div class="col-3 col-sm-2 text-weight-bold text-h4">Option:</div>
           <div
-            class="col-11 col-md-10 flex text-h6 q-pl-sm"
+            class="col-11 col-sm-10 flex text-h6 q-pl-sm"
             style="align-items: center"
           >
             <q-btn-toggle
@@ -104,7 +104,7 @@
             v-if="productTypeId != LOCALSPECIALTYPRODUCTTYPE"
             class="row col-12 q-pr-md q-mt-md"
           >
-            <div class="col-11 col-md-4 q-pr-md">
+            <div class="col-11 col-sm-4 q-pr-md">
               <q-input
                 label="Adult Count"
                 v-model.number="adultCount"
@@ -113,7 +113,7 @@
                 outlined
               />
             </div>
-            <div class="col-11 col-md-4 q-pr-md">
+            <div class="col-11 col-sm-4 q-pr-md">
               <q-input
                 label="Child Count"
                 v-model.number="childCount"
@@ -122,7 +122,7 @@
                 outlined
               />
             </div>
-            <div class="col-11 col-md-4 q-pr-md">
+            <div class="col-11 col-sm-4 q-pr-md">
               <q-input
                 label="Infant Count(less than 2 years old)"
                 v-model.number="infantCount"
@@ -162,7 +162,7 @@
                 productTypeId != LOCALSPECIALTYPRODUCTTYPE &&
                 productTypeId != HOTELPRODUCTTYPE
               "
-              class="col-4 col-md-3 flex"
+              class="col-4 col-sm-3 flex"
               style="align-items: center; height: 50px"
             >
               {{
@@ -176,13 +176,13 @@
                 productTypeId == LOCALSPECIALTYPRODUCTTYPE ||
                 productTypeId == HOTELPRODUCTTYPE
               "
-              class="col-4 col-md-3 flex"
+              class="col-4 col-sm-3 flex"
               style="align-items: center; height: 50px"
             >
               {{ generalPrice * buyCount }}
             </div>
             <div
-              class="col-7 col-md-3 flex"
+              class="col-7 col-sm-3 flex"
               style="align-items: center; height: 50px"
             >
               <q-btn
@@ -193,7 +193,7 @@
               />
             </div>
             <div
-              class="col-5 col-md-2 flex"
+              class="col-5 col-sm-2 flex"
               style="align-items: center; height: 50px"
             >
               <q-btn class="glossy" rounded color="blue-6" label="Book Now" />
