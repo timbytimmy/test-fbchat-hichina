@@ -129,6 +129,7 @@
             bordered
           >
             <q-img
+              @click="goPage('/blog-detail/' + item.value.blogId)"
               :src="item.value.headImageUrl"
               placeholder-src="https://photoprism.hichinatravel.com/api/v1/t/2bfc32550ae040956f7e861566d26c487c0143e7/32mcf2k4/tile_224"
             />
@@ -137,7 +138,11 @@
               <div class="text-overline text-orange-9">
                 {{ item.value.createdTime }}
               </div>
-              <div class="text-h5 q-mt-sm q-mb-xs">{{ item.value.title }}</div>
+              <div class="text-h5 q-mt-sm q-mb-xs">
+                <a :href="'./blog-detail/' + item.value.blogId">{{
+                  item.value.title
+                }}</a>
+              </div>
               <div class="text-caption text-grey">
                 {{ item.value.content }}
               </div>

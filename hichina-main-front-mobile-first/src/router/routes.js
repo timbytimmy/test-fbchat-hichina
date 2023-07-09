@@ -50,11 +50,16 @@ const routes = [
     ],
   },
   {
-    path: "/blog-detail/:blogI",
+    path: "/blog-detail/:blogId",
     component: () => import("layouts/MainLayout.vue"),
     children: [
       { path: "", component: () => import("pages/BlogDetailPage.vue") },
     ],
+  },
+  {
+    path: "/contact",
+    component: () => import("layouts/MainLayout.vue"),
+    children: [{ path: "", component: () => import("pages/ContactPage.vue") }],
   },
 
   // Always leave this as last one,
