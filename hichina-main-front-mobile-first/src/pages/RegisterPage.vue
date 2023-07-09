@@ -6,7 +6,7 @@
         class="col-10 col-sm-5 col-md-3 rounded-borders login-border shadow-7"
       >
         <div class="text-h5 text-left text-weight-bold text-black q-pa-md">
-          Login
+          Register
         </div>
         <div class="col-12 q-pa-md">
           <q-input
@@ -36,7 +36,22 @@
           </q-input>
         </div>
         <div class="col-12 q-pa-md">
-          <q-btn color="primary" @click="login()" label="Login" />
+          <q-input
+            color="blue-12"
+            v-model="confPassword"
+            error-message="Confirm password is not the same with password"
+            :error="!correctConfPass"
+            type="password"
+            label="Confirm your password"
+            ref="confPasswordInput"
+          >
+            <template v-slot:prepend>
+              <q-icon name="lock" />
+            </template>
+          </q-input>
+        </div>
+        <div class="col-12 q-pa-md">
+          <q-btn color="primary" @click="register()" label="Register" />
         </div>
       </div>
     </div>
@@ -44,12 +59,12 @@
 </template>
 
 <script>
-import { ref, onMounted, getCurrentInstance } from "vue";
+import { ref, onMounted, getCurrentInstance, computed } from "vue";
 import { useQuasar } from "quasar";
 import { api } from "boot/axios";
-import Qs from "qs";
+
 export default {
-  name: "LoginPage",
+  name: "RegisterPage",
   setup() {
     const instance = getCurrentInstance();
     const app = getCurrentInstance().appContext.app;
@@ -58,58 +73,50 @@ export default {
 
     const username = ref("");
     const password = ref("");
+    const confPassword = ref("");
 
-    function login() {
+    function register() {
       const isValidPassword = instance.refs.passwordInput.validate();
+      const isValidConfPassword = instance.refs.confPasswordInput.validate();
       const isValidUsername = instance.refs.usernameInput.validate();
-      if (isValidUsername && isValidPassword) {
-        // do real login logic
+
+      if (
+        isValidPassword &&
+        isValidConfPassword &&
+        isValidUsername &&
+        confPassword.value == password.value
+      ) {
+        // do real reg logic
         var data = {
-          username: username.value,
-          password: password.value,
+          email: username,
+          password: password,
         };
 
         api
-          .post("/login", Qs.stringify(data), {
-            headers: { "Content-Type": "application/x-www-form-urlencoded" },
-          })
+          .post("/api/public/register", data)
           .then((response) => {
-            gp.$generalNotify($q, true, "Login succeed!");
-            location.reload();
+            console.log("==after register");
+            console.log(response.data);
+            if (response.data.ok == true) {
+              gp.$generalNotify($q, true, "Succeed sending registering info");
+            } else {
+              gp.$generalNotify($q, false, response.data.message);
+            }
+            gp.$goPage("/regsuccess");
           })
           .catch((e) => {
-            gp.$generalNotify($q, false, "Fail login error message: " + e);
+            gp.$generalNotify($q, false, "Error message: " + e);
           });
       } else {
-        gp.$generalNotify($q, false, "error");
+        gp.$generalNotify($q, false, "Input not valid");
       }
     }
-
-    function whoami() {
-      api
-        .get("/api/v1/user/whoami")
-        .then(function (response) {
-          console.log("current user in setup: " + response.data);
-          gp.$goPage("/");
-        })
-        .catch(function (error) {
-          console.log("currently not logged in setup: " + error);
-        });
-    }
-
-    onMounted(() => {
-      whoami();
-    });
-
     return {
-      login,
-      username,
       password,
+      confPassword,
+      username,
+      correctConfPass: computed(() => confPassword.value == password.value),
     };
   },
 };
 </script>
-<style lang="sass" scoped>
-.login-border
-  border-radius: 10px
-</style>

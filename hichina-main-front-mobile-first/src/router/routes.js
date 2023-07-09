@@ -36,6 +36,11 @@ const routes = [
     children: [{ path: "", component: () => import("pages/LoginPage.vue") }],
   },
   {
+    path: "/auth/register",
+    component: () => import("layouts/MainLayout.vue"),
+    children: [{ path: "", component: () => import("pages/RegisterPage.vue") }],
+  },
+  {
     path: "/product-detail/:skuGroupId",
     component: () => import("layouts/MainLayout.vue"),
     children: [
@@ -60,6 +65,13 @@ const routes = [
     path: "/contact",
     component: () => import("layouts/MainLayout.vue"),
     children: [{ path: "", component: () => import("pages/ContactPage.vue") }],
+  },
+  {
+    path: "/regsuccess",
+    component: () => import("layouts/MainLayout.vue"),
+    children: [
+      { path: "", component: () => import("pages/RegSuccessPage.vue") },
+    ],
   },
 
   // Always leave this as last one,

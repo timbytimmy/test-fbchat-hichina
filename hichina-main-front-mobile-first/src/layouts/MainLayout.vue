@@ -59,6 +59,7 @@
 
         <div v-if="currentUser === ''" class="row no-wrap">
           <q-btn
+            @click="goPage('/auth/register')"
             flat
             dense
             no-wrap
