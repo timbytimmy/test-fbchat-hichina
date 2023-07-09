@@ -620,7 +620,6 @@ export default {
       autoplay: ref(true),
       imageContainer,
       productDescription,
-      removeHtmlTag,
       handleSelectDate,
       selectedDate,
       state,

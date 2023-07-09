@@ -82,14 +82,36 @@
           />
         </div>
         <div v-if="currentUser != ''" class="row">
-          <q-btn v-if="$q.screen.gt.xs" round flat class="q-mr-md">
+          <q-btn v-if="$q.screen.gt.xs" round flat>
             <q-avatar size="36px">
               <img :src="currentProfileImage" />
             </q-avatar>
             <q-tooltip>{{ currentUser }}</q-tooltip>
           </q-btn>
         </div>
-        <div v-if="currentUser != ''" class="row no-wrap">
+        <div v-if="currentUser != ''" class="row q-mr-xl">
+          <q-btn icon="arrow_drop_down" flat dense>
+            <q-menu
+              style="width: 100px"
+              transition-show="flip-right"
+              transition-hide="flip-left"
+            >
+              <q-list dense class="text-grey-9 text-caption">
+                <q-item clickable>
+                  <q-item-section>My Content</q-item-section>
+                </q-item>
+                <q-item clickable>
+                  <q-item-section>Edit Profile</q-item-section>
+                </q-item>
+                <q-separator />
+                <q-item clickable @click="logout()">
+                  <q-item-section>Logout</q-item-section>
+                </q-item>
+              </q-list>
+            </q-menu>
+          </q-btn>
+        </div>
+        <!-- <div v-if="currentUser != ''" class="row no-wrap q-ml-md">
           <q-btn
             @click="logout()"
             v-if="$q.screen.gt.xs"
@@ -100,7 +122,7 @@
             icon="logout"
             ><q-tooltip>logout</q-tooltip></q-btn
           >
-        </div>
+        </div> -->
         <div>
           <q-btn
             v-if="!$q.screen.gt.xs"
@@ -118,7 +140,7 @@
     <q-drawer v-model="leftDrawerOpen" bordered class="bg-grey-2" :width="240">
       <q-scroll-area class="fit">
         <q-list padding>
-          <q-item v-ripple clickable>
+          <q-item v-ripple clickable @click="goPage('/guideintro')">
             <q-item-section avatar>
               <q-icon color="grey" name="fingerprint" />
             </q-item-section>
@@ -126,7 +148,7 @@
               <q-item-label>GuideBooks</q-item-label>
             </q-item-section>
           </q-item>
-          <q-item v-ripple clickable>
+          <q-item v-ripple clickable @click="goPage('/blog')">
             <q-item-section avatar>
               <q-icon color="grey" name="fingerprint" />
             </q-item-section>
@@ -134,7 +156,7 @@
               <q-item-label>Blogs/Vlogs</q-item-label>
             </q-item-section>
           </q-item>
-          <q-item v-ripple clickable>
+          <q-item v-ripple clickable @click="goPage('/product')">
             <q-item-section avatar>
               <q-icon color="grey" name="fingerprint" />
             </q-item-section>
@@ -142,7 +164,7 @@
               <q-item-label>Travel Shop</q-item-label>
             </q-item-section>
           </q-item>
-          <q-item v-ripple clickable>
+          <q-item v-ripple clickable @click="goPage('/destination')">
             <q-item-section avatar>
               <q-icon color="grey" name="fingerprint" />
             </q-item-section>
@@ -153,7 +175,12 @@
 
           <q-separator class="q-my-md" />
 
-          <q-item v-if="currentUser === ''" v-ripple clickable>
+          <q-item
+            v-if="currentUser === ''"
+            v-ripple
+            clickable
+            @click="goPage('/auth/login')"
+          >
             <q-item-section avatar>
               <q-icon color="grey" name="login" />
             </q-item-section>
@@ -161,7 +188,12 @@
               <q-item-label>Login</q-item-label>
             </q-item-section>
           </q-item>
-          <q-item v-if="currentUser === ''" v-ripple clickable>
+          <q-item
+            v-if="currentUser === ''"
+            v-ripple
+            clickable
+            @click="goPage('/auth/register')"
+          >
             <q-item-section avatar>
               <q-icon color="grey" name="account_circle" />
             </q-item-section>
@@ -305,6 +337,7 @@ export default defineComponent({
       leftDrawerOpen,
       currentUser,
       currentProfileImage,
+      menu_profile: false,
       logout,
       toggleLeftDrawer() {
         leftDrawerOpen.value = !leftDrawerOpen.value;

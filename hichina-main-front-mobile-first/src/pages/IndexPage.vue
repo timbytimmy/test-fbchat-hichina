@@ -34,7 +34,10 @@
     <div class="row">
       <div class="col-6 col-md-2 text-blue-6 text-h4 q-pl-md">Destinations</div>
       <div class="col-md-8"></div>
-      <div class="col-6 col-md-2 text-blue-6 cursor-pointer">
+      <div
+        @click="goPage('/destination')"
+        class="col-6 col-md-2 text-blue-6 cursor-pointer"
+      >
         More destinations >
       </div>
     </div>
@@ -49,6 +52,7 @@
       >
         <div class="q-pa-md">
           <q-card
+            @click="goPage('/destination-detail/' + item.destinationId)"
             class="rand-destination-card cursor-pointer rounded-borders"
             @mouseenter="hoverFlag = true"
             @mouseleave="hoverFlag = false"
@@ -73,6 +77,7 @@
       <div class="row">
         <div
           v-if="$q.screen.gt.xs"
+          @click="goPage('/contact')"
           class="cursor-pointer col-12 q-mt-md q-pt-md rounded-borders text-white text-weight-bold text-h5 text-no-wrap text-center"
           style="
             background-color: #2a82e4;
@@ -85,6 +90,7 @@
         </div>
         <div
           v-if="!$q.screen.gt.xs"
+          @click="goPage('/contact')"
           class="cursor-pointer col-12 q-mt-md q-pt-md rounded-borders text-white text-weight-bold text-subtitle1 text-no-wrap text-center"
           style="
             background-color: #2a82e4;
@@ -99,7 +105,11 @@
     </div>
     <div class="q-pa-md">
       <div class="row">
-        <div class="col-12 cursor-pointer" style="height: 160px">
+        <div
+          class="col-12 cursor-pointer"
+          style="height: 160px"
+          @click="goPage('/contact')"
+        >
           <q-img :src="homePostImageUrl" fit="fill" style="height: 100%">
           </q-img>
         </div>
@@ -155,6 +165,7 @@
             bordered
           >
             <q-img
+              @click="goPage('/product-detail/' + item.value.skuGroupId)"
               :src="item.value.imageUrl"
               placeholder-src="https://photoprism.hichinatravel.com/api/v1/t/2bfc32550ae040956f7e861566d26c487c0143e7/32mcf2k4/tile_224"
             />
@@ -167,15 +178,6 @@
                 {{ item.value.skuGroupName }}
               </div>
             </q-card-section>
-
-            <q-slide-transition>
-              <div v-show="expanded">
-                <q-separator />
-                <q-card-section class="text-subitle2">
-                  {{ lorem }}
-                </q-card-section>
-              </div>
-            </q-slide-transition>
           </q-card>
         </div>
       </div>
