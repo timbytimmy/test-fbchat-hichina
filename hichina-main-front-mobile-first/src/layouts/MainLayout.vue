@@ -100,7 +100,7 @@
                 <q-item clickable>
                   <q-item-section>My Content</q-item-section>
                 </q-item>
-                <q-item clickable>
+                <q-item clickable @click="goPage('/user-info')">
                   <q-item-section>Edit Profile</q-item-section>
                 </q-item>
                 <q-separator />

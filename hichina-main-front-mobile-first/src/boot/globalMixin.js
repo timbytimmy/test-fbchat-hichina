@@ -1,4 +1,5 @@
 import { boot } from "quasar/wrappers";
+import vueCountryRegionSelect from "vue3-country-region-select";
 // "async" is optional;
 // more info on params: https://v2.quasar.dev/quasar-cli/boot-files
 export default boot(async (/* { app, router, ... } */ { app, router }) => {
@@ -6,6 +7,8 @@ export default boot(async (/* { app, router, ... } */ { app, router }) => {
   const testGlobal2 = () => {
     console.log("testGlobal2");
   };
+
+  app.use(vueCountryRegionSelect);
 
   const normalizeMultiImageUrl = (input) => {
     if (input.indexOf(",") > -1) {

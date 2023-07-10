@@ -19,7 +19,9 @@
     "quasar": "^2.6.0",
     "unhead": "^1.1.30",
     "vue": "^3.0.0",
+    "vue-image-crop-upload": "^3.0.3",
     "vue-router": "^4.0.0",
+    "vue3-country-region-select": "^1.0.0",
     "vuejs3-datepicker": "^1.0.19"
   },
   "devDependencies": {
