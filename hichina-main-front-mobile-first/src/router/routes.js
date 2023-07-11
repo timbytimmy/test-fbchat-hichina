@@ -84,6 +84,11 @@ const routes = [
     ],
   },
   {
+    path: "/blog-edit/:blogId",
+    component: () => import("layouts/MainLayout.vue"),
+    children: [{ path: "", component: () => import("pages/BlogEditPage.vue") }],
+  },
+  {
     path: "/regsuccess",
     component: () => import("layouts/MainLayout.vue"),
     children: [

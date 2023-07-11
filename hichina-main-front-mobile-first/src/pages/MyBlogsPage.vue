@@ -1,5 +1,26 @@
 <template>
   <q-page>
+    <q-dialog v-model="confirmDelete" persistent>
+      <q-card>
+        <q-card-section class="row items-center">
+          <q-avatar icon="delete" color="primary" text-color="white" />
+          <span class="q-ml-sm"
+            >Are you sure you would like to delete this blog?.</span
+          >
+        </q-card-section>
+
+        <q-card-actions align="right">
+          <q-btn flat label="Cancel" color="primary" v-close-popup />
+          <q-btn
+            flat
+            label="Confirm Delete"
+            @click="deleteBLog"
+            color="primary"
+            v-close-popup
+          />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
     <div class="row justify-center">
       <div class="col-10 row">
         <div class="col-12 text-h5 q-pa-md text-weight-bold text-center">
@@ -22,13 +43,28 @@
               class="col-5 row no-wrap justify-center"
               style="border: 1px solid gray"
             >
-              <q-btn rounded dense color="primary" icon="edit" />
+              <q-btn
+                v-if="item.draft"
+                rounded
+                dense
+                color="primary"
+                label="Publish"
+                icon="publish"
+                @click="publishBlog(item.blogId)"
+              />
+              <q-btn
+                rounded
+                dense
+                color="primary"
+                icon="edit"
+                @click="goPage('/blog-edit/' + item.blogId)"
+              />
               <q-btn
                 rounded
                 dense
                 color="red"
                 icon="delete"
-                @click="deleteBLog(item.blogId)"
+                @click="confirmDeleteBlog(item.blogId)"
               />
             </div>
           </div>
@@ -58,10 +94,29 @@ export default {
     const totalCnt = ref(0);
     const totalPages = ref(1);
     const currentPage = ref(1);
+    const confirmDelete = ref(false);
+    const todeleteBlogID = ref("");
 
-    function deleteBLog(blogId) {
+    function publishBlog(blogId) {
       api
-        .delete("/api/v1/blog/" + blogId)
+        .put("/api/v1/blog/publish/" + blogId)
+        .then((res) => {
+          gp.$generalNotify($q, true, "Succeed publishing blog");
+          loadMyBlogs();
+        })
+        .catch((err) => {
+          gp.$generalNotify($q, false, "Fail publishing blog" + err);
+        });
+    }
+
+    function confirmDeleteBlog(blogId) {
+      confirmDelete.value = true;
+      todeleteBlogID.value = blogId;
+    }
+
+    function deleteBLog() {
+      api
+        .delete("/api/v1/blog/" + todeleteBlogID.value)
         .then((res) => {
           gp.$generalNotify($q, true, "Succeed deleting blog");
           loadMyBlogs();
@@ -122,7 +177,11 @@ export default {
       totalCnt,
       currentPage,
       totalPages,
+      confirmDelete,
+      todeleteBlogID,
       deleteBLog,
+      publishBlog,
+      confirmDeleteBlog,
     };
   },
 };
