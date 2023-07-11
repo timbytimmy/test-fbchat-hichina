@@ -40,7 +40,13 @@
       </q-carousel>
     </div>
     <div class="row justify-center q-pa-md">
-      <q-btn rounded color="primary" size="xl" label="Write your blog" />
+      <q-btn
+        rounded
+        color="primary"
+        size="xl"
+        @click="goPage('/blog-create')"
+        label="Write your blog"
+      />
     </div>
     <div class="row q-pa-md">
       <div class="q-gutter-y-md col-12 col-md-8">

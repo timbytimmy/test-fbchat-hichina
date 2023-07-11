@@ -67,9 +67,21 @@ const routes = [
     children: [{ path: "", component: () => import("pages/ContactPage.vue") }],
   },
   {
+    path: "/my-blogs",
+    component: () => import("layouts/MainLayout.vue"),
+    children: [{ path: "", component: () => import("pages/MyBlogsPage.vue") }],
+  },
+  {
     path: "/user-info",
     component: () => import("layouts/MainLayout.vue"),
     children: [{ path: "", component: () => import("pages/UserInfoPage.vue") }],
+  },
+  {
+    path: "/blog-create",
+    component: () => import("layouts/MainLayout.vue"),
+    children: [
+      { path: "", component: () => import("pages/BlogCreatePage.vue") },
+    ],
   },
   {
     path: "/regsuccess",

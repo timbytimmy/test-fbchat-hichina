@@ -82,7 +82,12 @@
           />
         </div>
         <div v-if="currentUser != ''" class="row">
-          <q-btn v-if="$q.screen.gt.xs" round flat>
+          <q-btn
+            v-if="$q.screen.gt.xs"
+            round
+            flat
+            @click="goPage('/user-info')"
+          >
             <q-avatar size="36px">
               <img :src="currentProfileImage" />
             </q-avatar>
@@ -97,8 +102,8 @@
               transition-hide="flip-left"
             >
               <q-list dense class="text-grey-9 text-caption">
-                <q-item clickable>
-                  <q-item-section>My Content</q-item-section>
+                <q-item clickable @click="goPage('/my-blogs')">
+                  <q-item-section>My Blogs</q-item-section>
                 </q-item>
                 <q-item clickable @click="goPage('/user-info')">
                   <q-item-section>Edit Profile</q-item-section>
