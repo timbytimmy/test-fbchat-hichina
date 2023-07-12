@@ -72,6 +72,8 @@
           <q-select
             outlined
             dense
+            emit-value
+            map-options
             class="col-12 col-sm-6 col-md-4"
             v-model="peopleform.value[index - 1]['gender']"
             :options="genderOption"
@@ -298,6 +300,11 @@ export default {
     }
 
     function submitOrder(paymethod) {
+      if (paymethod === "wechatpay") {
+        alert("not available, will be on line soon");
+        return;
+      }
+
       var finalParams = {};
       if (LOCALSPECIALTYPRODUCTTYPE != productTypeId.value) {
         finalParams.passengerInfo = peopleform.value;
@@ -320,8 +327,6 @@ export default {
           .then((res) => {
             gp.$generalNotify($q, true, "Succeed creating order");
             if (paymethod == "wechatpay") {
-              alert("not available, will be on line soon");
-              return;
               // go to we chat pay page
               // go to alipay page
               console.log(res.data.data);
