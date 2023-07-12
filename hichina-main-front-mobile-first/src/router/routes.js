@@ -107,6 +107,28 @@ const routes = [
     children: [{ path: "", component: () => import("pages/BookPage.vue") }],
   },
   {
+    name: "alipay",
+    path: "/alipay",
+    component: () => import("layouts/MainLayout.vue"),
+    children: [{ path: "", component: () => import("pages/AlipayPage.vue") }],
+  },
+  {
+    name: "wechatpay",
+    path: "/wechatpay",
+    component: () => import("layouts/MainLayout.vue"),
+    children: [
+      { path: "", component: () => import("pages/WechatpayPage.vue") },
+    ],
+  },
+  {
+    name: "finishpay",
+    path: "/finishpay",
+    component: () => import("layouts/MainLayout.vue"),
+    children: [
+      { path: "", component: () => import("pages/FinishpayPage.vue") },
+    ],
+  },
+  {
     path: "/regsuccess",
     component: () => import("layouts/MainLayout.vue"),
     children: [

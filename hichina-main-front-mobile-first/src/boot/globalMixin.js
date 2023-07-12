@@ -41,11 +41,20 @@ export default boot(async (/* { app, router, ... } */ { app, router }) => {
     router.push(val);
   };
 
+  const checkEmpty = (val) => {
+    if (val == null || val.length < 1) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
   app.config.globalProperties.$testGlobal2 = testGlobal2;
   app.config.globalProperties.$normalizeMultiImageUrl = normalizeMultiImageUrl;
   app.config.globalProperties.$removeHtmlTag = removeHtmlTag;
   app.config.globalProperties.$generalNotify = generalNotify;
   app.config.globalProperties.$goPage = goPage;
+  app.config.globalProperties.$checkEmpty = checkEmpty;
 
   app.mixin({
     methods: {
@@ -57,6 +66,7 @@ export default boot(async (/* { app, router, ... } */ { app, router }) => {
         window.location = url;
       },
       goPage,
+      checkEmpty,
     },
   });
 });

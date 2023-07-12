@@ -171,7 +171,7 @@
         color="blue-6"
         label="Pay with Alipay"
         class="q-ma-sm"
-        @click="payWithAlipay"
+        @click="submitOrder('alipay')"
       />
       <q-btn
         icon="lab la-weixin"
@@ -179,7 +179,7 @@
         color="green-6"
         label="Pay with Wechat Pay"
         class="q-ma-sm"
-        @click="payWithWechatPay"
+        @click="submitOrder('wechatpay')"
       />
     </div>
   </q-page>
@@ -191,10 +191,13 @@ import { useQuasar } from "quasar";
 import { useRoute } from "vue-router";
 import { api } from "boot/axios";
 import { bookParamStore } from "stores/bookParamStore";
+import { orderPaymentParamStore } from "stores/orderPaymentParamStore";
+
 export default {
   name: "BookPage",
   setup() {
-    const store = bookParamStore();
+    const bookParamStore = bookParamStore();
+    const orderPaymentParamStore = orderPaymentParamStore();
 
     const instance = getCurrentInstance();
     const app = instance.appContext.app;
@@ -218,6 +221,125 @@ export default {
 
     const peopleform = reactive([]);
     const contactform = ref({});
+
+    function checkPassenger(passenger) {
+      if (
+        gp.$checkEmpty(passenger.birthday) ||
+        gp.$checkEmpty(passenger.gender) ||
+        gp.$checkEmpty(passenger.givenName) ||
+        gp.$checkEmpty(passenger.surName) ||
+        gp.$checkEmpty(passenger.nationality) ||
+        gp.$checkEmpty(passenger.passportExpireDate) ||
+        gp.$checkEmpty(passenger.passportNo) ||
+        gp.$checkEmpty(passenger.surName)
+      ) {
+        return false;
+      }
+      return true;
+    }
+
+    function validatePreOrderParams(finalParams) {
+      console.log("validating finalParams");
+      console.log(finalParams);
+      // must have CNY value valid
+      if (
+        gp.$checkEmpty(finalParams.productInfo["totalPrice"]) ||
+        !Number.isInteger(parseInt(finalParams.productInfo["totalPrice"]))
+      ) {
+        gp.$generalNotify($q, false, "something wrong with price");
+        return false;
+      }
+      // must have full contact info
+      if (
+        gp.$checkEmpty(finalParams.contactInfo["email"]) ||
+        gp.$checkEmpty(finalParams.contactInfo["phone"]) ||
+        gp.$checkEmpty(finalParams.contactInfo["name"]) ||
+        gp.$checkEmpty(finalParams.contactInfo["address"])
+      ) {
+        gp.$generalNotify(
+          $q,
+          false,
+          "Please check your contact info is filled correctly"
+        );
+        return false;
+      }
+      // must have full product info
+      if (gp.$checkEmpty(finalParams.productInfo)) {
+        gp.$generalNotify(
+          $q,
+          false,
+          "Please check your product info is correct"
+        );
+        return false;
+      }
+      // must have full passenger info if not localspecialty type, if no passenger , no check
+      for (var index in finalParams.passengerInfo) {
+        if (!checkPassenger(finalParams.passengerInfo[index])) {
+          gp.$generalNotify(
+            $q,
+            false,
+            "Please check your passenger info has been filled correctly"
+          );
+          return false;
+        }
+      }
+
+      return true;
+    }
+
+    function submitOrder(paymethod) {
+      var finalParams = {};
+      if (LOCALSPECIALTYPRODUCTTYPE != productTypeId.value) {
+        finalParams.passengerInfo = peopleform.value;
+      }
+      finalParams.contactInfo = contactform.value;
+      finalParams.coupon = coupon.value;
+      finalParams.productInfo = bookParamStore.getOrderDetail;
+      console.log("finalParams");
+      console.log(finalParams);
+      if (validatePreOrderParams(finalParams)) {
+        // do submit
+        var params = {};
+        params.meta = JSON.stringify(finalParams);
+        params.skuId = productSkuId.value;
+        params.status = "SUBMITTED";
+        params.price = totalPrice.value;
+        params.payMethod = paymethod;
+        api
+          .post("/api/v1/order", params)
+          .then((res) => {
+            gp.$generalNotify($q, true, "Succeed creating order");
+            if (paymethod == "wechatpay") {
+              alert("not available, will be on line soon");
+              return;
+              // go to we chat pay page
+              // go to alipay page
+              console.log(res.data.data);
+              var param2Pass = {};
+              param2Pass.price = res.data.data.price;
+              param2Pass.orderId = res.data.data.orderId;
+              param2Pass.codeUrl = res.data.data.codeUrl;
+              param2Pass.productName = productName.value;
+
+              orderPaymentParamStore.setPaymentDetail(param2Pass);
+              gp.$goPage("/wechatpay");
+            } else if (paymethod == "alipay") {
+              // go to alipay page
+              console.log(res.data.data);
+              var param2Pass = {};
+              param2Pass.price = res.data.data.price;
+              param2Pass.orderId = res.data.data.orderId;
+              param2Pass.codeUrl = res.data.data.codeUrl;
+
+              orderPaymentParamStore.setPaymentDetail(param2Pass);
+              gp.$goPage("/alipay");
+            }
+          })
+          .catch((err) => {
+            gp.$generalNotify($q, false, "Fail creating order" + err);
+          });
+      }
+    }
 
     function whoami() {
       api
@@ -265,7 +387,7 @@ export default {
       whoami();
 
       console.log("allParamsFromPreviousPage");
-      var allParamsFromPreviousPage = store.getOrderDetail;
+      var allParamsFromPreviousPage = bookParamStore.getOrderDetail;
       console.log(allParamsFromPreviousPage);
       productName.value = allParamsFromPreviousPage.productName;
       packageCategory.value = allParamsFromPreviousPage.packageCategory;
@@ -331,6 +453,7 @@ export default {
       contactform,
       coupon,
       totalPrice,
+      submitOrder,
     };
   },
 };
