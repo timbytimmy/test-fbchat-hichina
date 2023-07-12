@@ -32,10 +32,12 @@
               :src="normalizeMultiImageUrl(item.destinationProfileImage)"
             >
               <div class="absolute-bottom">
-                <div class="text-h6">
-                  <a :href="'./destination-detail/' + item.destinationId">{{
-                    item.destinationName
-                  }}</a>
+                <div class="text-h6 text-white">
+                  <a
+                    style="color: inherit"
+                    :href="'./destination-detail/' + item.destinationId"
+                    >{{ item.destinationName }}</a
+                  >
                 </div>
                 <div class="text-subtitle2">
                   {{ item.parentDestinationName }}
