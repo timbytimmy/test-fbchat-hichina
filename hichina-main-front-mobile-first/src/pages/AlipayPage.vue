@@ -10,7 +10,7 @@ import { orderPaymentParamStore } from "stores/orderPaymentParamStore";
 export default {
   name: "AlipayPage",
   setup() {
-    const orderPaymentParamStore = orderPaymentParamStore();
+    const oStore = orderPaymentParamStore();
 
     const codeUrl = ref("");
     const orderId = ref("");
@@ -23,7 +23,7 @@ export default {
     }
 
     onMounted(() => {
-      var allParamsFromPreviousPage = orderPaymentParamStore.getPaymentDetail;
+      var allParamsFromPreviousPage = oStore.getPaymentDetail;
       console.log("what I got from book form:");
       console.log(allParamsFromPreviousPage);
       codeUrl.value = allParamsFromPreviousPage.codeUrl;

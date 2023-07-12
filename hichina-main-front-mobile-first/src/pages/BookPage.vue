@@ -196,8 +196,8 @@ import { orderPaymentParamStore } from "stores/orderPaymentParamStore";
 export default {
   name: "BookPage",
   setup() {
-    const bookParamStore = bookParamStore();
-    const orderPaymentParamStore = orderPaymentParamStore();
+    const bStore = bookParamStore();
+    const oStore = orderPaymentParamStore();
 
     const instance = getCurrentInstance();
     const app = instance.appContext.app;
@@ -294,7 +294,7 @@ export default {
       }
       finalParams.contactInfo = contactform.value;
       finalParams.coupon = coupon.value;
-      finalParams.productInfo = bookParamStore.getOrderDetail;
+      finalParams.productInfo = bStore.getOrderDetail;
       console.log("finalParams");
       console.log(finalParams);
       if (validatePreOrderParams(finalParams)) {
@@ -321,7 +321,7 @@ export default {
               param2Pass.codeUrl = res.data.data.codeUrl;
               param2Pass.productName = productName.value;
 
-              orderPaymentParamStore.setPaymentDetail(param2Pass);
+              oStore.setPaymentDetail(param2Pass);
               gp.$goPage("/wechatpay");
             } else if (paymethod == "alipay") {
               // go to alipay page
@@ -331,7 +331,7 @@ export default {
               param2Pass.orderId = res.data.data.orderId;
               param2Pass.codeUrl = res.data.data.codeUrl;
 
-              orderPaymentParamStore.setPaymentDetail(param2Pass);
+              oStore.setPaymentDetail(param2Pass);
               gp.$goPage("/alipay");
             }
           })
@@ -387,7 +387,7 @@ export default {
       whoami();
 
       console.log("allParamsFromPreviousPage");
-      var allParamsFromPreviousPage = bookParamStore.getOrderDetail;
+      var allParamsFromPreviousPage = bStore.getOrderDetail;
       console.log(allParamsFromPreviousPage);
       productName.value = allParamsFromPreviousPage.productName;
       packageCategory.value = allParamsFromPreviousPage.packageCategory;
