@@ -222,6 +222,8 @@ export default {
     const peopleform = reactive([]);
     const contactform = ref({});
 
+    const LOCALSPECIALTYPRODUCTTYPE = "fd264cab-ee8d-4571-a477-03d7e7c090b3";
+
     function checkPassenger(passenger) {
       if (
         gp.$checkEmpty(passenger.birthday) ||
