@@ -75,6 +75,8 @@
             class="col-12 col-sm-6 col-md-4"
             v-model="peopleform.value[index - 1]['gender']"
             :options="genderOption"
+            option-value="value"
+            option-label="label"
             label="Gender"
           />
         </div>
