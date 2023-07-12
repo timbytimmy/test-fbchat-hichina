@@ -63,7 +63,10 @@
         </div>
         <div>
           <div class="q-pb-sm text-weight-bold">Birthday</div>
-          <q-date v-model="peopleform.value[index - 1]['birthday']" />
+          <q-date
+            mask="YYYY-MM-DD"
+            v-model="peopleform.value[index - 1]['birthday']"
+          />
         </div>
         <div class="row q-mt-md">
           <q-select
@@ -96,7 +99,10 @@
         </div>
         <div>
           <div class="q-pb-sm text-weight-bold">Expiry date of Passport</div>
-          <q-date v-model="peopleform.value[index - 1]['passportExpireDate']" />
+          <q-date
+            mask="YYYY-MM-DD"
+            v-model="peopleform.value[index - 1]['passportExpireDate']"
+          />
         </div>
       </div>
     </div>
@@ -243,6 +249,7 @@ export default {
     function validatePreOrderParams(finalParams) {
       console.log("validating finalParams");
       console.log(finalParams);
+      return false;
       // must have CNY value valid
       if (
         gp.$checkEmpty(finalParams.productInfo["totalPrice"]) ||
@@ -360,7 +367,7 @@ export default {
       const year = today.getFullYear();
       const month = String(today.getMonth() + 1).padStart(2, "0");
       const day = String(today.getDate()).padStart(2, "0");
-      return `${year}/${month}/${day}`;
+      return `${year}-${month}-${day}`;
     }
 
     function initPeopleform() {
