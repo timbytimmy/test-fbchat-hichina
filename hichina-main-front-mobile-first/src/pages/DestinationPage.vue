@@ -24,6 +24,7 @@
             class="destination-card cursor-pointer rounded-borders"
             @mouseenter="hoverFlag = true"
             @mouseleave="hoverFlag = true"
+            @click="goPage('/destination-detail/' + item.destinationid)"
           >
             <q-img
               class="rounded-borders"
@@ -31,7 +32,11 @@
               :src="normalizeMultiImageUrl(item.destinationProfileImage)"
             >
               <div class="absolute-bottom">
-                <div class="text-h6">{{ item.destinationName }}</div>
+                <div class="text-h6">
+                  <a :href="'./destination-detail/' + item.destinationId">{{
+                    item.destinationName
+                  }}</a>
+                </div>
                 <div class="text-subtitle2">
                   {{ item.parentDestinationName }}
                 </div>

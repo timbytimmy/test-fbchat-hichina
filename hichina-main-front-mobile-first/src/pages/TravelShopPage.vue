@@ -73,7 +73,9 @@
                 Start from ￥{{ item.minPrice }}
               </div>
               <div class="text-h5 q-mt-sm q-mb-xs">
-                {{ item.skuGroupName }}
+                <a :href="'./product-detail/' + item.skkuGroupId">{{
+                  item.skuGroupName
+                }}</a>
               </div>
             </q-card-section>
           </q-card>
