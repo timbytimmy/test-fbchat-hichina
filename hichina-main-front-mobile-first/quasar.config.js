@@ -7,7 +7,6 @@
 
 // Configuration for your app
 // https://v2.quasar.dev/quasar-cli-webpack/quasar-config-js
-
 const ESLintPlugin = require("eslint-webpack-plugin");
 
 const { configure } = require("quasar/wrappers");
@@ -40,6 +39,7 @@ module.exports = configure(function (ctx) {
 
       "roboto-font", // optional, you are not bound to it
       "material-icons", // optional, you are not bound to it
+      "line-awesome",
     ],
 
     // Full list of options: https://v2.quasar.dev/quasar-cli-webpack/quasar-config-js#Property%3A-build
