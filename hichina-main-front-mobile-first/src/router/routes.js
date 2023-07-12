@@ -72,6 +72,11 @@ const routes = [
     children: [{ path: "", component: () => import("pages/MyBlogsPage.vue") }],
   },
   {
+    path: "/my-orders",
+    component: () => import("layouts/MainLayout.vue"),
+    children: [{ path: "", component: () => import("pages/MyOrdersPage.vue") }],
+  },
+  {
     path: "/user-info",
     component: () => import("layouts/MainLayout.vue"),
     children: [{ path: "", component: () => import("pages/UserInfoPage.vue") }],

@@ -105,6 +105,9 @@
                 <q-item clickable @click="goPage('/my-blogs')">
                   <q-item-section>My Blogs</q-item-section>
                 </q-item>
+                <q-item clickable @click="goPage('/my-orders')">
+                  <q-item-section>My Orders</q-item-section>
+                </q-item>
                 <q-item clickable @click="goPage('/user-info')">
                   <q-item-section>Edit Profile</q-item-section>
                 </q-item>
