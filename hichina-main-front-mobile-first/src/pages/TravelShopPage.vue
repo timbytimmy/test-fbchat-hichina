@@ -32,6 +32,7 @@
           top: 70px;
           border-radius: 20px;
         "
+        @click="setActiveTab(btnToggle)"
         v-model="btnToggle"
         toggle-color="primary"
         :options="[
@@ -212,8 +213,10 @@ export default {
 
     return {
       query,
+      btnToggle,
       globalProductList,
       updateQuery,
+      setActiveTab,
     };
   },
 };
