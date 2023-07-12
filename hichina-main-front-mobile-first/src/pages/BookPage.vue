@@ -1,5 +1,36 @@
 <template>
-  <q-page> book page </q-page>
+  <q-page>
+    <div class="row" style="height: 50px; background-color: #e5f2fa">
+      <div class="col-sm-1"></div>
+      <div
+        class="col-12 col-sm flex text-subtitle1"
+        style="align-items: center"
+      >
+        Travel shop > {{ productName }}
+      </div>
+    </div>
+    <div class="row text-weight-bold text-h5 q-pa-md">
+      Product Name: {{ productName }}
+    </div>
+    <div class="text-body1 q-px-md">
+      <div>Package Category: {{ packageCategory }}</div>
+      <div v-if="selectedDate != null && selectedDate.length > 0">
+        Start Date: {{ selectedDate }}
+      </div>
+      <div v-if="adultCount != null && adultCount > 0">
+        Adults: {{ adultCount }}
+      </div>
+      <div v-if="childCount != null && childCount > 0">
+        Child: {{ childCount }}
+      </div>
+      <div v-if="infantCount != null && infantCount > 0">
+        Infant: {{ infantCount }}
+      </div>
+      <div v-if="buyCount != null && buyCount > 0">
+        Purchase Count: {{ buyCount }}
+      </div>
+    </div>
+  </q-page>
 </template>
 
 <script>
@@ -50,8 +81,19 @@ export default {
     onMounted(() => {
       whoami();
 
-      console.log("got parmas from previous page for store pinia");
-      console.log(store.getOrderDetail);
+      console.log("allParamsFromPreviousPage");
+      var allParamsFromPreviousPage = store.getOrderDetail;
+      console.log(allParamsFromPreviousPage);
+      productName.value = allParamsFromPreviousPage.productName;
+      packageCategory.value = allParamsFromPreviousPage.packageCategory;
+      selectedDate.value = allParamsFromPreviousPage.selectedDate;
+      adultCount.value = allParamsFromPreviousPage.adultCount;
+      childCount.value = allParamsFromPreviousPage.childCount;
+      infantCount.value = allParamsFromPreviousPage.infantCount;
+      buyCount.value = allParamsFromPreviousPage.buyCount;
+
+      console.log("productName.value");
+      console.log(productName.value);
 
       // peopleform.value = [];
       // contactform.value = {
@@ -105,6 +147,16 @@ export default {
       //   });
       // }
     });
+
+    return {
+      productName,
+      packageCategory,
+      selectedDate,
+      adultCount,
+      childCount,
+      infantCount,
+      buyCount,
+    };
   },
 };
 </script>
