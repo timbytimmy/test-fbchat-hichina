@@ -189,6 +189,7 @@
                 class="glossy"
                 rounded
                 color="deep-orange"
+                @click="goPage('/contact')"
                 label="Pre-book Consult"
               />
             </div>
