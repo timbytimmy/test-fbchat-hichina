@@ -20,7 +20,11 @@
           <div class="col-2">Start Time</div>
         </div>
         <div class="row col-12 q-pa-md" style="border: 1px solid gray">
-          <div class="col-3">{{ productName }}</div>
+          <div class="col-3">
+            <a :href="frontendBase + '/product-detail/' + skuGroupId">{{
+              productName
+            }}</a>
+          </div>
           <div class="col-3">{{ packageCategory }}</div>
           <div class="col-2">CNY:{{ totalPrice }}</div>
           <div class="col-2">{{ orderStatus }}</div>
@@ -132,13 +136,28 @@ export default {
         });
     }
 
+    function loadFrontendBase() {
+      api
+        .get("/api/public/service")
+        .then(function (response) {
+          console.log("base front url: " + response.data);
+          frontendBase.value = response.data;
+        })
+        .catch(function (error) {
+          console.log("currently not logged in setup: " + error);
+          gp.$goPage("/");
+        });
+    }
+
     onMounted(() => {
       whoami();
       loadOrderDetail(route.params.orderId);
+      loadFrontendBase();
     });
 
     return {
       frontendBase,
+      skuGroupId,
       productName,
       packageCategory,
       totalPrice,
