@@ -89,6 +89,12 @@ const routes = [
     children: [{ path: "", component: () => import("pages/BlogEditPage.vue") }],
   },
   {
+    name: "book",
+    path: "/book",
+    component: () => import("layouts/MainLayout.vue"),
+    children: [{ path: "", component: () => import("pages/BookPage.vue") }],
+  },
+  {
     path: "/regsuccess",
     component: () => import("layouts/MainLayout.vue"),
     children: [

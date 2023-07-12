@@ -197,7 +197,13 @@
               class="col-5 col-sm-2 flex"
               style="align-items: center; height: 50px"
             >
-              <q-btn class="glossy" rounded color="blue-6" label="Book Now" />
+              <q-btn
+                class="glossy"
+                @click="collectConfigAndGoPage()"
+                rounded
+                color="blue-6"
+                label="Book Now"
+              />
             </div>
           </div>
         </div>
@@ -217,18 +223,28 @@
 </template>
 
 <script>
-import { ref, onMounted, nextTick } from "vue";
+import { ref, onMounted, nextTick, getCurrentInstance } from "vue";
 import { api } from "boot/axios";
 import { useSeoMeta } from "unhead";
-import { useRoute } from "vue-router";
+import { useQuasar } from "quasar";
+import { useRoute, useRouter } from "vue-router";
 import Datepicker from "vuejs3-datepicker";
+import { bookParamStore } from "stores/bookParamStore";
 export default {
   name: "ProductDetailPage",
   components: {
     Datepicker,
   },
   setup() {
+    const store = bookParamStore();
+
+    const instance = getCurrentInstance();
+    const app = instance.appContext.app;
+    const gp = app.config.globalProperties;
+    const $q = useQuasar();
+
     const route = useRoute();
+    const router = useRouter();
     const buyCount = ref(1);
     const adultCount = ref(1);
     const childCount = ref(0);
@@ -253,6 +269,7 @@ export default {
     const selectedDate = ref(new Date());
     const maxNum = ref(1000000);
     const renderComponent = ref(true);
+    const totalPrice = ref(0);
 
     const TYPEOFPACKAGEPROP = "11cd8b32-c4f6-47db-8b8a-486c992bf43b";
     const LOCALSPECIALTYPRODUCTTYPE = "fd264cab-ee8d-4571-a477-03d7e7c090b3";
@@ -279,6 +296,65 @@ export default {
       // Add the component back in
       renderComponent.value = true;
     };
+
+    function getTotalPrice() {
+      if (
+        productTypeId.value != LOCALSPECIALTYPRODUCTTYPE &&
+        productTypeId.value != HOTELPRODUCTTYPE
+      ) {
+        totalPrice.value =
+          adultCount.value * adultUnitPrice.value +
+          childCount.value * childUnitPrice.value +
+          infantCount.value * infantUnitPrice.value;
+      } else {
+        totalPrice.value = generalPrice.value * buyCount.value;
+      }
+      console.log("this is the total price:");
+      console.log(totalPrice.value);
+      return totalPrice.value;
+    }
+
+    function collectConfigAndGoPage() {
+      if (singleMatchedSku.value == null) {
+        gp.$generalNotify($q, false, "Not all required config are selected");
+        return;
+      }
+      var params = {};
+      params.productTypeId = productTypeId.value;
+      params.productName = productName.value;
+      params.productSkuId =
+        singleMatchedSku.value["hichinaProductBasicDTO"]["skuId"];
+      params.productSkuGroupId = route.params.skuGroupId;
+      params.packageCategory = activeCategory.value;
+      params.productTypeName = productTypeName.value;
+      params.profileImageUrl = extractAttributeValueFromProductPropertyBag(
+        singleMatchedSku.value,
+        PRODUCTIMAGEURLPROP
+      );
+      params.totalPrice = getTotalPrice();
+      //params.totalPrice = 1;
+      if (productTypeId.value != LOCALSPECIALTYPRODUCTTYPE) {
+        params.adultCount = adultCount.value;
+        params.childCount = childCount.value;
+        params.infantCount = infantCount.value;
+      }
+      if (LOCALSPECIALTYPRODUCTTYPE != productTypeId.value) {
+        params.selectedDate = selectedDate.value.toISOString().split("T")[0];
+      }
+      if (
+        productTypeId.value == LOCALSPECIALTYPRODUCTTYPE ||
+        productTypeId.value == HOTELPRODUCTTYPE
+      ) {
+        params.buyCount = buyCount.value;
+      }
+
+      console.log("params collected from product");
+      console.log(params);
+      // gp.$goPageWithParams(val, params);
+      // router.push({ name: val, state: params });
+      gp.$goPage("/book");
+      store.setOrderDetail(params);
+    }
 
     function handleSelectDate(dt) {
       console.log("dt");
@@ -640,6 +716,7 @@ export default {
       infantUnitPrice,
       generalPrice,
       buyCount,
+      collectConfigAndGoPage,
     };
   },
 };
