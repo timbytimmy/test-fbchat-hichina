@@ -94,6 +94,13 @@ const routes = [
     children: [{ path: "", component: () => import("pages/BlogEditPage.vue") }],
   },
   {
+    path: "/order-detail/:orderId",
+    component: () => import("layouts/MainLayout.vue"),
+    children: [
+      { path: "", component: () => import("pages/OrderDetailPage.vue") },
+    ],
+  },
+  {
     name: "book",
     path: "/book",
     component: () => import("layouts/MainLayout.vue"),
