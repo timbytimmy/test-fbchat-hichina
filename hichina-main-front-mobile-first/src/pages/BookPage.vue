@@ -251,7 +251,6 @@ export default {
     function validatePreOrderParams(finalParams) {
       console.log("validating finalParams");
       console.log(finalParams);
-      return false;
       // must have CNY value valid
       if (
         gp.$checkEmpty(finalParams.productInfo["totalPrice"]) ||
