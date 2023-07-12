@@ -192,7 +192,20 @@ export default {
       }, 500);
     }
 
+    function logPv() {
+      api
+        .post("/api/public/pagestats/pv/product")
+        .then((res) => {
+          console.log("log pv:");
+          console.log(res.data);
+        })
+        .catch((err) => {
+          console.error("Error:", err);
+        });
+    }
+
     onMounted(() => {
+      logPv();
       setActiveTab("groupTour");
       getNextBatch();
     });

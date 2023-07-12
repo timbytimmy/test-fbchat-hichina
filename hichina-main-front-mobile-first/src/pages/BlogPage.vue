@@ -174,8 +174,20 @@ export default {
         }
       }, 500);
     }
+    function logPv() {
+      api
+        .post("/api/public/pagestats/pv/blog")
+        .then((res) => {
+          console.log("log pv:");
+          console.log(res.data);
+        })
+        .catch((err) => {
+          console.error("Error:", err);
+        });
+    }
 
     onMounted(() => {
+      logPv();
       loadSliders();
       getNextBatch();
     });

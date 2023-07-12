@@ -345,7 +345,20 @@ export default defineComponent({
       }, 500);
     }
 
+    function logPv() {
+      api
+        .post("/api/public/pagestats/pv/home")
+        .then((res) => {
+          console.log("log pv:");
+          console.log(res.data);
+        })
+        .catch((err) => {
+          console.error("Error:", err);
+        });
+    }
+
     onMounted(() => {
+      logPv();
       // we call "next()" method of our component
       loadHomeSliders();
       loadRand6Destinations();

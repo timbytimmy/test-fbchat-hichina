@@ -113,7 +113,20 @@ export default {
           });
     }
 
+    function logPv() {
+      api
+        .post("/api/public/pagestats/pv/guideintro")
+        .then((res) => {
+          console.log("log pv:");
+          console.log(res.data);
+        })
+        .catch((err) => {
+          console.error("Error:", err);
+        });
+    }
+
     onMounted(() => {
+      logPv();
       loadSliders();
       loadGuideBooks();
     });
