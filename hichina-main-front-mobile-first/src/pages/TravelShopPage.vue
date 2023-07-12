@@ -19,6 +19,7 @@
           rounded
           outlined
           v-model="query"
+          @update:model-value="(val) => updateQuery(val)"
           label="Search by title"
         />
       </div>
@@ -115,12 +116,19 @@ export default {
     const HOLIDAYPACKAGETYPE = "e05d07a3-a717-45b8-b009-47a349890e41";
     const CHINALOCALPACKAGETYPE = "fd264cab-ee8d-4571-a477-03d7e7c090b3";
 
+    const updateQuery = debounce((value) => {
+      console.log(value);
+      globalProductList.value = [];
+      currentPage.value = 1;
+      loadAllProducts();
+    }, 500);
+
     function loadAllProducts() {
       var params = {};
       params.pageSize = pageSize.value;
       params.page = currentPage.value;
-      (params.query = query.value),
-        (params.productTypeId = productTypeId.value);
+      params.query = query.value;
+      params.productTypeId = productTypeId.value;
       api
         .get("/api/public/productsku/productskugrouplist", { params: params })
         .then(function (response) {
@@ -192,6 +200,7 @@ export default {
     return {
       query,
       globalProductList,
+      updateQuery,
     };
   },
 };
