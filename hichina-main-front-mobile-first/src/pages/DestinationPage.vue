@@ -10,6 +10,7 @@
         dense
         outlined
         v-model="query"
+        @update:model-value="(val) => updateQuery(val)"
         label="Search by title"
       />
     </div>
@@ -94,27 +95,31 @@ export default {
       }, 500);
     }
 
+    const updateQuery = debounce((value) => {
+      globalDestinationCards.value = [];
+      currentPage.value = 1;
+      loadDestinations();
+    }, 500);
+
     function loadDestinations() {
       destinationCards.value = [];
       var params = {};
       params.pageSize = pageSize.value;
       console.log("loading page: " + currentPage.value);
       params.page = currentPage.value;
-      (params.query = query.value),
-        api
-          .get("/api/public/destination/list", { params: params })
-          .then(function (response) {
-            destinationCards.value = response.data.data.data;
-            totalDestinationCount.value = response.data.data.total;
-            globalDestinationCards.value = globalDestinationCards.value.concat(
-              destinationCards.value
-            );
-            console.log("globalDestinationCards.value");
-            console.log(globalDestinationCards.value);
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
+      params.query = query.value;
+      api
+        .get("/api/public/destination/list", { params: params })
+        .then(function (response) {
+          destinationCards.value = response.data.data.data;
+          totalDestinationCount.value = response.data.data.total;
+          globalDestinationCards.value = globalDestinationCards.value.concat(
+            destinationCards.value
+          );
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     }
     onMounted(() => {
       loadDestinations();
@@ -125,6 +130,7 @@ export default {
       query,
       globalDestinationCards,
       hoverFlag,
+      updateQuery,
     };
   },
 };
