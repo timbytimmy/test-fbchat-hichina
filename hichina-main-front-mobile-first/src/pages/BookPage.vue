@@ -400,17 +400,43 @@ export default {
     }
     onMounted(() => {
       whoami();
+      var allParamsFromPreviousPage = bStore.getOrderDetail;
 
       console.log("allParamsFromPreviousPage");
-      var allParamsFromPreviousPage = bStore.getOrderDetail;
       console.log(allParamsFromPreviousPage);
+      if (
+        allParamsFromPreviousPage.productName == null ||
+        allParamsFromPreviousPage.productName.length < 1 ||
+        allParamsFromPreviousPage.productSkuId == null ||
+        allParamsFromPreviousPage.productSkuId.length < 1 ||
+        allParamsFromPreviousPage.packageCategory == null ||
+        allParamsFromPreviousPage.packageCategory.length < 1
+      ) {
+        gp.$goPage("/");
+        return;
+      }
+
       productName.value = allParamsFromPreviousPage.productName;
+      productSkuId.value = allParamsFromPreviousPage.productSkuId;
       packageCategory.value = allParamsFromPreviousPage.packageCategory;
       selectedDate.value = allParamsFromPreviousPage.selectedDate;
-      adultCount.value = allParamsFromPreviousPage.adultCount;
-      childCount.value = allParamsFromPreviousPage.childCount;
-      infantCount.value = allParamsFromPreviousPage.infantCount;
-      buyCount.value = allParamsFromPreviousPage.buyCount;
+      productTypeId.value = allParamsFromPreviousPage.productTypeId;
+      adultCount.value =
+        allParamsFromPreviousPage.adultCount == null
+          ? 0
+          : allParamsFromPreviousPage.adultCount;
+      childCount.value =
+        allParamsFromPreviousPage.childCount == null
+          ? 0
+          : allParamsFromPreviousPage.childCount;
+      infantCount.value =
+        allParamsFromPreviousPage.infantCount == null
+          ? 0
+          : allParamsFromPreviousPage.infantCount;
+      buyCount.value =
+        allParamsFromPreviousPage.buyCount == null
+          ? 0
+          : allParamsFromPreviousPage.buyCount;
       totalPrice.value = allParamsFromPreviousPage.totalPrice;
 
       console.log("productName.value");
@@ -423,32 +449,6 @@ export default {
         phone: "",
         address: "",
       };
-      // if (
-      //   route.params.productName == null ||
-      //   route.params.productName.length < 1 ||
-      //   route.params.productSkuId == null ||
-      //   route.params.productSkuId.length < 1 ||
-      //   route.params.packageCategory == null ||
-      //   route.params.packageCategory.length < 1
-      // ) {
-      //   gp.$goPage("/");
-      //   return;
-      // }
-      // productName.value = route.params.productName;
-      // packageCategory.value = route.params.packageCategory;
-      // selectedDate.value = route.params.selectedDate;
-      // totalPrice.value = route.params.totalPrice;
-      // productSkuId.value = route.params.productSkuId;
-      // adultCount.value =
-      //   route.params.adultCount == null ? 0 : route.params.adultCount;
-      // childCount.value =
-      //   route.params.childCount == null ? 0 : route.params.childCount;
-      // infantCount.value =
-      //   route.params.infantCount == null ? 0 : route.params.infantCount;
-      // buyCount.value =
-      //   route.params.buyCount == null ? 0 : route.params.buyCount;
-
-      // productTypeId.value = route.params.productTypeId;
     });
 
     return {
