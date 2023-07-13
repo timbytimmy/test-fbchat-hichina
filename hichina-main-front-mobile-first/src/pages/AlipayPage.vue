@@ -1,6 +1,6 @@
 <template>
   <q-page>
-    <div v-html="htmlContent" ref="pay"></div>
+    <div v-html="htmlContent" id="container" ref="pay"></div>
   </q-page>
 </template>
 
@@ -33,9 +33,8 @@ export default {
       orderId.value = allParamsFromPreviousPage.orderId;
       price.value = allParamsFromPreviousPage.price;
 
-      document.addEventListener("DOMContentLoaded", function () {
-        document.write(htmlContent.value);
-      });
+      var container = document.getElementById("container");
+      container.innerHTML = htmlContent.value;
     });
   },
 };
