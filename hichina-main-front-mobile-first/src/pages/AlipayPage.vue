@@ -1,6 +1,10 @@
 <template>
   <q-page>
-    <div id="container" ref="pay"></div>
+    <div
+      id="container"
+      style="width: 100%; height: 100%; background-color: yellow"
+      ref="pay"
+    ></div>
   </q-page>
 </template>
 
