@@ -29,7 +29,7 @@
               Guidbook of {{ destinationName }}
             </div>
             <div class="col-6 flex flex-center">
-              <q-btn class="glossy" rounded color="blue-6"
+              <q-btn class="glossy" rounded color="blue-6" @click="goDownload"
                 ><q-icon left size="3em" name="download" />
                 <div>Download</div></q-btn
               >
@@ -68,11 +68,14 @@ import { ref, onMounted, getCurrentInstance } from "vue";
 import { api } from "boot/axios";
 import { useRoute } from "vue-router";
 import { useSeoMeta } from "unhead";
+import { useQuasar } from "quasar";
 export default {
   name: "DestinationDetailPage",
   setup() {
+    const instance = getCurrentInstance();
     const app = getCurrentInstance().appContext.app;
     const gp = app.config.globalProperties;
+    const $q = useQuasar();
 
     const route = useRoute();
 
@@ -82,6 +85,20 @@ export default {
     const destinationName = ref("");
     const childDestinations = ref([]);
     const relevantToursProduct = ref([]);
+
+    function goDownload() {
+      if (downloadUrl.value == null || downloadUrl.value == "") {
+        gp.$generalNotify(
+          $q,
+          false,
+          "There is no guidebook for this destination"
+        );
+
+        return;
+      } else {
+        window.location.href = downloadUrl.value;
+      }
+    }
 
     function logPv() {
       api
