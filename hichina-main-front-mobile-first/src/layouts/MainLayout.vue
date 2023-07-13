@@ -94,7 +94,7 @@
             <q-tooltip>{{ currentUser }}</q-tooltip>
           </q-btn>
         </div>
-        <div v-if="currentUser != ''" class="row q-mr-xl">
+        <div v-if="currentUser != '' && $q.screen.gt.xs" class="row q-mr-xl">
           <q-btn icon="arrow_drop_down" flat dense>
             <q-menu
               style="width: 100px"
@@ -207,6 +207,58 @@
             </q-item-section>
             <q-item-section>
               <q-item-label>Register</q-item-label>
+            </q-item-section>
+          </q-item>
+          <q-item
+            v-if="currentUser !== ''"
+            v-ripple
+            clickable
+            @click="goPage('/my-blogs')"
+          >
+            <q-item-section avatar>
+              <q-icon color="grey" name="account_circle" />
+            </q-item-section>
+            <q-item-section>
+              <q-item-label>My Blogs</q-item-label>
+            </q-item-section>
+          </q-item>
+          <q-item
+            v-if="currentUser !== ''"
+            v-ripple
+            clickable
+            @click="goPage('/my-orders')"
+          >
+            <q-item-section avatar>
+              <q-icon color="grey" name="account_circle" />
+            </q-item-section>
+            <q-item-section>
+              <q-item-label>My Orders</q-item-label>
+            </q-item-section>
+          </q-item>
+          <q-item
+            v-if="currentUser !== ''"
+            v-ripple
+            clickable
+            @click="goPage('/user-info')"
+          >
+            <q-item-section avatar>
+              <q-icon color="grey" name="account_circle" />
+            </q-item-section>
+            <q-item-section>
+              <q-item-label>Edit Profile</q-item-label>
+            </q-item-section>
+          </q-item>
+          <q-item
+            v-if="currentUser !== ''"
+            v-ripple
+            clickable
+            @click="logout()"
+          >
+            <q-item-section avatar>
+              <q-icon color="grey" name="account_circle" />
+            </q-item-section>
+            <q-item-section>
+              <q-item-label>Logout</q-item-label>
             </q-item-section>
           </q-item>
         </q-list>
