@@ -57,6 +57,11 @@ export default {
 
       forceRerender();
     });
+
+    return {
+      renderComponent,
+      htmlContent,
+    };
   },
 };
 </script>
