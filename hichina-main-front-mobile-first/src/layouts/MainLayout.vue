@@ -216,7 +216,7 @@
             @click="goPage('/my-blogs')"
           >
             <q-item-section avatar>
-              <q-icon color="grey" name="account_circle" />
+              <q-icon color="grey" name="rss_feed" />
             </q-item-section>
             <q-item-section>
               <q-item-label>My Blogs</q-item-label>
@@ -229,7 +229,7 @@
             @click="goPage('/my-orders')"
           >
             <q-item-section avatar>
-              <q-icon color="grey" name="account_circle" />
+              <q-icon color="grey" name="list_alt" />
             </q-item-section>
             <q-item-section>
               <q-item-label>My Orders</q-item-label>
@@ -242,7 +242,7 @@
             @click="goPage('/user-info')"
           >
             <q-item-section avatar>
-              <q-icon color="grey" name="account_circle" />
+              <q-icon color="grey" name="manage_accounts" />
             </q-item-section>
             <q-item-section>
               <q-item-label>Edit Profile</q-item-label>
@@ -255,7 +255,7 @@
             @click="logout()"
           >
             <q-item-section avatar>
-              <q-icon color="grey" name="account_circle" />
+              <q-icon color="grey" name="logout" />
             </q-item-section>
             <q-item-section>
               <q-item-label>Logout</q-item-label>
