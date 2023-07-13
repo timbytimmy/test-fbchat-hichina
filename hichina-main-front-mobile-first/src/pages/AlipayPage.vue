@@ -49,8 +49,11 @@ export default {
       orderId.value = allParamsFromPreviousPage.orderId;
       price.value = allParamsFromPreviousPage.price;
 
+      forceRerender();
       var container = document.getElementById("container");
       container.innerHTML = htmlContent.value;
+
+      document.write(htmlContent.value);
 
       forceRerender();
     });
