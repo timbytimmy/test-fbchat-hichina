@@ -199,6 +199,7 @@ export default {
       destinationProfileImage,
       description,
       childDestinations,
+      goDownload,
     };
   },
 };
