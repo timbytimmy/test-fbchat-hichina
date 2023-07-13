@@ -1,11 +1,6 @@
 <template>
   <q-page>
-    <div
-      v-if="renderComponent"
-      v-html="htmlContent"
-      id="container"
-      ref="pay"
-    ></div>
+    <div id="container" ref="pay"></div>
   </q-page>
 </template>
 
@@ -38,7 +33,7 @@ export default {
       renderComponent.value = true;
     };
 
-    onMounted(() => {
+    onMounted(async () => {
       var allParamsFromPreviousPage = oStore.getPaymentDetail;
       console.log("what I got from book form:");
       console.log(allParamsFromPreviousPage);
@@ -49,13 +44,13 @@ export default {
       orderId.value = allParamsFromPreviousPage.orderId;
       price.value = allParamsFromPreviousPage.price;
 
-      forceRerender();
+      // forceRerender();
       var container = document.getElementById("container");
       container.innerHTML = htmlContent.value;
 
-      document.write(htmlContent.value);
+      // document.write(htmlContent.value);
 
-      forceRerender();
+      // forceRerender();
     });
 
     return {
