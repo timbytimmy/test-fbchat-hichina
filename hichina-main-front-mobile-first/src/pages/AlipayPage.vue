@@ -2,7 +2,7 @@
   <q-page>
     <div
       id="container"
-      style="width: 100%; height: 100%; background-color: yellow"
+      style="width: 100%; height: 100vw; background-color: yellow"
       ref="pay"
     ></div>
   </q-page>
