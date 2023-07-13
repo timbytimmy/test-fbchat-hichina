@@ -1,11 +1,16 @@
 <template>
   <q-page>
-    <div v-html="htmlContent" id="container" ref="pay"></div>
+    <div
+      v-if="renderComponent"
+      v-html="htmlContent"
+      id="container"
+      ref="pay"
+    ></div>
   </q-page>
 </template>
 
 <script>
-import { onMounted, ref } from "vue";
+import { onMounted, nextTick, ref } from "vue";
 import { orderPaymentParamStore } from "stores/orderPaymentParamStore";
 export default {
   name: "AlipayPage",
@@ -18,9 +23,20 @@ export default {
 
     const htmlContent = ref("");
 
+    const renderComponent = ref(true);
+
     function b64_to_utf8(str) {
       return window.atob(str);
     }
+
+    const forceRerender = async () => {
+      renderComponent.value = false;
+      // Wait for the change to get flushed to the DOM
+      await nextTick();
+
+      // Add the component back in
+      renderComponent.value = true;
+    };
 
     onMounted(() => {
       var allParamsFromPreviousPage = oStore.getPaymentDetail;
@@ -35,6 +51,8 @@ export default {
 
       var container = document.getElementById("container");
       container.innerHTML = htmlContent.value;
+
+      forceRerender();
     });
   },
 };
