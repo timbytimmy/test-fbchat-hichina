@@ -33,8 +33,9 @@ export default {
       orderId.value = allParamsFromPreviousPage.orderId;
       price.value = allParamsFromPreviousPage.price;
 
-      var div = document.createElement("div");
-      div.appendChild(htmlContent.value);
+      document.addEventListener("DOMContentLoaded", function () {
+        document.write(htmlContent.value);
+      });
     });
   },
 };
