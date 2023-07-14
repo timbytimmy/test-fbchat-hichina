@@ -23,7 +23,7 @@
         <div class="col-2 row justify-center">
           <div class="text-left col-7">Total Price: {{ price }}</div>
         </div>
-        <div class="col row justify-center">
+        <div class="col row justify-center" v-if="renderComponent">
           <div class="col-7">
             <QRCodeVue3 :width="220" :height="220" :value="htmlContent" />
           </div>
@@ -35,7 +35,7 @@
 
 <script>
 import QRCodeVue3 from "qrcode-vue3";
-import { onMounted, ref, getCurrentInstance } from "vue";
+import { onMounted, ref, nextTick, getCurrentInstance } from "vue";
 import { api } from "boot/axios";
 import { orderPaymentParamStore } from "stores/orderPaymentParamStore";
 import { useQuasar } from "quasar";
@@ -59,6 +59,16 @@ export default {
     const price = ref("");
     const productName = ref("");
     const htmlContent = ref("");
+    const renderComponent = ref(true);
+
+    const forceRerender = async () => {
+      renderComponent.value = false;
+      // Wait for the change to get flushed to the DOM
+      await nextTick();
+
+      // Add the component back in
+      renderComponent.value = true;
+    };
 
     function checkPaymentStatus() {
       api
@@ -70,6 +80,8 @@ export default {
             // jump to my order page
             clearInterval(refreshIntervalId.value);
             gp.$goPage("/my-orders");
+          } else {
+            forceRerender();
           }
         })
         .catch((e) => {
@@ -92,6 +104,7 @@ export default {
       console.log("what I got from book form:");
       console.log(allParamsFromPreviousPage);
       codeUrl.value = allParamsFromPreviousPage.codeUrl;
+      forceRerender();
       console.log("decoded");
       htmlContent.value = b64_to_utf8(codeUrl.value);
       console.log(htmlContent.value);
@@ -105,6 +118,7 @@ export default {
       htmlContent,
       productName,
       price,
+      forceRerender,
     };
   },
 };
