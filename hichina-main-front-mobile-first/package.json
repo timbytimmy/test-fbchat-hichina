@@ -2,7 +2,7 @@
   "name": "hichina-main-front-mobile-first",
   "version": "0.0.1",
   "description": "A Quasar Project",
-  "productName": "Hichina Main Site Mobile First",
+  "productName": "Hichina Main Site",
   "author": "fengchang <fengchang_fight@163.com>",
   "private": true,
   "scripts": {
