@@ -1,5 +1,4 @@
 import { boot } from "quasar/wrappers";
-import { useQuasar } from "quasar";
 import vueCountryRegionSelect from "vue3-country-region-select";
 // "async" is optional;
 // more info on params: https://v2.quasar.dev/quasar-cli/boot-files
@@ -8,8 +7,6 @@ export default boot(async (/* { app, router, ... } */ { app, router }) => {
   const testGlobal2 = () => {
     console.log("testGlobal2");
   };
-
-  const $qu = useQuasar();
 
   app.use(vueCountryRegionSelect);
 
@@ -52,12 +49,12 @@ export default boot(async (/* { app, router, ... } */ { app, router }) => {
     }
   };
 
-  const showLoading = () => {
-    $qu.loading.show();
+  const showLoading = (q) => {
+    q.loading.show();
   };
 
-  const hideLoading = () => {
-    $qu.loading.hide();
+  const hideLoading = (q) => {
+    q.loading.hide();
   };
 
   app.config.globalProperties.$testGlobal2 = testGlobal2;
