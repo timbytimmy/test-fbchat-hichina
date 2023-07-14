@@ -117,13 +117,17 @@ export default {
       params.content = content.value;
       params.headImageUrl = "";
 
+      gp.$showLoading();
+
       api
         .post("/api/v1/blog", params)
         .then((res) => {
           console.log(res.data.data.blogId);
+          gp.$hideLoading();
           gp.$goPage("/blog-detail/" + res.data.data.blogId);
         })
         .catch((err) => {
+          gp.$hideLoading();
           console.error("Error:", err);
         });
     }

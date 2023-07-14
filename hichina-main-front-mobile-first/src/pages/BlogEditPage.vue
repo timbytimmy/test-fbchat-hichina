@@ -128,13 +128,16 @@ export default {
       params.content = content.value;
       params.headImageUrl = "";
 
+      gp.$showLoading();
       api
         .put("/api/v1/blog/edit-basic/" + route.params.blogId, params)
         .then((res) => {
+          gp.$hideLoading();
           gp.$generalNotify($q, true, "Succeed updating blogs");
         })
         .catch((err) => {
           console.error("Error:", err);
+          $gp.$hideLoading();
           gp.$generalNotify($q, false, "Failed updating blogs");
         });
     }
