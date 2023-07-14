@@ -24,7 +24,7 @@
           <div class="text-left col-7">Total Price: {{ price }}</div>
         </div>
         <div class="col row justify-center">
-          <div class="col-8">
+          <div class="col-7">
             <QRCodeVue3 :width="220" :height="220" :value="htmlContent" />
           </div>
         </div>
