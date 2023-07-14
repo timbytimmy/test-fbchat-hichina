@@ -300,11 +300,6 @@ export default {
     }
 
     function submitOrder(paymethod) {
-      if (paymethod === "wechatpay") {
-        alert("not available, will be on line soon");
-        return;
-      }
-
       var finalParams = {};
       if (LOCALSPECIALTYPRODUCTTYPE != productTypeId.value) {
         finalParams.passengerInfo = peopleform.value;
