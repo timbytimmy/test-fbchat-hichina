@@ -88,8 +88,8 @@ export default {
       ) {
         // do real reg logic
         var data = {
-          email: username,
-          password: password,
+          email: username.value,
+          password: password.value,
         };
 
         api
@@ -115,6 +115,7 @@ export default {
       password,
       confPassword,
       username,
+      register,
       correctConfPass: computed(() => confPassword.value == password.value),
     };
   },
