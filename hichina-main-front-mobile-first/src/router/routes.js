@@ -129,6 +129,13 @@ const routes = [
     ],
   },
   {
+    path: "/regvalidation/:regKey",
+    component: () => import("layouts/MainLayout.vue"),
+    children: [
+      { path: "", component: () => import("pages/RegvalidationPage.vue") },
+    ],
+  },
+  {
     path: "/regsuccess",
     component: () => import("layouts/MainLayout.vue"),
     children: [
