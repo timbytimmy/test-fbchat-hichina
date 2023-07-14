@@ -28,7 +28,7 @@ export default {
 
     const waitAndGo = async () => {
       setTimeout(() => {
-        gp.$goPage("/login");
+        gp.$goPage("/auth/login");
       }, 2500);
     };
 
