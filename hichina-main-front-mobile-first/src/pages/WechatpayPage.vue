@@ -119,6 +119,7 @@ export default {
       productName,
       price,
       forceRerender,
+      renderComponent,
     };
   },
 };
