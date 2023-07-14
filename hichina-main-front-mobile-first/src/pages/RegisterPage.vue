@@ -92,6 +92,7 @@ export default {
           password: password.value,
         };
 
+        gp.$showLoading($q);
         api
           .post("/api/public/register", data)
           .then((response) => {
@@ -102,9 +103,11 @@ export default {
             } else {
               gp.$generalNotify($q, false, response.data.message);
             }
+            gp.$hideLoading($q);
             gp.$goPage("/regsuccess");
           })
           .catch((e) => {
+            gp.$hideLoading($q);
             gp.$generalNotify($q, false, "Error message: " + e);
           });
       } else {
