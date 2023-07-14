@@ -59,13 +59,9 @@
         v-bind:key="index"
       >
         <div class="q-pa-md">
-          <q-card
-            @click="goPage('/product-detail/' + item.skuGroupId)"
-            class="cursor-pointer"
-            flat
-            bordered
-          >
+          <q-card class="cursor-pointer" flat bordered>
             <q-img
+              @click="goPage('/product-detail/' + item.skuGroupId)"
               :src="item.imageUrl"
               placeholder-src="https://photoprism.hichinatravel.com/api/v1/t/2bfc32550ae040956f7e861566d26c487c0143e7/32mcf2k4/tile_224"
             />
@@ -75,7 +71,7 @@
                 Start from ￥{{ item.minPrice }}
               </div>
               <div class="text-h5 q-mt-sm q-mb-xs">
-                <a :href="'./product-detail/' + item.skkuGroupId">{{
+                <a :href="'./product-detail/' + item.skuGroupId">{{
                   item.skuGroupName
                 }}</a>
               </div>
