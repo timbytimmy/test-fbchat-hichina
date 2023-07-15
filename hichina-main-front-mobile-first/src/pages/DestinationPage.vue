@@ -25,9 +25,9 @@
             class="destination-card cursor-pointer rounded-borders"
             @mouseenter="hoverFlag = true"
             @mouseleave="hoverFlag = true"
-            @click="goPage('/destination-detail/' + item.destinationid)"
           >
             <q-img
+              @click="goPage('/destination-detail/' + item.destinationId)"
               class="rounded-borders"
               style="height: 100%"
               :src="normalizeMultiImageUrl(item.destinationProfileImage)"
