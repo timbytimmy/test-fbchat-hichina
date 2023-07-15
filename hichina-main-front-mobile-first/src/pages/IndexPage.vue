@@ -367,7 +367,7 @@ export default defineComponent({
     });
 
     return {
-      slide: ref(1),
+      slide: ref(0),
       autoplay: ref(true),
       sliders,
       randDestinations,
