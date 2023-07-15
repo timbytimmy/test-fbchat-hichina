@@ -55,7 +55,7 @@
           class="cursor-pointer"
           @click="goPage('/destination-detail/' + item.destinationId)"
           fit="fill"
-          :src="item.destinationProfileImage"
+          :src="normalizeMultiImageUrl(item.destinationProfileImage)"
         ></q-img>
       </div>
       <div class="col-9 column q-pa-md">
