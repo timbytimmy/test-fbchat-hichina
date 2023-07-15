@@ -12,8 +12,9 @@
     <div class="row q-pa-md" style="min-height: 340px">
       <div class="col-12 col-sm-4" style="height: 340px">
         <q-carousel
-          animated
+          v-if="renderComponent"
           v-model="slide"
+          animated
           navigation
           infinite
           height="100%"
@@ -25,9 +26,9 @@
           @mouseleave="autoplay = 2000"
         >
           <q-carousel-slide
-            v-for="imageUrl in imageContainer.imageList"
-            :key="imageUrl"
-            :name="imageUrl"
+            v-for="(imageUrl, index) in imageContainer.imageList"
+            :key="index"
+            :name="index"
             :img-src="imageUrl"
           >
           </q-carousel-slide>
@@ -48,11 +49,11 @@
         <datepicker
           v-if="renderComponent && productTypeId != LOCALSPECIALTYPRODUCTTYPE"
           @selected="handleSelectDate"
-          use-utc="true"
+          :use-utc="shouldUseUtc"
           :disabled-dates="state.disabledDates"
           v-model="selectedDate"
           :prevent-disable-date-selection="true"
-          inline="true"
+          :inline="shouldInline"
           :icon-width="40"
           calendar-class="calendarclass"
         ></datepicker>
@@ -602,7 +603,8 @@ export default {
           PRODUCTIMAGEURLPROP
         );
         if (url != null) {
-          imageContainer.imageList.push(url);
+          // imageContainer.imageList.push(url);
+          imageList.value.push(url);
         }
 
         // this if means only need to calculate days once because all this property in the same sku group should be same
@@ -613,6 +615,8 @@ export default {
           );
         }
       }
+      imageContainer.imageList = imageList.value;
+      forceRerender();
       console.log("imageContainer");
       console.log(imageContainer);
       // trick: remove duplicates
@@ -693,7 +697,7 @@ export default {
       productName,
       productTypeId,
       days,
-      slide: ref(1),
+      slide: ref(0),
       autoplay: ref(true),
       imageContainer,
       productDescription,
@@ -716,6 +720,8 @@ export default {
       infantUnitPrice,
       generalPrice,
       buyCount,
+      shouldUseUtc: ref(true),
+      shouldInline: ref(true),
       collectConfigAndGoPage,
     };
   },
