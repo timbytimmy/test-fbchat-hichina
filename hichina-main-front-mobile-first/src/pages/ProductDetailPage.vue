@@ -35,7 +35,7 @@
         </q-carousel>
       </div>
       <div class="col-12 col-sm-8 column" style="height: 340px">
-        <div class="text-h4 q-pl-md" style="height: 50px">
+        <div class="text-h4 q-pl-md" style="min-height: 50px">
           {{ productName }}
         </div>
         <div class="q-ml-md q-pl-md col" style="background-color: #fff9c6">
