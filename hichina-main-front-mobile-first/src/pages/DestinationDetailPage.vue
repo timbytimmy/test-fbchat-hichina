@@ -51,10 +51,19 @@
       style="width: 90%; min-height: 200px; margin: 0 auto"
     >
       <div class="col-3 q-pa-md" style="border-right: 1px solid gray">
-        <q-img fit="fill" :src="item.destinationProfileImage"></q-img>
+        <q-img
+          class="cursor-pointer"
+          @click="goPage('/destination-detail/' + item.destinationId)"
+          fit="fill"
+          :src="item.destinationProfileImage"
+        ></q-img>
       </div>
       <div class="col-9 column q-pa-md">
-        <div class="text-h4 text-weight-bold">{{ item.destinationName }}</div>
+        <div class="text-h4 text-weight-bold">
+          <a :href="'./destination-detail/' + item.destinationId">{{
+            item.destinationName
+          }}</a>
+        </div>
         <div class="q-pt-md">
           {{ removeHtmlTag(item.description) }}
         </div>
