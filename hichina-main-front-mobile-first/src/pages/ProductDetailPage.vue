@@ -499,7 +499,9 @@ export default {
         candidateAvailableDates
       );
 
-      dateObjArray.sort(compareDate);
+      dateObjArray = dateObjArray.sort((a, b) => a - b);
+      console.log("dateObjArray");
+      console.log(dateObjArray);
 
       var minDate = dateObjArray[0];
       var maxDate = dateObjArray.slice(-1)[0];
@@ -513,14 +515,26 @@ export default {
       var pointer = new Date(minDate);
 
       while (pointer < maxDate) {
+        console.log("pointer...");
+        console.log(pointer);
+        console.log("pointer.getDate()");
+        console.log(pointer.getDate());
         // check contains
-        if (!dateObjArray.some((e) => e.getDate() == pointer.getDate())) {
+        if (
+          !dateObjArray.some((e) => e.toDateString() == pointer.toDateString())
+        ) {
+          console.log("not contains the pointer date");
           segmentDisabledDates.push(new Date(pointer));
+        } else {
+          console.log("contains the pointer date");
         }
         // update pointer
         pointer.setDate(pointer.getDate() + 1);
       }
       state.disabledDates.dates = segmentDisabledDates;
+
+      console.log("state.disabledDates");
+      console.log(state.disabledDates);
 
       forceRerender();
     }
