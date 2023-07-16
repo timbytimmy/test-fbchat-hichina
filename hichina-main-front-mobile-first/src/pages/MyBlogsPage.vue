@@ -70,7 +70,11 @@
           </div>
         </div>
         <div class="q-pa-lg flex flex-center">
-          <q-pagination v-model="currentPage" :max="totalPages" />
+          <q-pagination
+            v-model="currentPage"
+            @update:model-value="changePage"
+            :max="totalPages"
+          />
         </div>
       </div></div
   ></q-page>
@@ -89,7 +93,6 @@ export default {
     const $q = useQuasar();
 
     const pageSize = ref(100);
-    const blogCurrentPage = ref(1);
     const bloglist = ref([]);
     const totalCnt = ref(0);
     const totalPages = ref(1);
@@ -107,6 +110,12 @@ export default {
         .catch((err) => {
           gp.$generalNotify($q, false, "Fail publishing blog" + err);
         });
+    }
+
+    function changePage() {
+      console.log("changing to page: ");
+      console.log(currentPage.value);
+      loadMyBlogs();
     }
 
     function confirmDeleteBlog(blogId) {
@@ -129,29 +138,32 @@ export default {
     function loadMyBlogs() {
       var params = {};
       params.pageSize = pageSize.value;
-      params.page = blogCurrentPage.value;
-      (params.query = ""),
-        api
-          .get("/api/v1/blog/mybloglist", {
-            params: params,
-          })
-          .then(function (response) {
-            console.log("Got my blogs summary: ");
-            console.log(response.data.data);
-            bloglist.value = response.data.data.data;
-            totalCnt.value = response.data.data.total;
-            pageSize.value = response.data.data.pageSize;
-            blogCurrentPage.value = response.data.data.currentPage;
+      params.page = currentPage.value;
+      params.query = "";
+      gp.$showLoading($q);
+      api
+        .get("/api/v1/blog/mybloglist", {
+          params: params,
+        })
+        .then(function (response) {
+          console.log("Got my blogs summary: ");
+          console.log(response.data.data);
+          bloglist.value = response.data.data.data;
+          totalCnt.value = response.data.data.total;
+          pageSize.value = response.data.data.pageSize;
+          currentPage.value = response.data.data.currentPage;
 
-            let divFloor = Math.floor(totalCnt.value / pageSize.value);
-            if (totalCnt.value % pageSize.value > 0) {
-              divFloor += 1;
-            }
-            totalPages.value = divFloor;
-          })
-          .catch(function (error) {
-            console.log("failed to load my blogs: " + error);
-          });
+          let divFloor = Math.floor(totalCnt.value / pageSize.value);
+          if (totalCnt.value % pageSize.value > 0) {
+            divFloor += 1;
+          }
+          totalPages.value = divFloor;
+          gp.$hideLoading($q);
+        })
+        .catch(function (error) {
+          console.log("failed to load my blogs: " + error);
+          gp.$hideLoading($q);
+        });
     }
 
     function whoami() {
@@ -182,6 +194,7 @@ export default {
       deleteBLog,
       publishBlog,
       confirmDeleteBlog,
+      changePage,
     };
   },
 };
