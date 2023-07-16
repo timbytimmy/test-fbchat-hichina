@@ -1,10 +1,6 @@
 <template>
   <q-page>
-    <div
-      id="container"
-      style="width: 100%; height: 100vw; background-color: yellow"
-      ref="pay"
-    ></div>
+    <div id="container" style="width: 100%" ref="pay"></div>
   </q-page>
 </template>
 
@@ -50,11 +46,12 @@ export default {
 
       // forceRerender();
       var container = document.getElementById("container");
-      container.innerHTML = htmlContent.value;
+      container.innerHTML += htmlContent.value;
+      // container.innerHTML += "<p>this is a test text</p>";
 
       // document.write(htmlContent.value);
 
-      // forceRerender();
+      forceRerender();
     });
 
     return {

@@ -300,10 +300,10 @@ export default {
     }
 
     function submitOrder(paymethod) {
-      if (paymethod == "paymethod") {
-        alert("Feature not available yet, will be online soon!");
-        return;
-      }
+      // if (paymethod == "alipay") {
+      //   alert("Feature not available yet, will be online soon!");
+      //   return;
+      // }
       var finalParams = {};
       if (LOCALSPECIALTYPRODUCTTYPE != productTypeId.value) {
         finalParams.passengerInfo = peopleform.value;
