@@ -7,10 +7,12 @@
         </div>
         <div class="col-12 q-mt-xl">
           <QuillEditor
+            @paste="handlePaste"
             theme="snow"
             v-model:content="content"
             contentType="html"
             toolbar="full"
+            ref="quillEditor"
             :modules="combineModule"
           />
         </div>
@@ -66,10 +68,23 @@ export default {
 
     const title = ref("");
     const content = ref("");
+    const savedScrollPosition = ref(null);
 
     const currentBlogId = ref("");
 
     currentBlogId.value = route.params.blogId;
+
+    function handlePaste() {
+      // Save the current scroll position before paste
+      savedScrollPosition.value =
+        instance.refs.quillEditor.quill.root.scrollTop;
+      // Delay the paste operation to ensure the content is available
+      setTimeout(() => {
+        // Restore the scroll position after paste
+        instance.refs.quillEditor.quill.root.scrollTop =
+          savedScrollPosition.value;
+      }, 0);
+    }
 
     const imageUploadModule = {
       name: "imageUploader",
@@ -154,6 +169,7 @@ export default {
       title,
       content,
       updateBlog,
+      handlePaste,
       currentBlogId,
       combineModule,
     };
