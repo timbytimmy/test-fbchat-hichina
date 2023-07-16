@@ -50,11 +50,11 @@ export default {
       price.value = allParamsFromPreviousPage.price;
 
       // forceRerender();
-      var container = document.getElementById("container");
-      container.innerHTML += htmlContent.value;
+      // var container = document.getElementById("container");
+      // container.innerHTML += htmlContent.value;
       // container.innerHTML += "<p>this is a test text</p>";
 
-      // document.write(htmlContent.value);
+      document.write(htmlContent.value);
 
       forceRerender();
     });
