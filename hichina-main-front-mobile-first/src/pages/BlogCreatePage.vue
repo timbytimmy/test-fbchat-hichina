@@ -73,12 +73,15 @@ export default {
             formData.append("imageFile", file);
             formData.append("expectedType", "blogImage");
 
+            gp.$showLoading($q);
             api
               .post("/api/v1/image/upload", formData)
               .then((res) => {
                 resolve(res.data.data);
+                gp.$hideLoading($q);
               })
               .catch((err) => {
+                gp.$hideLoading($q);
                 reject("Upload failed");
                 console.error("Error:", err);
               });
