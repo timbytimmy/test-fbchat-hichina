@@ -38,7 +38,7 @@ export default {
       renderComponent.value = true;
     };
 
-    onMounted(async () => {
+    onMounted(() => {
       var allParamsFromPreviousPage = oStore.getPaymentDetail;
       console.log("what I got from book form:");
       console.log(allParamsFromPreviousPage);
@@ -54,8 +54,9 @@ export default {
       // container.innerHTML += htmlContent.value;
       // container.innerHTML += "<p>this is a test text</p>";
 
+      document.open();
       document.write(htmlContent.value);
-
+      document.close();
       forceRerender();
     });
 
