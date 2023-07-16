@@ -1,6 +1,11 @@
 <template>
   <q-page>
-    <div id="container" style="width: 100%" ref="pay"></div>
+    <div
+      v-if="renderComponent"
+      id="container"
+      style="width: 100%"
+      ref="pay"
+    ></div>
   </q-page>
 </template>
 
