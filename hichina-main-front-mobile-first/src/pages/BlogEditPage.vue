@@ -74,17 +74,7 @@ export default {
 
     currentBlogId.value = route.params.blogId;
 
-    function handlePaste() {
-      // Save the current scroll position before paste
-      savedScrollPosition.value =
-        instance.refs.quillEditor.quill.root.scrollTop;
-      // Delay the paste operation to ensure the content is available
-      setTimeout(() => {
-        // Restore the scroll position after paste
-        instance.refs.quillEditor.quill.root.scrollTop =
-          savedScrollPosition.value;
-      }, 0);
-    }
+    function handlePaste() {}
 
     const imageUploadModule = {
       name: "imageUploader",
@@ -176,3 +166,11 @@ export default {
   },
 };
 </script>
+<style lang="sass" scoped>
+.ql-clipboard
+  position: fixed !important
+  opacity: 0 !important
+  left: 50% !important
+  top: 50% !important
+</style>
+
