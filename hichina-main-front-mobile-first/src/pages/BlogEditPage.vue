@@ -146,7 +146,10 @@ export default {
         .catch((err) => {
           console.error("Error:", err);
           $gp.$hideLoading($q);
-          gp.$generalNotify($q, false, "Failed updating blogs");
+          gp.$generalNotify($q, false, "Error:", err);
+          if (err.response.status == 401) {
+            gp.$goPage("/auth/login");
+          }
         });
     }
     onMounted(() => {

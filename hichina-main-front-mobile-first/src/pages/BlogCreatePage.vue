@@ -131,7 +131,11 @@ export default {
         })
         .catch((err) => {
           gp.$hideLoading($q);
+          gp.$generalNotify($q, false, err);
           console.error("Error:", err);
+          if (err.response.status == 401) {
+            gp.$goPage("/auth/login");
+          }
         });
     }
 
