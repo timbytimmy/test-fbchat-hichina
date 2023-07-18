@@ -86,6 +86,7 @@
             style="align-items: center"
           >
             <q-btn-toggle
+              v-if="productTypeId != LOCALSPECIALTYPRODUCTTYPE"
               v-model="activeIndex"
               spread
               no-caps
@@ -97,9 +98,40 @@
               "
               :options="labelValuePair(packageCategories)"
             />
+            <q-btn-toggle
+              v-if="productTypeId === LOCALSPECIALTYPRODUCTTYPE"
+              v-model="activeIndex"
+              spread
+              no-caps
+              toggle-color="blue-6"
+              color="white"
+              text-color="black"
+              @click="
+                setActiveCateForLocalSpecialty(
+                  packageCategories[activeIndex],
+                  activeIndex
+                )
+              "
+              :options="labelValuePair(packageCategories)"
+            />
           </div>
         </div>
-        <div class="row text-weight-bold text-h4 q-mt-xl">Passengers</div>
+        <div
+          v-if="
+            productTypeId == 'd7b95089-e278-4522-8f71-dacac41ba32f' ||
+            productTypeId == '3a53caed-b788-4290-896d-7922532ad769' ||
+            productTypeId == 'e05d07a3-a717-45b8-b009-47a349890e41'
+          "
+          class="row text-weight-bold text-h4 q-mt-xl"
+        >
+          Passengers
+        </div>
+        <div
+          v-if="productTypeId == HOTELPRODUCTTYPE"
+          class="row text-weight-bold text-h4 q-mt-xl"
+        >
+          Rooms
+        </div>
         <div class="row q-mt-md" style="border-top: 2px solid black">
           <div
             v-if="productTypeId != LOCALSPECIALTYPRODUCTTYPE"
@@ -644,6 +676,45 @@ export default {
         ret.push(obj);
       });
       return ret;
+    }
+
+    function setFlightHotelProductData(inputArray) {
+      setTourProductData(inputArray);
+    }
+
+    function setHotelProductData(inputArray) {
+      setTourProductData(inputArray);
+    }
+
+    function setFligtProductData(inputArray) {
+      setTourProductData(inputArray);
+    }
+
+    function setLocalSpecialtyProductData(inputArray) {
+      packageCategories.value = [];
+      imageList.value = [];
+      for (var index in inputArray) {
+        var packageCat = extractAttributeValueFromProductPropertyBag(
+          inputArray[index],
+          TYPEOFPACKAGEPROP
+        );
+        if (packageCat != null) {
+          packageCategories.value.push(packageCat);
+        }
+
+        var url = extractAttributeValueFromProductPropertyBag(
+          inputArray[index],
+          PRODUCTIMAGEURLPROP
+        );
+        if (url != null) {
+          imageList.value.push(url);
+        }
+      }
+      imageContainer.imageList = imageList.value;
+      // trick: remove duplicates
+      packageCategories.value = [...new Set(packageCategories.value)];
+      // force select the first package category on entering page
+      setActiveCateForLocalSpecialty(packageCategories.value[0], 0);
     }
 
     function processSkuGroups(inputArray) {
