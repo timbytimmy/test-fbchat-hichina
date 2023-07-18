@@ -13,13 +13,13 @@
       </div>
       <div class="row">
         <div class="q-pa-md col-12 text-left text-body1 text-weight-regular">
-          Welcome to [Online Travel Forum] ("we," "us," or "our"). We are
-          committed to protecting the privacy and security of your personal
-          information. This Privacy Policy explains how we collect, use,
-          disclose, and safeguard your information when you use our online
-          travel forum and associated services (collectively, the "Services").
-          Please read this Privacy Policy carefully to understand our practices
-          regarding your personal information.
+          Welcome to HiChinaTravel. We are committed to protecting the privacy
+          and security of your personal information. This Privacy Policy
+          explains how we collect, use, disclose, and safeguard your information
+          when you use our online travel forum and associated services
+          (collectively, the "Services"). Please read this Privacy Policy
+          carefully to understand our practices regarding your personal
+          information.
         </div>
       </div>
       <div class="row">
@@ -234,8 +234,10 @@
       <div class="row">
         <div class="q-pa-md col-12 text-left text-body1 text-weight-regular">
           If you have any questions, concerns, or requests regarding this
-          Privacy Policy or our privacy practices, please contact us at [contact
-          information].
+          Privacy Policy or our privacy practices, please contact us at
+          <a href="mailto:customerservice@hichinatrip.com"
+            >customerservice@hichinatrip.com</a
+          >
         </div>
       </div>
       <div class="row">
