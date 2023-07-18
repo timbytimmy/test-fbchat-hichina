@@ -360,6 +360,12 @@ export default {
     function handleSelectDate(dt) {
       console.log("dt");
       console.log(dt);
+      console.log("filteredSkuIndex.value");
+      console.log(filteredSkuIndex.value);
+
+      console.log("skusInGroup.skus");
+      console.log(skusInGroup.skus);
+
       var matchedIndex = -1;
       for (var i in filteredSkuIndex.value) {
         var index = filteredSkuIndex.value[i];
@@ -368,12 +374,15 @@ export default {
             skusInGroup.skus[index],
             AVAILABLEDATEPROP
           );
+        console.log("availableDatesInString");
+        console.log(availableDatesInString);
+
         var dateObjArray = multiDateString2DateObjectArray(
           availableDatesInString
         );
         console.log("dateObjArray");
         console.log(dateObjArray);
-        if (dateObjArray.some((e) => e.getDate() == dt.getDate())) {
+        if (dateObjArray.some((e) => e.toDateString() == dt.toDateString())) {
           matchedIndex = index;
           break;
         }
@@ -515,26 +524,17 @@ export default {
       var pointer = new Date(minDate);
 
       while (pointer < maxDate) {
-        console.log("pointer...");
-        console.log(pointer);
-        console.log("pointer.getDate()");
-        console.log(pointer.getDate());
         // check contains
         if (
           !dateObjArray.some((e) => e.toDateString() == pointer.toDateString())
         ) {
-          console.log("not contains the pointer date");
           segmentDisabledDates.push(new Date(pointer));
         } else {
-          console.log("contains the pointer date");
         }
         // update pointer
         pointer.setDate(pointer.getDate() + 1);
       }
       state.disabledDates.dates = segmentDisabledDates;
-
-      console.log("state.disabledDates");
-      console.log(state.disabledDates);
 
       forceRerender();
     }
@@ -631,8 +631,6 @@ export default {
       }
       imageContainer.imageList = imageList.value;
       forceRerender();
-      console.log("imageContainer");
-      console.log(imageContainer);
       // trick: remove duplicates
       packageCategories.value = [...new Set(packageCategories.value)];
       // force select the first package category on entering page
@@ -694,6 +692,8 @@ export default {
         })
         .then(function (response) {
           skusInGroup.skus = response.data.data;
+          console.log("skusInGroup.skus in loadSkusInGroup");
+          console.log(skusInGroup.skus);
           processSkuGroups(skusInGroup.skus);
         })
         .catch(function (error) {
