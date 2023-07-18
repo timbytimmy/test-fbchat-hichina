@@ -5,13 +5,14 @@
         <div class="col-12 q-mt-xl">
           <q-input rounded outlined v-model="title" label="Blog title" />
         </div>
-        <div class="col-12 q-mt-xl">
+        <div class="col-12 q-mt-xl" style="height: 50vh">
           <QuillEditor
             @paste="handlePaste"
             theme="snow"
             v-model:content="content"
             contentType="html"
             toolbar="full"
+            style="height: 100%"
             ref="quillEditor"
             :modules="combineModule"
           />

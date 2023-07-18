@@ -5,9 +5,10 @@
         <div class="col-12 q-mt-xl">
           <q-input rounded outlined v-model="title" label="Blog title" />
         </div>
-        <div class="col-12 q-mt-xl">
+        <div class="col-12 q-mt-xl" style="height: 50vh">
           <QuillEditor
             theme="snow"
+            style="height: 100%"
             v-model:content="content"
             contentType="html"
             toolbar="full"
@@ -151,3 +152,10 @@ export default {
   },
 };
 </script>
+<style lang="sass" scoped>
+.ql-clipboard
+  position: fixed !important
+  opacity: 0 !important
+  left: 50% !important
+  top: 50% !important
+</style>
