@@ -121,9 +121,10 @@
                 </template>
               </q-input>
             </div>
-            <div class="col-8">
+            <div class="col-8" style="height: 50vh">
               <QuillEditor
                 theme="snow"
+                style="height: 100%"
                 v-model:content="description"
                 contentType="html"
                 toolbar="full"

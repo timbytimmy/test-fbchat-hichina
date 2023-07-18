@@ -128,9 +128,10 @@
                 </template>
               </q-input>
             </div>
-            <div row justify-center>
+            <div row justify-center style="height: 50vh">
               <QuillEditor
                 theme="snow"
+                style="height: 100%"
                 @update:content="editing"
                 v-model:content="editSkuDialogDescription"
                 contentType="html"
@@ -140,7 +141,7 @@
             </div>
           </div>
         </q-card-section>
-        <q-separator inset class="col" />
+        <q-separator inset class="col" style="margin-top: 50px" />
         <div class="row justify-center">
           <div class="col-1">自定义属性</div>
         </div>
@@ -964,3 +965,10 @@ export default {
   },
 };
 </script>
+<style lang="sass" scoped>
+.ql-clipboard
+  position: fixed !important
+  opacity: 0 !important
+  left: 50% !important
+  top: 50% !important
+</style>
