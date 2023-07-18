@@ -283,7 +283,10 @@
               <div class="text-body2 hover_underline_white q-mt-md">
                 Copyright
               </div>
-              <div class="text-body2 hover_underline_white q-mt-md">
+              <div
+                class="text-body2 hover_underline_white q-mt-md cursor-pointer"
+                @click="goPage('/privacy')"
+              >
                 Privacy
               </div>
               <div class="text-body2 hover_underline_white q-mt-md">

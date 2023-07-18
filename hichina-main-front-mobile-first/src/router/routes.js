@@ -118,6 +118,11 @@ const routes = [
     ],
   },
   {
+    path: "/privacy",
+    component: () => import("layouts/MainLayout.vue"),
+    children: [{ path: "", component: () => import("pages/PrivacyPage.vue") }],
+  },
+  {
     path: "/finishpay",
     component: () => import("layouts/MainLayout.vue"),
     children: [
