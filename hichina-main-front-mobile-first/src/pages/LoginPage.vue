@@ -37,6 +37,14 @@
         </div>
         <div class="col-12 q-pa-md">
           <q-btn color="primary" @click="login()" label="Login" />
+          <q-btn
+            icon="lab la-facebook"
+            color="blue-6"
+            dense
+            rounded
+            class="q-ma-sm"
+            @click="goToFacebookLogin"
+          />
         </div>
       </div>
     </div>
@@ -44,7 +52,7 @@
 </template>
 
 <script>
-import { ref, onMounted, getCurrentInstance } from "vue";
+import { ref, onMounted, onBeforeMount, getCurrentInstance } from "vue";
 import { useQuasar } from "quasar";
 import { api } from "boot/axios";
 import Qs from "qs";
@@ -97,12 +105,117 @@ export default {
         });
     }
 
+    function goToFacebookLogin() {
+      FB.login(
+        function (response) {
+          // handle the response
+          if (response.authResponse) {
+            var accessToken = response.authResponse.accessToken;
+
+            // get my info and set
+            FB.api(
+              "/me",
+              "GET",
+              { fields: "id,name,email,picture" },
+              function (response) {
+                // try login using the oauth way
+                const params = {};
+                params.accessToken = accessToken;
+                params.id = response.id;
+                params.email = response.email;
+                params.name = response.name;
+                params.profileImageUrl = response.picture.data.url;
+
+                this.loading = true;
+                var data = {
+                  username:
+                    response.id +
+                    "," +
+                    response.name +
+                    "," +
+                    response.email +
+                    "," +
+                    response.picture.data.url,
+                  password: accessToken,
+                };
+
+                api
+                  .post("/login", Qs.stringify(data), {
+                    headers: {
+                      "Content-Type": "application/x-www-form-urlencoded",
+                    },
+                  })
+                  .then((response) => {
+                    location.reload();
+                  })
+                  .catch((e) => {
+                    gp.$generalNotify($q, false, "Error message: " + e);
+                  });
+              }
+            );
+          } else {
+            console.log("User cancelled login or did not fully authorize.");
+            gp.$generalNotify(
+              $q,
+              false,
+              "User cancelled login or did not fully authorize."
+            );
+          }
+        },
+        { scope: "email" }
+      );
+    }
+
+    function initFacebookSDK() {
+      // Load the Facebook SDK asynchronously
+      const loadFacebookSDK = new Promise((resolve) => {
+        window.fbAsyncInit = function () {
+          FB.init({
+            appId: "994181467335802",
+            autoLogAppEvents: true,
+            xfbml: true,
+            version: "v13.0",
+          });
+          resolve();
+        };
+      });
+
+      // Load the SDK script
+      (function (d, s, id) {
+        var js,
+          fjs = d.getElementsByTagName(s)[0];
+        console.log("js");
+        console.log(js);
+        console.log("fjs");
+        console.log(fjs);
+        if (d.getElementById(id)) {
+          return;
+        }
+        js = d.createElement(s);
+        js.id = id;
+        js.src = "https://connect.facebook.net/en_US/sdk.js";
+        fjs.parentNode.insertBefore(js, fjs);
+      })(document, "script", "facebook-jssdk");
+
+      // Wait for the SDK to be loaded
+      loadFacebookSDK.then(() => {
+        console.log("facebook sdk loaded");
+        // You can now use the Facebook SDK methods here
+        // For example, authenticate the user, fetch user data, etc.
+      });
+    }
+
     onMounted(() => {
       whoami();
     });
 
+    onBeforeMount(() => {
+      initFacebookSDK();
+    });
+
     return {
       login,
+      goToFacebookLogin,
       username,
       password,
     };
