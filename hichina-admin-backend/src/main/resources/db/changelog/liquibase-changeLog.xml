@@ -29,11 +29,12 @@
             <column defaultValueBoolean="false" name="draft" type="BIT(1)"/>
         </createTable>
     </changeSet>
-    <changeSet  author="liquibase-docs"  id="modifyDataType-utf8mb4-change-charset-content-blog">
-        <modifyDataType
-                columnName="content"
-                newDataType="LONGTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci"
-                tableName="blog"/>
+    <changeSet  author="liquibase-docs"  id="use-sql-to-modify-blog-contentcharset">
+        <sql dbms="mysql"
+             endDelimiter="\n"
+             splitStatements="true"
+             stripComments="true">ALTER TABLE blog MODIFY content LONGTEXT CHARACTER SET utf8mb4
+        </sql>
     </changeSet>
     <changeSet  author="liquibase-docs"  id="modifyDataType-utf8mb4-change-charset-title-blog">
         <modifyDataType
