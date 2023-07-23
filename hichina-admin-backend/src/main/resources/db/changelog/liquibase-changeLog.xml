@@ -29,6 +29,18 @@
             <column defaultValueBoolean="false" name="draft" type="BIT(1)"/>
         </createTable>
     </changeSet>
+    <changeSet  author="liquibase-docs"  id="modifyDataType-utf8mb4-change-charset-content-blog">
+        <modifyDataType
+                columnName="content"
+                newDataType="LONGTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci"
+                tableName="blog"/>
+    </changeSet>
+    <changeSet  author="liquibase-docs"  id="modifyDataType-utf8mb4-change-charset-title-blog">
+        <modifyDataType
+                columnName="title"
+                newDataType="VARCHAR(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci"
+                tableName="blog"/>
+    </changeSet>
     <changeSet author="xiefengchang (generated)" id="1683210780495-3">
         <createTable tableName="comment">
             <column name="comment_id" type="VARCHAR(50)">
