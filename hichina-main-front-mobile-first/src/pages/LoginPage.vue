@@ -13,7 +13,7 @@
             :rules="[(val) => !!val || 'Field is required']"
             color="blue-12"
             v-model="username"
-            label="Enter your email/username"
+            label="Enter your email"
             ref="usernameInput"
           >
             <template v-slot:prepend>
@@ -77,19 +77,48 @@ export default {
           password: password.value,
         };
 
+        const updateLoginTypeParams = {};
+        updateLoginTypeParams.email = username.value;
+        updateLoginTypeParams.loginType = "regular";
+
+        gp.$showLoading($q);
         api
-          .post("/login", Qs.stringify(data), {
-            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          .put("/api/public/login/type", updateLoginTypeParams)
+          .then((res) => {
+            // if succeed updating login type to regular
+            if (res.data.ok == true) {
+              // could succeed updating login type,  do real login
+              api
+                .post("/login", Qs.stringify(data), {
+                  headers: {
+                    "Content-Type": "application/x-www-form-urlencoded",
+                  },
+                })
+                .then((response) => {
+                  gp.$generalNotify($q, true, "Login succeed!");
+                  location.reload();
+                })
+                .catch((e) => {
+                  gp.$generalNotify($q, false, "Fail login error ");
+                  gp.$hideLoading($q);
+                  console.log("Fail login error message: ");
+                  console.log(e);
+                });
+            } else {
+              // could fail due to user not exist
+              gp.$generalNotify($q, false, res.data.message);
+              gp.$hideLoading($q);
+            }
           })
-          .then((response) => {
-            gp.$generalNotify($q, true, "Login succeed!");
-            location.reload();
-          })
-          .catch((e) => {
-            gp.$generalNotify($q, false, "Fail login error message: " + e);
+          .catch((err) => {
+            // could fail for unknown reason
+            gp.$generalNotify($q, false, "Fail updating login type");
+            console.log("Fail updating login type err:");
+            console.log(err);
+            gp.$hideLoading($q);
           });
       } else {
-        gp.$generalNotify($q, false, "error");
+        gp.$generalNotify($q, false, "Not valid input");
       }
     }
 
@@ -121,35 +150,45 @@ export default {
                 // try login using the oauth way
                 const params = {};
                 params.accessToken = accessToken;
-                params.id = response.id;
+                params.facebookId = response.id;
                 params.email = response.email;
                 params.name = response.name;
                 params.profileImageUrl = response.picture.data.url;
 
-                this.loading = true;
-                var data = {
-                  username:
-                    response.id +
-                    "," +
-                    response.name +
-                    "," +
-                    response.email +
-                    "," +
-                    response.picture.data.url,
-                  password: accessToken,
-                };
-
+                var emailStore = response.email;
                 api
-                  .post("/login", Qs.stringify(data), {
-                    headers: {
-                      "Content-Type": "application/x-www-form-urlencoded",
-                    },
+                  .post("/api/public/login/prereg-facebook", params)
+                  .then((res) => {
+                    var data = {
+                      username: emailStore,
+                      password: accessToken,
+                    };
+
+                    gp.$showLoading($q);
+                    api
+                      .post("/login", Qs.stringify(data), {
+                        headers: {
+                          "Content-Type": "application/x-www-form-urlencoded",
+                        },
+                      })
+                      .then((response) => {
+                        gp.$hideLoading($q);
+                        location.reload();
+                      })
+                      .catch((e) => {
+                        gp.$hideLoading($q);
+                        gp.$generalNotify($q, false, "Error message: " + e);
+                      });
                   })
-                  .then((response) => {
-                    location.reload();
-                  })
-                  .catch((e) => {
-                    gp.$generalNotify($q, false, "Error message: " + e);
+                  .catch((err) => {
+                    gp.$hideLoading(false);
+                    gp.$generalNotify(
+                      $q,
+                      false,
+                      "Fail pre register facebook user"
+                    );
+                    console.log("Fail pre register facebook user");
+                    console.log(err);
                   });
               }
             );

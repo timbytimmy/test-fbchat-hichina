@@ -29,5 +29,5 @@ public class User {
     private String profileImageUrl;
     private String passportImageUrl;
     private Integer pwdCode;
-
+    private String loginType;
 }

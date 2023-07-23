@@ -42,7 +42,7 @@ public class PublicRegisterController {
     public HichinaResponse register(@RequestBody RegisterDTO request){
         HichinaResponse ret = new HichinaResponse();
 
-        List<User> users = userMapper.findByUsernameOrEmail(request.getEmail());
+        List<User> users = userMapper.findByEmail(request.getEmail());
 
         if(!users.isEmpty()){
             ret.setOk(false);

@@ -18,7 +18,7 @@ public class UserUtil {
 
     public static User getUserByCurrentPrincipal(UserMapper userMapper, String principalCombo){
         String email = extractEmailFromPrincipal(principalCombo);
-        List<User> users = userMapper.findByUsernameOrEmail(email);
+        List<User> users = userMapper.findByEmail(email);
         if(users.isEmpty()){
             throw new RuntimeException("Did not get user from current principal");
         }else{
@@ -27,7 +27,7 @@ public class UserUtil {
     }
 
     public static User getUserByEmail(UserMapper userMapper, String email){
-        List<User> users = userMapper.findByUsernameOrEmail(email);
+        List<User> users = userMapper.findByEmail(email);
         if(users.isEmpty()){
             return null;
         }else{

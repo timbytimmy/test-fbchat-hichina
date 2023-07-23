@@ -25,16 +25,11 @@ public class MyWebSecurityConfiguration {
 
     @Autowired
     private CustomAuthenticationProvider authProvider;
-
-    @Autowired
-    private FacebookAuthProvider facebookAuthProvider;
-
     @Bean
     public AuthenticationManager authManager(HttpSecurity http) throws Exception {
         AuthenticationManagerBuilder authenticationManagerBuilder =
                 http.getSharedObject(AuthenticationManagerBuilder.class);
         authenticationManagerBuilder.authenticationProvider(authProvider);
-        authenticationManagerBuilder.authenticationProvider(facebookAuthProvider);
         return authenticationManagerBuilder.build();
     }
 

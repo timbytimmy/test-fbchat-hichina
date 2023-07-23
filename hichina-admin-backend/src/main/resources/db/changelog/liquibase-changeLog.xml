@@ -322,6 +322,11 @@
     <changeSet author="xiefengchang (generated)" id="1683210780495-39">
         <addUniqueConstraint columnNames="username" constraintName="uniqueusernameinusertable" tableName="user"/>
     </changeSet>
+    <changeSet  author="liquibase-docs"  id="dropUniqueConstraint-username-in-user">
+        <dropUniqueConstraint  constraintName="uniqueusernameinusertable"
+                               tableName="user"
+                               uniqueColumns="username"/>
+    </changeSet>
     <changeSet author="xiefengchang (generated)" id="1683210780495-40">
         <addUniqueConstraint columnNames="wx_id" constraintName="uniquewxidinusertable" tableName="user"/>
     </changeSet>
@@ -502,5 +507,11 @@
                 columnName="destination_name"
                 newDataType="VARCHAR(500)"
                 tableName="destination"/>
+    </changeSet>
+    <changeSet author="liquibase-docs" id="add-user-logintype">
+        <addColumn tableName="user">
+            <column name="login_type"
+                    type="varchar(100)"/>
+        </addColumn>
     </changeSet>
 </databaseChangeLog>
