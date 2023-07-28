@@ -103,11 +103,11 @@ public class InitDataService {
     @Transactional
     public void initProductType(){
         LOG.info("executed initProductType");
-        insertProductTypeIfNotExist("跟团游", Constants.TOURPRODUCTTYPE, "跟团游");
-        insertProductTypeIfNotExist("机酒自由行", Constants.FLIGHTHOTELPRODUCTTYPE, "机酒自由行");
-        insertProductTypeIfNotExist("机票package", Constants.FLIGHTPRODUCTTYPE, "机票package");
-        insertProductTypeIfNotExist("酒店package", Constants.HOTELPRODUCTTYPE, "酒店package");
-        insertProductTypeIfNotExist("文创土特产", Constants.LOCALSPECIALTYPRODUCTTYPE, "文创土特产");
+        insertProductTypeIfNotExist("Tour", Constants.TOURPRODUCTTYPE, "跟团游");
+        insertProductTypeIfNotExist("Flight & Hotel", Constants.FLIGHTHOTELPRODUCTTYPE, "机酒自由行");
+        insertProductTypeIfNotExist("Flight", Constants.FLIGHTPRODUCTTYPE, "机票package");
+        insertProductTypeIfNotExist("Hotel", Constants.HOTELPRODUCTTYPE, "酒店package");
+        insertProductTypeIfNotExist("Local Special", Constants.LOCALSPECIALTYPRODUCTTYPE, "文创土特产");
     }
 
     @Transactional
