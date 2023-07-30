@@ -28,11 +28,11 @@
     <div class="row q-pa-md">
       <div class="q-gutter-y-md col-12 col-md-6">
         <q-tabs v-model="tab" dense align="justify" class="text-primary">
-          <q-tab :ripple="false" name="lg" label="Latest Guidebooks" />
+          <q-tab :ripple="false" name="lg" :label="$t('latest_guidebooks')" />
           <q-tab
             :ripple="false"
             name="mdg"
-            label="Most Downloaded Guidebooks"
+            :label="$t('most_downloaded_guidebooks')"
           />
         </q-tabs>
       </div>

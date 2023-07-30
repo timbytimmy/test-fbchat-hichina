@@ -1,7 +1,7 @@
 <template>
   <q-page>
     <div class="row justify-center text-blue-6 text-h4 q-pt-xl">
-      Seasonal Recommendation
+      {{ $t("seasonal_recommendation") }}
     </div>
     <div class="row justify-center q-mt-md">
       <q-input
@@ -11,7 +11,7 @@
         outlined
         v-model="query"
         @update:model-value="(val) => updateQuery(val)"
-        label="Search by title"
+        :label="$t('search_by_title')"
       />
     </div>
     <div class="row justify-left">

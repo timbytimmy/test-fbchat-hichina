@@ -20,7 +20,7 @@
           outlined
           v-model="query"
           @update:model-value="(val) => updateQuery(val)"
-          label="Search by title"
+          :label="$t('search_by_title')"
         />
       </div>
       <q-btn-toggle
@@ -36,21 +36,25 @@
         v-model="btnToggle"
         toggle-color="primary"
         :options="[
-          { label: 'Group Tour', value: 'groupTour', icon: 'group' },
-          { label: 'Hotel Deals', value: 'hotelDeals', icon: 'business' },
-          { label: 'Flight Deals', value: 'flightDeals', icon: 'flight' },
+          { label: $t('group_tour'), value: 'groupTour', icon: 'group' },
+          { label: $t('hotel_deals'), value: 'hotelDeals', icon: 'business' },
+          { label: $t('flight_deals'), value: 'flightDeals', icon: 'flight' },
           {
-            label: 'Holiday Package',
+            label: $t('holiday_package'),
             value: 'holidayPackage',
             icon: 'beach_access',
           },
-          { label: 'China Stuff', value: 'chinaStuff', icon: 'shopping_cart' },
+          {
+            label: $t('china_stuff'),
+            value: 'chinaStuff',
+            icon: 'shopping_cart',
+          },
         ]"
       />
     </div>
     <div class="row" style="height: 50px"></div>
     <div class="row justify-center text-blue text-h4 q-mt-xl">
-      Deals for you
+      {{ $t("deals_for_you") }}
     </div>
     <div class="row justify-left">
       <div
@@ -217,6 +221,4 @@ export default {
   },
 };
 </script>
-<style lang="sass" scoped>
-</style>
-
+<style lang="sass" scoped></style>

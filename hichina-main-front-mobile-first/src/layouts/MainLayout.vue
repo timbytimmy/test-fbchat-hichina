@@ -21,7 +21,7 @@
           class="q-ml-xl"
           v-if="$q.screen.gt.xs"
         >
-          GuideBooks
+          {{ $t("guidebooks") }}
         </q-btn>
         <q-btn
           @click="goPage('/blog')"
@@ -31,7 +31,7 @@
           class="q-ml-sm"
           v-if="$q.screen.gt.xs"
         >
-          Blogs/Vlogs
+          {{ $t("blogs_vlogs") }}
         </q-btn>
         <q-btn
           @click="goPage('/product')"
@@ -41,7 +41,7 @@
           class="q-ml-sm"
           v-if="$q.screen.gt.xs"
         >
-          Travel Shop
+          {{ $t("travel_shop") }}
         </q-btn>
         <q-btn
           @click="goPage('/destination')"
@@ -51,11 +51,26 @@
           class="q-ml-sm"
           v-if="$q.screen.gt.xs"
         >
-          Destinations
+          {{ $t("destinations") }}
         </q-btn>
 
         <!-- this is the trick -->
         <q-space />
+
+        <div class="row no-wrap q-mr-md">
+          <q-select
+            v-model="locale"
+            :options="localeOptions"
+            :label="$t('language')"
+            dense
+            emit-value
+            map-options
+            options-dense
+            style="min-width: 150px"
+            @click="setLanguage"
+            ><template v-slot:append> <q-icon name="public" /> </template
+          ></q-select>
+        </div>
 
         <div v-if="currentUser === ''" class="row no-wrap">
           <q-btn
@@ -65,8 +80,8 @@
             no-wrap
             no-caps
             color="primary"
-            label="Register"
-            class="q-mr-lg"
+            :label="$t('register')"
+            class="q-mr-md"
             v-if="$q.screen.gt.xs"
           />
           <q-btn
@@ -76,7 +91,7 @@
             no-wrap
             no-caps
             color="primary"
-            label="Login"
+            :label="$t('login')"
             class="q-mr-sm"
             v-if="$q.screen.gt.xs"
           />
@@ -103,17 +118,17 @@
             >
               <q-list dense class="text-grey-9 text-caption">
                 <q-item clickable @click="goPage('/my-blogs')">
-                  <q-item-section>My Blogs</q-item-section>
+                  <q-item-section>{{ $t("my_blogs") }}</q-item-section>
                 </q-item>
                 <q-item clickable @click="goPage('/my-orders')">
-                  <q-item-section>My Orders</q-item-section>
+                  <q-item-section>{{ $t("my_orders") }}</q-item-section>
                 </q-item>
                 <q-item clickable @click="goPage('/user-info')">
-                  <q-item-section>Edit Profile</q-item-section>
+                  <q-item-section>{{ $t("edit_profile") }}</q-item-section>
                 </q-item>
                 <q-separator />
                 <q-item clickable @click="logout()">
-                  <q-item-section>Logout</q-item-section>
+                  <q-item-section>{{ $t("logout") }}</q-item-section>
                 </q-item>
               </q-list>
             </q-menu>
@@ -153,7 +168,7 @@
               <q-icon color="grey" name="fingerprint" />
             </q-item-section>
             <q-item-section>
-              <q-item-label>GuideBooks</q-item-label>
+              <q-item-label>{{ $t("guidebooks") }}</q-item-label>
             </q-item-section>
           </q-item>
           <q-item v-ripple clickable @click="goPage('/blog')">
@@ -161,7 +176,7 @@
               <q-icon color="grey" name="fingerprint" />
             </q-item-section>
             <q-item-section>
-              <q-item-label>Blogs/Vlogs</q-item-label>
+              <q-item-label>{{ $t("blogs_vlogs") }}</q-item-label>
             </q-item-section>
           </q-item>
           <q-item v-ripple clickable @click="goPage('/product')">
@@ -169,7 +184,7 @@
               <q-icon color="grey" name="fingerprint" />
             </q-item-section>
             <q-item-section>
-              <q-item-label>Travel Shop</q-item-label>
+              <q-item-label>{{ $t("travel_shop") }}</q-item-label>
             </q-item-section>
           </q-item>
           <q-item v-ripple clickable @click="goPage('/destination')">
@@ -177,7 +192,7 @@
               <q-icon color="grey" name="fingerprint" />
             </q-item-section>
             <q-item-section>
-              <q-item-label>Destinations</q-item-label>
+              <q-item-label>{{ $t("destinations") }}</q-item-label>
             </q-item-section>
           </q-item>
 
@@ -193,7 +208,7 @@
               <q-icon color="grey" name="login" />
             </q-item-section>
             <q-item-section>
-              <q-item-label>Login</q-item-label>
+              <q-item-label>{{ $t("login") }}</q-item-label>
             </q-item-section>
           </q-item>
           <q-item
@@ -206,7 +221,7 @@
               <q-icon color="grey" name="account_circle" />
             </q-item-section>
             <q-item-section>
-              <q-item-label>Register</q-item-label>
+              <q-item-label>{{ $t("register") }}</q-item-label>
             </q-item-section>
           </q-item>
           <q-item
@@ -219,7 +234,7 @@
               <q-icon color="grey" name="rss_feed" />
             </q-item-section>
             <q-item-section>
-              <q-item-label>My Blogs</q-item-label>
+              <q-item-label>{{ $t("my_blogs") }}</q-item-label>
             </q-item-section>
           </q-item>
           <q-item
@@ -232,7 +247,7 @@
               <q-icon color="grey" name="list_alt" />
             </q-item-section>
             <q-item-section>
-              <q-item-label>My Orders</q-item-label>
+              <q-item-label>{{ $t("my_orders") }}</q-item-label>
             </q-item-section>
           </q-item>
           <q-item
@@ -245,7 +260,7 @@
               <q-icon color="grey" name="manage_accounts" />
             </q-item-section>
             <q-item-section>
-              <q-item-label>Edit Profile</q-item-label>
+              <q-item-label>{{ $t("edit_profile") }}</q-item-label>
             </q-item-section>
           </q-item>
           <q-item
@@ -258,7 +273,7 @@
               <q-icon color="grey" name="logout" />
             </q-item-section>
             <q-item-section>
-              <q-item-label>Logout</q-item-label>
+              <q-item-label>{{ $t("logout") }}</q-item-label>
             </q-item-section>
           </q-item>
         </q-list>
@@ -340,8 +355,10 @@
 </template>
 
 <script>
-import { defineComponent, onMounted, ref } from "vue";
+import { defineComponent, onMounted, ref, getCurrentInstance } from "vue";
 import { api } from "boot/axios";
+import { useI18n } from "vue-i18n";
+import { useQuasar } from "quasar";
 
 export default defineComponent({
   name: "MainLayout",
@@ -349,9 +366,20 @@ export default defineComponent({
   components: {},
 
   setup() {
+    const { locale } = useI18n({ useScope: "global" });
+
     const leftDrawerOpen = ref(false);
     const currentUser = ref("");
     const currentProfileImage = ref("");
+
+    const instance = getCurrentInstance();
+    const app = instance.appContext.app;
+    const gp = app.config.globalProperties;
+    const $q = useQuasar();
+
+    function setLanguage() {
+      $q.lang.set(locale);
+    }
 
     function whoami() {
       api
@@ -397,6 +425,14 @@ export default defineComponent({
       whoami();
     });
     return {
+      setLanguage,
+      locale,
+      localeOptions: [
+        { value: "en-US", label: "English" },
+        { value: "th-TH", label: "แบบไทย" },
+        { value: "ko-KR", label: "한국인" },
+        { value: "ru-RU", label: "Русский" },
+      ],
       leftDrawerOpen,
       currentUser,
       currentProfileImage,

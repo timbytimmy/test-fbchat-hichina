@@ -3,7 +3,7 @@
     <div
       class="row justify-center text-h4 text-weight-bold text-blue-6 q-mt-md"
     >
-      Blogs of The Week
+      {{ $t("blogs_of_the_week") }}
     </div>
     <div class="q-pa-md">
       <q-carousel
@@ -45,15 +45,23 @@
         color="primary"
         size="xl"
         @click="goPage('/blog-create')"
-        label="Write your blog"
+        :label="$t('write_your_blog')"
       />
     </div>
     <div class="row q-pa-md">
       <div class="q-gutter-y-md col-12 col-md-8">
         <q-tabs v-model="tab" dense align="justify" class="text-primary">
-          <q-tab :ripple="false" name="lb" label="Latest Blogs" />
-          <q-tab :ripple="false" name="mvm" label="Most Viewed in a Month" />
-          <q-tab :ripple="false" name="bfl" label="Bloggers I'm following" />
+          <q-tab :ripple="false" name="lb" :label="$t('latest_blogs')" />
+          <q-tab
+            :ripple="false"
+            name="mvm"
+            :label="$t('most_viewed_in_month')"
+          />
+          <q-tab
+            :ripple="false"
+            name="bfl"
+            :label="$t('blogers_m_following')"
+          />
         </q-tabs>
       </div>
     </div>
@@ -210,4 +218,3 @@ export default {
   padding: 12px
   color: white
 </style>
-

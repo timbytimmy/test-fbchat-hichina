@@ -32,17 +32,21 @@
     </div>
     <div class="q-pa-md" style="height: 40px"></div>
     <div class="row">
-      <div class="col-6 col-md-2 text-blue-6 text-h4 q-pl-md">Destinations</div>
+      <div class="col-6 col-md-2 text-blue-6 text-h4 q-pl-md">
+        {{ $t("destinations") }}
+      </div>
       <div class="col-md-8"></div>
       <div
         @click="goPage('/destination')"
         class="col-6 col-md-2 text-blue-6 cursor-pointer"
       >
-        More destinations >
+        {{ $t("more_destinations") }} >
       </div>
     </div>
     <div class="row">
-      <div class="text-h3 q-pl-md q-mt-md">Places to go in China!</div>
+      <div class="text-h3 q-pl-md q-mt-md">
+        {{ $t("places_in_china") + "!" }}
+      </div>
     </div>
     <div class="row justify-center">
       <div
@@ -86,7 +90,7 @@
             border: 1px solid black;
           "
         >
-          Want a Tailor Made Trip to China? Click Here for Help
+          {{ $t("tailor_made_trip") }}
         </div>
         <div
           v-if="!$q.screen.gt.xs"
@@ -117,12 +121,12 @@
     </div>
     <div class="row">
       <div class="text-h5 text-weight-bold text-blue-6 q-pl-md q-mt-md">
-        People are traveling!
+        {{ $t("people_are_traveling") + "!" }}
       </div>
     </div>
     <div class="row">
       <div class="text-h3 text-weight-medium q-pl-md q-mt-md">
-        What's in China!
+        {{ $t("whats_in_china") + "!" }}
       </div>
     </div>
     <div class="row justify-left">
