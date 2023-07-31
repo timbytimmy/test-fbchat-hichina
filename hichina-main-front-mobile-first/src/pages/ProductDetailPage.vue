@@ -39,7 +39,7 @@
           {{ productName }}
         </div>
         <div class="q-ml-md q-pl-md col" style="background-color: #fff9c6">
-          {{ removeHtmlTag(productDescription).substring(0, 300) }}...
+          {{ removeHtmlTag(shortProductDescription).substring(0, 500) }}...
         </div>
       </div>
     </div>
@@ -285,6 +285,7 @@ export default {
     const skusInGroup = { skus: [] };
     const productName = ref("");
     const productDescription = ref("");
+    const shortProductDescription = ref("");
     const productTypeId = ref("");
     const productTypeName = ref("");
     const packageCategories = ref([]);
@@ -318,6 +319,7 @@ export default {
     const ADULTPRICEPROP = "e228b843-e054-41f8-91dd-19663460df54";
     const CHILDPRICEPROP = "c4c845a7-4bef-46d8-a5ad-d72a5464e8b1";
     const INFANTPRICEPROP = "448406cb-b68f-439e-9da8-148d78ae8404";
+    const SHORTDESCRIPTIONPROP = "f3cac6ed-8e87-4fb9-a912-bd87f483b4d5";
 
     const forceRerender = async () => {
       // Remove MyComponent from the DOM
@@ -619,6 +621,12 @@ export default {
         skusInGroup.skus[indexToFilter]["hichinaProductBasicDTO"][
           "productContent"
         ];
+
+      shortProductDescription.value =
+        extractAttributeValueFromProductPropertyBag(
+          skusInGroup.skus[indexToFilter],
+          SHORTDESCRIPTIONPROP
+        );
     }
 
     function setActiveCate(item, index) {
@@ -786,6 +794,7 @@ export default {
       autoplay: ref(true),
       imageContainer,
       productDescription,
+      shortProductDescription,
       handleSelectDate,
       selectedDate,
       state,

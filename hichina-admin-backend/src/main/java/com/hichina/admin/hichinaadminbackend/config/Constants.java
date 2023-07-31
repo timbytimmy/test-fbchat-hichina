@@ -19,5 +19,6 @@ public class Constants {
 
     public static String GENERALPRICE="e16df480-b17d-4442-91c2-d6c30d0d7ab0";
     public static String MAXNUM="720f4f2e-e114-4003-9806-bc56a9366278";
+    public static String SHORTDESC="f3cac6ed-8e87-4fb9-a912-bd87f483b4d5";
 
 }

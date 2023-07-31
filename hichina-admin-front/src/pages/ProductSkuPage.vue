@@ -252,7 +252,7 @@
                     '[string]' + item.attribute_id
                   ]
                 "
-                :label="item.attribute_name + '(最长200字符)'"
+                :label="item.attribute_name"
                 :rules="[
                   (val) =>
                     val.length <= 200 || 'Please use maximum 200 characters',

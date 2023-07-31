@@ -98,6 +98,7 @@ public class InitDataService {
         insertPropertyIfNotExist("单房差", Constants.SINGLEDIFFPRICEPROP , "integer");
         insertPropertyIfNotExist("价格", Constants.GENERALPRICE , "integer");
         insertPropertyIfNotExist("最大数量", Constants.MAXNUM , "integer");
+        insertPropertyIfNotExist("简述", Constants.SHORTDESC , "string");
     }
 
     @Transactional
@@ -124,6 +125,7 @@ public class InitDataService {
         bindAttributeToProductType(Constants.CHILDPRICEPROP,Constants.TOURPRODUCTTYPE);
         bindAttributeToProductType(Constants.INFANTPRICEPROP,Constants.TOURPRODUCTTYPE);
         bindAttributeToProductType(Constants.SINGLEDIFFPRICEPROP,Constants.TOURPRODUCTTYPE);
+        bindAttributeToProductType(Constants.SHORTDESC,Constants.TOURPRODUCTTYPE);
 
         //机酒自由行
         bindAttributeToProductType(Constants.PRODUCTPROFILEIMAGEPROP,Constants.FLIGHTHOTELPRODUCTTYPE);
@@ -135,6 +137,7 @@ public class InitDataService {
         bindAttributeToProductType(Constants.CHILDPRICEPROP,Constants.FLIGHTHOTELPRODUCTTYPE);
         bindAttributeToProductType(Constants.INFANTPRICEPROP,Constants.FLIGHTHOTELPRODUCTTYPE);
         bindAttributeToProductType(Constants.SINGLEDIFFPRICEPROP,Constants.FLIGHTHOTELPRODUCTTYPE);
+        bindAttributeToProductType(Constants.SHORTDESC,Constants.FLIGHTHOTELPRODUCTTYPE);
 
         //机票package
         bindAttributeToProductType(Constants.PRODUCTPROFILEIMAGEPROP,Constants.FLIGHTPRODUCTTYPE);
@@ -145,6 +148,7 @@ public class InitDataService {
         bindAttributeToProductType(Constants.ADULTPRICEPROP,Constants.FLIGHTPRODUCTTYPE);
         bindAttributeToProductType(Constants.CHILDPRICEPROP,Constants.FLIGHTPRODUCTTYPE);
         bindAttributeToProductType(Constants.INFANTPRICEPROP,Constants.FLIGHTPRODUCTTYPE);
+        bindAttributeToProductType(Constants.SHORTDESC,Constants.FLIGHTPRODUCTTYPE);
 
         //酒店package
         bindAttributeToProductType(Constants.PRODUCTPROFILEIMAGEPROP,Constants.HOTELPRODUCTTYPE);
@@ -154,11 +158,13 @@ public class InitDataService {
         bindAttributeToProductType(Constants.TYPEOFPACKAGEPROP,Constants.HOTELPRODUCTTYPE);
         bindAttributeToProductType(Constants.GENERALPRICE,Constants.HOTELPRODUCTTYPE);
         bindAttributeToProductType(Constants.MAXNUM,Constants.HOTELPRODUCTTYPE);
+        bindAttributeToProductType(Constants.SHORTDESC,Constants.HOTELPRODUCTTYPE);
 
         //文创土特产
         bindAttributeToProductType(Constants.PRODUCTPROFILEIMAGEPROP,Constants.LOCALSPECIALTYPRODUCTTYPE);
         bindAttributeToProductType(Constants.SUPPLIERPROP,Constants.LOCALSPECIALTYPRODUCTTYPE);
         bindAttributeToProductType(Constants.TYPEOFPACKAGEPROP,Constants.LOCALSPECIALTYPRODUCTTYPE);
         bindAttributeToProductType(Constants.GENERALPRICE,Constants.LOCALSPECIALTYPRODUCTTYPE);
+        bindAttributeToProductType(Constants.SHORTDESC,Constants.LOCALSPECIALTYPRODUCTTYPE);
     }
 }

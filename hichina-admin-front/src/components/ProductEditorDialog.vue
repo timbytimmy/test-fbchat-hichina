@@ -154,7 +154,7 @@
                 outlined
                 type="textarea"
                 v-model="item.attributeValue"
-                :label="item.attributeName + '(最长200字符)'"
+                :label="item.attributeName"
                 :rules="[
                   (val) =>
                     val.length <= 200 || 'Please use maximum 200 characters',
