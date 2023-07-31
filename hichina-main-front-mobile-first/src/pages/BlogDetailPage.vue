@@ -129,8 +129,12 @@ export default {
           console.log("baidu translate result title: ");
           console.log(res.data);
           if (res.data.ok == true) {
-            title.value = res.data.data;
+            if (res.data.data != null && res.data.data.length > 0) {
+              title.value = res.data.data;
+            }
+            gp.$generalNotify($q, true, res.data.message);
           } else {
+            gp.$generalNotify($q, false, res.data.message);
             console.log("translate title failed");
           }
 
@@ -138,6 +142,7 @@ export default {
         })
         .catch((err) => {
           console.log("err baidu translate title");
+          gp.$generalNotify($q, false, "err baidu translate title");
           gp.$hideLoading($q);
         });
     }
@@ -160,16 +165,21 @@ export default {
           console.log("baidu translate result: ");
           console.log(res.data);
           if (res.data.ok == true) {
-            content.value = res.data.data;
+            if (res.data.data != null && res.data.data.length > 0) {
+              content.value = res.data.data;
+            }
+            gp.$generalNotify($q, true, res.data.message);
             translateTitle();
           } else {
             console.log("translate failed");
+            gp.$generalNotify($q, false, res.data.message);
           }
 
           gp.$hideLoading($q);
         })
         .catch((err) => {
-          console.log("err baidu translate");
+          console.log("err baidu translate2");
+          gp.$generalNotify($q, false, "err baidu translate");
           gp.$hideLoading($q);
         });
     }

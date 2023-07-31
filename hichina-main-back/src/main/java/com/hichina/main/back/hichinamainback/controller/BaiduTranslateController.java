@@ -1,18 +1,10 @@
 package com.hichina.main.back.hichinamainback.controller;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 import com.hichina.main.back.hichinamainback.model.DTO.BaiduTranslateRequestDTO;
 import com.hichina.main.back.hichinamainback.model.DTO.HichinaResponse;
-import com.hichina.main.back.hichinamainback.model.DTO.TranslateObj;
-import com.hichina.main.back.hichinamainback.repository.BaiduTranslateCacheRepository;
 import com.hichina.main.back.hichinamainback.service.BaiduTranslateApiService;
-import org.apache.commons.lang3.StringUtils;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Node;
-import org.jsoup.nodes.TextNode;
+import com.hichina.main.back.hichinamainback.utils.RedisUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/public/baidutranslate")
@@ -32,6 +23,8 @@ public class BaiduTranslateController {
     private BaiduTranslateApiService baiduTranslateApiService;
 
 
+    @Autowired
+    private RedisUtil redisUtil;
 
     private static Gson gson = new Gson();
 
@@ -39,52 +32,33 @@ public class BaiduTranslateController {
     public HichinaResponse baiduTranslate(@RequestBody BaiduTranslateRequestDTO request){
         HichinaResponse ret = new HichinaResponse();
 
+        // check if translation job is ongoing, if it is return and notify user, else continue with reading cache or trigger translation job
+
+        if(redisUtil.get(request.getTranslationKey())!=null){
+            ret.setMessage("A translation job is ongoing...");
+            ret.setOk(false);
+            return ret;
+        }
+
         String translatedText = "";
 
         String cachedText = baiduTranslateApiService.fetchTranslationValueByKey(request.getTranslationKey());
         if(cachedText!=null){
             translatedText = cachedText;
+            ret.setOk(true);
+            ret.setMessage("Succeed getting baidu translation");
+            ret.setData(translatedText);
+            return ret;
         }else{
-            Document doc = Jsoup.parse(request.getQuery());
-            htmlTextTagsTranslate(doc.childNodes(), request.getFrom(), request.getTo());
-            translatedText = doc.html();
-            baiduTranslateApiService.cacheTranslation(request.getTranslationKey(), translatedText);
-        }
-        ret.setOk(true);
-        ret.setMessage("Succeed getting baidu translation");
-        ret.setData(translatedText);
-        return ret;
-    }
-
-    private void htmlTextTagsTranslate(List<Node> nodes, String from, String to) {
-        for(Node node:nodes) {
-            htmlTextTagsTranslate(node.childNodes(), from, to);
-            if(node instanceof TextNode){
-                String originalText = ((TextNode) node).text();
-
-                if(StringUtils.isEmpty(originalText.trim())){
-                    LOG.info("==============empty text node skip========");
-                    continue;
-                }
-                JsonObject result = baiduTranslateApiService.getTransResult(originalText, from, to);
-                String transString = "";
-                if(result.get("trans_result") != null){
-                    LOG.info("=====has trans result");
-
-                    JsonArray transResults = (JsonArray)result.get("trans_result");
-                    if(transResults.size()>0){
-                        LOG.info("=====has trans result 2");
-
-                        TranslateObj translateObj = gson.fromJson(transResults.get(0).getAsJsonObject(), TranslateObj.class);
-                        transString = translateObj.getDst();
-                        LOG.info("===transString==="+transString);
-                    }
-                }else{
-                    LOG.info("=====empty trans result");
-                    LOG.info(result.toString());
-                }
-                ((TextNode) node).text(transString);
-            }
+            // 1. add redis cache indicating a translation job is submitted
+            redisUtil.add(request.getTranslationKey(), 5*60L, "");
+            // 2. start an async job doing the translation and return with notify message imediately
+            baiduTranslateApiService.triggerTranslationJobAsync(request.getTranslationKey(), request.getQuery(), request.getFrom(), request.getTo());
+            ret.setOk(true);
+            ret.setMessage("Triggered a job translating this blog");
+            return ret;
         }
     }
+
+
 }
