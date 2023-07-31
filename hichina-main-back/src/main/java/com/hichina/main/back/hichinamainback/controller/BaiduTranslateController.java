@@ -8,6 +8,7 @@ import com.hichina.main.back.hichinamainback.model.DTO.HichinaResponse;
 import com.hichina.main.back.hichinamainback.model.DTO.TranslateObj;
 import com.hichina.main.back.hichinamainback.repository.BaiduTranslateCacheRepository;
 import com.hichina.main.back.hichinamainback.service.BaiduTranslateApiService;
+import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Node;
@@ -61,6 +62,9 @@ public class BaiduTranslateController {
             if(node instanceof TextNode){
                 String originalText = ((TextNode) node).text();
 
+                if(StringUtils.isEmpty(originalText)){
+                    continue;
+                }
                 JsonObject result = baiduTranslateApiService.getTransResult(originalText, from, to);
                 String transString = "";
                 if(result.get("trans_result") != null){
