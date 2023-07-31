@@ -67,7 +67,7 @@
             map-options
             options-dense
             style="min-width: 150px"
-            @click="setLanguage"
+            @update:model-value="setLanguage"
             ><template v-slot:append> <q-icon name="public" /> </template
           ></q-select>
         </div>
@@ -378,7 +378,8 @@ export default defineComponent({
     const $q = useQuasar();
 
     function setLanguage() {
-      $q.lang.set(locale);
+      // $q.lang.set(locale);
+      console.log(locale);
     }
 
     function whoami() {

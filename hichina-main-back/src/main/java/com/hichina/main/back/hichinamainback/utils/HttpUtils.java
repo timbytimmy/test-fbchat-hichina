@@ -2,10 +2,7 @@ package com.hichina.main.back.hichinamainback.utils;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import okhttp3.Call;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
+import okhttp3.*;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -25,7 +22,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import javax.net.ssl.SSLContext;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.*;
+import java.util.Map;
 
 public class HttpUtils {
     private static final Logger LOG = LoggerFactory.getLogger(HttpUtils.class);
@@ -57,6 +56,107 @@ public class HttpUtils {
             return entity;
         } catch (IOException e) {
             LOG.error("===okclient exception: "+ e.getMessage());
+            return null;
+        }
+    }
+
+    private static String getUrlWithQueryString(String url, Map<String, String> params) {
+        if (params == null) {
+            return url;
+        }
+
+        StringBuilder builder = new StringBuilder(url);
+        if (url.contains("?")) {
+            builder.append("&");
+        } else {
+            builder.append("?");
+        }
+
+        int i = 0;
+        for (String key : params.keySet()) {
+            String value = params.get(key);
+            if (value == null) { // 过滤空的key
+                continue;
+            }
+
+            if (i != 0) {
+                builder.append('&');
+            }
+
+            builder.append(key);
+            builder.append('=');
+            builder.append(encode(value));
+
+            i++;
+        }
+
+        return builder.toString();
+    }
+
+    public static String encode(String input) {
+        if (input == null) {
+            return "";
+        }
+
+        try {
+            return URLEncoder.encode(input, "utf-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        return input;
+    }
+
+    public static JsonObject postUrlWithParams(String url, Map<String, String> params){
+        System.setProperty("https.protocols", "TLSv1.2");
+
+        FormBody.Builder builder = new FormBody.Builder();
+
+        for(String key : params.keySet()){
+            builder.add(key, params.get(key));
+        }
+
+        RequestBody formBody = builder.build();
+
+        Request request = new Request.Builder()
+                .url(url).post(formBody)
+                .build();
+        OkHttpClient client = new OkHttpClient.Builder()
+                .build();
+
+        Call call = client.newCall(request);
+        try {
+            Response response = call.execute();
+            LOG.info("===ok client response code with post: "+response.code());
+            Gson gson = new Gson();
+            JsonObject entity = gson.fromJson(response.body().string(), JsonObject.class);
+            return entity;
+        } catch (IOException e) {
+            LOG.error("===okclient exception in postUrlWithParams: "+ e.getMessage());
+            return null;
+        }
+    }
+
+    public static JsonObject getUrlWithParams(String url, Map<String, String> params){
+        System.setProperty("https.protocols", "TLSv1.2");
+
+        url = getUrlWithQueryString(url, params);
+
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+        OkHttpClient client = new OkHttpClient.Builder()
+                .build();
+
+        Call call = client.newCall(request);
+        try {
+            Response response = call.execute();
+            LOG.info("===ok client response code: "+response.code());
+            Gson gson = new Gson();
+            JsonObject entity = gson.fromJson(response.body().string(), JsonObject.class);
+            return entity;
+        } catch (IOException e) {
+            LOG.error("===okclient exception in getUrlWithParams: "+ e.getMessage());
             return null;
         }
     }

@@ -3,7 +3,7 @@
     <div class="row justify-center">
       <div class="col-12 col-md-9" style="min-height: 500px">
         <div class="text-weight-bold text-h3 q-pa-xl">
-          {{ title }}
+          {{ removeHtmlTag(title) }}
         </div>
         <div class="row col-12" style="min-height: 50px">
           <div class="q-ml-xl">
@@ -11,9 +11,21 @@
               <img :src="authorProfileImageUrl" />
             </q-avatar>
           </div>
-          <div class="col-8 q-ml-md">
+          <div class="col-3 q-ml-md">
             <div class="text-weight-bold text-h6">{{ username }}</div>
             <div><q-btn color="primary" icon="add" label="Follow" /></div>
+          </div>
+          <div class="col q-mt-md">
+            <q-btn
+              icon="g_translate"
+              @click="translateThisArticle(content)"
+              label="Translate"
+              dense
+              rounded
+              stack
+              glossy
+              color="primary"
+            />
           </div>
         </div>
         <div class="row q-px-xl q-py-md text-h5">
@@ -44,12 +56,17 @@
 <script>
 import { ref, onMounted, getCurrentInstance, reactive } from "vue";
 import { api } from "boot/axios";
+import { apiRaw } from "boot/axiosraw";
 import { useRoute } from "vue-router";
 import { useQuasar } from "quasar";
 import { useSeoMeta } from "unhead";
+import { useI18n } from "vue-i18n";
+
 export default {
   name: "BlogDetail",
   setup() {
+    const { locale } = useI18n({ useScope: "global" });
+
     const route = useRoute();
     const instance = getCurrentInstance();
     const app = getCurrentInstance().appContext.app;
@@ -80,6 +97,87 @@ export default {
           console.error("Error:", err);
         });
     }
+
+    function toBaiduLanguage(input) {
+      if (input === "ko-KR") {
+        return "kor";
+      } else if (input === "en-US") {
+        return "en";
+      } else if (input === "ru-RU") {
+        return "ru";
+      } else if (input === "th-TH") {
+        return "th";
+      } else {
+        return "auto";
+      }
+    }
+
+    function translateTitle() {
+      const params = {};
+      // key format: type_guid_part_tolang example: blog_f4128363-84bb-4169-a30c-a3d6fbc0a3ef_title_th
+      params.translationKey =
+        "blog_" +
+        route.params.blogId +
+        "_title_" +
+        toBaiduLanguage(locale.value);
+      params.query = title.value;
+      params.from = "auto";
+      params.to = toBaiduLanguage(locale.value);
+      gp.$showLoading($q);
+      api
+        .post("/api/public/baidutranslate", params)
+        .then((res) => {
+          console.log("baidu translate result title: ");
+          console.log(res.data);
+          if (res.data.ok == true) {
+            title.value = res.data.data;
+          } else {
+            console.log("translate title failed");
+          }
+
+          gp.$hideLoading($q);
+        })
+        .catch((err) => {
+          console.log("err baidu translate title");
+          gp.$hideLoading($q);
+        });
+    }
+
+    function translateContent() {
+      const params = {};
+      // key format: type_guid_part_tolang example: blog_f4128363-84bb-4169-a30c-a3d6fbc0a3ef_content_th
+      params.translationKey =
+        "blog_" +
+        route.params.blogId +
+        "_content_" +
+        toBaiduLanguage(locale.value);
+      params.query = content.value;
+      params.from = "auto";
+      params.to = toBaiduLanguage(locale.value);
+      gp.$showLoading($q);
+      api
+        .post("/api/public/baidutranslate", params)
+        .then((res) => {
+          console.log("baidu translate result: ");
+          console.log(res.data);
+          if (res.data.ok == true) {
+            content.value = res.data.data;
+            translateTitle();
+          } else {
+            console.log("translate failed");
+          }
+
+          gp.$hideLoading($q);
+        })
+        .catch((err) => {
+          console.log("err baidu translate");
+          gp.$hideLoading($q);
+        });
+    }
+    function translateThisArticle(textToTranslate) {
+      translateContent();
+    }
+
     function getAuthorPrincipal() {
       api
         .get(
@@ -151,6 +249,7 @@ export default {
       createdTime,
       pageViewCnt,
       content,
+      translateThisArticle,
     };
   },
 };

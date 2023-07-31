@@ -3,6 +3,7 @@ package com.hichina.main.back.hichinamainback.config;
 import com.hichina.main.back.hichinamainback.mapper.UserMapper;
 import com.hichina.main.back.hichinamainback.model.User;
 import com.hichina.main.back.hichinamainback.utils.FacebookAccessTokenValidator;
+import com.hichina.main.back.hichinamainback.utils.Md5Util;
 import com.hichina.main.back.hichinamainback.utils.UserUtil;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -154,33 +155,8 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         return RandomStringUtils.randomAlphanumeric(16);
     }
 
-
-    private String md5(String input){
-        MessageDigest md = null;
-        try {
-            md = MessageDigest.getInstance("MD5");
-            //calculating message digest of an input that return array of byte
-            byte[] messageDigest = md.digest(input.getBytes());
-
-            //converting byte array into signum representation
-            BigInteger no = new BigInteger(1, messageDigest);
-
-            //converting message digest into hex value
-            String hashtext = no.toString(16);
-            while (hashtext.length() < 32)
-            {
-                hashtext = "0" + hashtext;
-            }
-            return hashtext;
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException(e);
-        }
-
-    }
-
-
     private Boolean validatePasswordTheOldWay(String plainText, String passwordInDB, Integer pwdCode){
-        String encrypted = md5(plainText+(pwdCode==null?"":pwdCode.toString()));
+        String encrypted = Md5Util.md5v2(plainText+(pwdCode==null?"":pwdCode.toString()));
 
         return passwordInDB.equals(encrypted);
     }
