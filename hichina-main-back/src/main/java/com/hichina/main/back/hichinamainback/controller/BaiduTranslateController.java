@@ -62,7 +62,8 @@ public class BaiduTranslateController {
             if(node instanceof TextNode){
                 String originalText = ((TextNode) node).text();
 
-                if(StringUtils.isEmpty(originalText)){
+                if(StringUtils.isEmpty(originalText.trim())){
+                    LOG.info("==============empty text node skip========");
                     continue;
                 }
                 JsonObject result = baiduTranslateApiService.getTransResult(originalText, from, to);
