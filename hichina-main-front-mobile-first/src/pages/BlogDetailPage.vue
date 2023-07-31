@@ -56,7 +56,6 @@
 <script>
 import { ref, onMounted, getCurrentInstance, reactive } from "vue";
 import { api } from "boot/axios";
-import { apiRaw } from "boot/axiosraw";
 import { useRoute } from "vue-router";
 import { useQuasar } from "quasar";
 import { useSeoMeta } from "unhead";
