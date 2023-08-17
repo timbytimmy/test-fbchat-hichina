@@ -430,7 +430,7 @@ export default defineComponent({
       locale,
       localeOptions: [
         { value: "en-US", label: "English" },
-        { value: "th-TH", label: "แบบไทย" },
+        { value: "th-TH", label: "ภาษาไทย" },
         { value: "ko-KR", label: "한국인" },
         { value: "ru-RU", label: "Русский" },
       ],
