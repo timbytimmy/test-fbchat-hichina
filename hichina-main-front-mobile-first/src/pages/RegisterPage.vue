@@ -6,7 +6,7 @@
         class="col-10 col-sm-5 col-md-3 rounded-borders login-border shadow-7"
       >
         <div class="text-h5 text-left text-weight-bold text-black q-pa-md">
-          Register
+          {{ $t("register") }}
         </div>
         <div class="col-12 q-pa-md">
           <q-input
@@ -51,7 +51,7 @@
           </q-input>
         </div>
         <div class="col-12 q-pa-md">
-          <q-btn color="primary" @click="register()" label="Register" />
+          <q-btn color="primary" @click="register()" :label="$t('register')" />
         </div>
       </div>
     </div>
