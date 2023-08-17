@@ -35,4 +35,5 @@ export default {
   seasonal_recommendation: "คำแนะนำตามฤดูกาล",
   enter_email: "กรุณากรอกอีเมลของคุณ",
   enter_password: "กรุณากรอกรหัสผ่านของคุณ",
+  confirm_password: "กรุณายืนยันรหัสผ่านของคุณ",
 };

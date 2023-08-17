@@ -13,7 +13,7 @@
             :rules="[(val) => !!val || 'Field is required']"
             color="blue-12"
             v-model="username"
-            label="Enter your email/username"
+            :label="$t('enter_email')"
             ref="usernameInput"
           >
             <template v-slot:prepend>
@@ -27,7 +27,7 @@
             color="blue-12"
             v-model="password"
             type="password"
-            label="Enter your password"
+            :label="$t('enter_password')"
             ref="passwordInput"
           >
             <template v-slot:prepend>
@@ -42,7 +42,7 @@
             error-message="Confirm password is not the same with password"
             :error="!correctConfPass"
             type="password"
-            label="Confirm your password"
+            :label="$t('confirm_password')"
             ref="confPasswordInput"
           >
             <template v-slot:prepend>
