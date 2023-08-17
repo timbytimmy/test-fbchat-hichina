@@ -33,4 +33,6 @@ export default {
   search_by_title: "ค้นหาตามชื่อเรื่อง",
   deals_for_you: "ข้อเสนอสำหรับคุณ",
   seasonal_recommendation: "คำแนะนำตามฤดูกาล",
+  enter_email: "กรุณากรอกอีเมลของคุณ",
+  enter_password: "กรุณากรอกรหัสผ่านของคุณ",
 };

@@ -33,4 +33,6 @@ export default {
   search_by_title: "Search by title",
   deals_for_you: "Deals for you",
   seasonal_recommendation: "Seasonal Recommendation",
+  enter_email: "Enter your email",
+  enter_password: "Enter your password",
 };
