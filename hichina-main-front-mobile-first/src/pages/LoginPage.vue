@@ -13,7 +13,7 @@
             :rules="[(val) => !!val || 'Field is required']"
             color="blue-12"
             v-model="username"
-            label="Enter your email"
+            :label="$t('enter_email')"
             ref="usernameInput"
           >
             <template v-slot:prepend>
@@ -27,7 +27,7 @@
             color="blue-12"
             v-model="password"
             type="password"
-            label="Enter your password"
+            :label="$t('enter_password')"
             ref="passwordInput"
           >
             <template v-slot:prepend>
@@ -54,11 +54,13 @@
 <script>
 import { ref, onMounted, onBeforeMount, getCurrentInstance } from "vue";
 import { useQuasar } from "quasar";
+import { useI18n } from "vue-i18n";
 import { api } from "boot/axios";
 import Qs from "qs";
 export default {
   name: "LoginPage",
   setup() {
+    const { locale, $t } = useI18n();
     const instance = getCurrentInstance();
     const app = getCurrentInstance().appContext.app;
     const gp = app.config.globalProperties;
