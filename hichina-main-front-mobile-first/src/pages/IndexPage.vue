@@ -177,11 +177,13 @@
             class="cursor-pointer"
             flat
             bordered
+            style="height: 400px"
           >
             <q-img
               @click="goPage('/product-detail/' + item.value.skuGroupId)"
               :src="item.value.imageUrl"
               placeholder-src="https://photoprism.hichinatravel.com/api/v1/t/2bfc32550ae040956f7e861566d26c487c0143e7/32mcf2k4/tile_224"
+              style="height: 220px"
             />
 
             <q-card-section>
